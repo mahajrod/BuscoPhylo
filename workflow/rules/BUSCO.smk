@@ -22,7 +22,7 @@ rule busco:
         time=config["busco_time"],
         mem=config["busco_mem_mb"],
     threads:
-        config["busco_threads"] #mkdir -p {output.dir}; ;
+        config["busco_threads"]
     shell:
         "mkdir -p {output.dir}; cd {output.dir}; {params.busco_path}/run_BUSCO.py -m {params.mode} -sp {params.species}"
         " -i {input.fasta} -c {threads} -l {params.busco_dataset_path} -o {params.output_prefix} 1>../../../{log.std} 2>&1;"
