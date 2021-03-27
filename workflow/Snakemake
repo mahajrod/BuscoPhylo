@@ -1,0 +1,22 @@
+from pathlib import Path
+
+cluster_log_dir_path = Path(config["cluster_logs"])
+genome_dir_path = Path(config["genome_dir"])
+
+
+out_dir_path =  Path(config["out_dir"])
+busco_dir_path = out_dir_path / config["busco_dir"]
+log_dir_path = out_dir_path / config["log_dir"]
+benchmark_dir_path = out_dir_path / config["benchmark_dir"]
+
+if "species_list" not in config:
+    config["species_list"] = [d.name[:-6] for d in genome_dir_path.iterdir() if d.is_file()]
+
+localrules: all
+
+rule all:
+    input:
+        expand(busco_dir_path / "{species}/run_{species}/short_summary_{species}.txt", species=config["species_list"])
+
+
+include: "rules/BUSCO.smk"

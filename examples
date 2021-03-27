@@ -1,0 +1,3 @@
+snakemake --snakefile workflow/Snakemake --profile profile/slurm/ --configfile config/default.yaml \
+           --config genome_dir=""  busco_path="" busco_dataset_path="" \
+           --use-conda --printshellcmds --latency-wait 60

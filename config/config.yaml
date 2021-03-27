@@ -1,0 +1,18 @@
+#---- Directory structure config ----
+genome_dir: "genomes"
+out_dir: "results"
+log_dir: "logs"
+cluster_log_dir: "cluster_logs"
+busco_dir: "busco"
+benchmark_dir: "benchmarks"
+#---- Tool threads ----
+busco_threads: 5 #TODO: adjust for cluster
+#---- Tool memory ---- #TODO: adjust memory requirements
+busco_mem_mb: 20000
+#---- Tool time ----
+busco_time: "60:00:00"
+#---- Tool variables ----
+busco_path:
+mode: "genome"
+augustus_species: "human"
+busco_dataset_path:

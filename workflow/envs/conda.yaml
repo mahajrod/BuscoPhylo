@@ -1,0 +1,13 @@
+#---- Bioconda config ----
+name: buscophylo
+channels:
+  - bioconda
+  - conda-forge
+dependencies:
+  - python>=3.8
+  - blast
+  - hmmer
+  #- augustus
+  #- scipy
+  #- xmltodict
+  #- ete3
