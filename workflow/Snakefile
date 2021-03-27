@@ -1,10 +1,10 @@
 from pathlib import Path
 
-cluster_log_dir_path = Path(config["cluster_log_dir"])
-genome_dir_path = Path(config["genome_dir"])
+cluster_log_dir_path = Path(config["cluster_log_dir"]).absolute()
+genome_dir_path = Path(config["genome_dir"]).absolute()
 
 
-out_dir_path =  Path(config["out_dir"])
+out_dir_path =  Path(config["out_dir"]).absolute()
 busco_dir_path = out_dir_path / config["busco_dir"]
 log_dir_path = out_dir_path / config["log_dir"]
 benchmark_dir_path = out_dir_path / config["benchmark_dir"]
