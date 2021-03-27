@@ -12,7 +12,7 @@ rule busco:
         output_prefix="{species}",
 
     log:
-        std=log_dir_path / "{species}/busco.log",
+        std=log_dir_path / "{species}.busco.log",
         cluster_log=cluster_log_dir_path / "{species}.busco.cluster.log",
         cluster_err=cluster_log_dir_path / "{species}.busco.cluster.err"
     benchmark:
