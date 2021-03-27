@@ -13,6 +13,6 @@ busco_mem_mb: 20000
 busco_time: "60:00:00"
 #---- Tool variables ----
 busco_path:
-mode: "genome"
+busco_mode: "genome"
 augustus_species: "human"
 busco_dataset_path:

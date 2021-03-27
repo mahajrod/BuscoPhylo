@@ -6,7 +6,7 @@ rule busco:
         summary=busco_dir_path / "{species}/run_{species}/short_summary_{species}.txt"
     params:
         busco_path=config["busco_path"],
-        mode=config["genome"],
+        mode=config["busco_mode"],
         species=config["augustus_species"],
         busco_dataset_path=config["busco_dataset_path"],
         output_prefix="{species}"
