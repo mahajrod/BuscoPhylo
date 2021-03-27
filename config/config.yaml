@@ -1,3 +1,5 @@
+#---- Configuration files ----
+conda_config: "workflow/envs/conda.yaml"
 #---- Directory structure config ----
 genome_dir: "genomes"
 out_dir: "results"

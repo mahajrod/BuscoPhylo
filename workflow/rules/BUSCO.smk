@@ -17,7 +17,7 @@ rule busco:
     benchmark:
         benchmark_dir_path / "{species}/fastqc_filtered.benchmark.txt"
     conda:
-        "../%s" % config["conda_config"]
+        "../../%s" % config["conda_config"]
     resources:
         cpus=config["busco_threads"],
         time=config["busco_time"],
