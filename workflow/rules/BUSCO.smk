@@ -2,7 +2,7 @@ rule busco:
     input:
         fasta=genome_dir_path / "{species}.fasta"
     output:
-        dir=directory(busco_dir_path / "{species}"),
+        dir=busco_dir_path / "{species}",
         #summary=busco_dir_path / "{species}/run_{species}/short_summary_{species}.txt"
     params:
         busco_path=config["busco_path"],
