@@ -3,6 +3,7 @@ name: buscophylo
 channels:
   - bioconda
   - conda-forge
+  - busco=3
 dependencies:
   - python>=3.8
   - blast
