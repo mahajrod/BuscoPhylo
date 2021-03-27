@@ -1,6 +1,6 @@
 from pathlib import Path
 
-cluster_log_dir_path = Path(config["cluster_logs"])
+cluster_log_dir_path = Path(config["cluster_log_dir"])
 genome_dir_path = Path(config["genome_dir"])
 
 
