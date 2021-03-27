@@ -8,7 +8,7 @@ cluster_log_dir: "cluster_logs"
 busco_dir: "busco"
 benchmark_dir: "benchmarks"
 #---- Tool threads ----
-busco_threads: 5 #TODO: adjust for cluster
+busco_threads: 4 #TODO: adjust for cluster
 #---- Tool memory ---- #TODO: adjust memory requirements
 busco_mem_mb: 20000
 #---- Tool time ----
