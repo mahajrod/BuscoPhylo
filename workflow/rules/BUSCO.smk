@@ -2,14 +2,14 @@ rule busco:
     input:
         fasta=genome_dir_path / "{species}.fasta"
     output:
-        dir=busco_dir_path / "{species}",
         summary=busco_dir_path / "{species}/run_{species}/short_summary_{species}.txt"
     params:
         busco_path=config["busco_path"],
         mode=config["busco_mode"],
         species=config["augustus_species"],
         busco_dataset_path=config["busco_dataset_path"],
-        output_prefix="{species}"
+        output_prefix="{species}",
+        output_dir=busco_dir_path / "{species}"
     log:
         std=log_dir_path / "{species}/busco.log",
         cluster_log=cluster_log_dir_path / "{species}.busco.cluster.log",
@@ -23,7 +23,7 @@ rule busco:
         time=config["busco_time"],
         mem=config["busco_mem_mb"],
     threads:
-        config["busco_threads"]
+        config["busco_threads"] #mkdir -p {output.dir}; ;
     shell:
-        "mkdir -p {output.dir}; cd {output.dir}; {params.busco_path}/run_BUSCO.py -m {params.mode} -sp {params.species}"
+        "cd {params.output_dir}; {params.busco_path}/run_BUSCO.py -m {params.mode} -sp {params.species}"
         " -i {input.fasta} -c {threads} -l {params.busco_dataset_path} -o {params.output_prefix} 1>{log.std} 2>&1"
