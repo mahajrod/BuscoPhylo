@@ -2,15 +2,14 @@ rule busco:
     input:
         fasta=genome_dir_path / "{species}.fasta"
     output:
-        dir=busco_dir_path / "{species}",
+        dir=directory(busco_dir_path / "{species}"),
         #summary=busco_dir_path / "{species}/run_{species}/short_summary_{species}.txt"
     params:
         busco_path=config["busco_path"],
         mode=config["busco_mode"],
         species=config["augustus_species"],
         busco_dataset_path=config["busco_dataset_path"],
-        output_prefix="{species}",
-
+        output_prefix="{species}"
     log:
         std=log_dir_path / "{species}.busco.log",
         cluster_log=cluster_log_dir_path / "{species}.busco.cluster.log",
