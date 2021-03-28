@@ -19,7 +19,7 @@ rule unique_ids:
         mem=config["unique_ids_mem_mb"]
     shell:
         "NFILES={params.quantity}"
-        "cat {input.id_files} | \"
+        "cat {input.id_files} |"
         "sort | uniq -c | awk -v nfiles=$NFILES '{if($1==$nfiles){print $2}}' > {output.unique_ids}"
 
 
