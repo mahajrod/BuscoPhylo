@@ -29,11 +29,11 @@ rule species_ids:
     output:
         temp(ids=busco_dir_path / "{species}.ids")
     log:
-        std=log_dir_path / "{species}.unique_ids.log",
-        cluster_log=cluster_log_dir_path / "{species}.unique_ids.cluster.log",
-        cluster_err=cluster_log_dir_path / "{species}.unique_ids.cluster.err"
+        std=log_dir_path / "{species}.species_ids.log",
+        cluster_log=cluster_log_dir_path / "{species}.species_ids.cluster.log",
+        cluster_err=cluster_log_dir_path / "{species}.species_ids.cluster.err"
     benchmark:
-        benchmark_dir_path / "{species}/unique_ids.benchmark.txt"
+        benchmark_dir_path / "{species}/species_ids.benchmark.txt"
     resources:
         cpus=config["unique_ids_threads"],
         time=config["unique_ids_time"],
