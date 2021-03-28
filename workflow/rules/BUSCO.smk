@@ -15,7 +15,7 @@ rule busco:
         cluster_log=cluster_log_dir_path / "{species}.busco.cluster.log",
         cluster_err=cluster_log_dir_path / "{species}.busco.cluster.err"
     benchmark:
-        benchmark_dir_path / "{species}/fastqc_filtered.benchmark.txt"
+        benchmark_dir_path / "{species}/busco.benchmark.txt"
     conda:
         "../../%s" % config["conda_config"]
     resources:
