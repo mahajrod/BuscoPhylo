@@ -12,7 +12,7 @@ rule unique_ids:
         cluster_log=cluster_log_dir_path / "{species}.unique_ids.cluster.log",
         cluster_err=cluster_log_dir_path / "{species}.unique_ids.cluster.err"
     benchmark:
-        benchmark_dir_path / "{species}/unique_ids.benchmark.txt"
+        benchmark_dir_path / "single_copy_busco_sequences.benchmark.txt"
     resources:
         cpus=config["unique_ids_threads"],
         time=config["unique_ids_time"],
@@ -20,7 +20,7 @@ rule unique_ids:
     shell:
         "NFILES={params.quantity}"
         "cat {input.id_files} |"
-        "sort | uniq -c | awk -v nfiles=$NFILES '{if($1==$nfiles){print $2}}' > {output.unique_ids}"
+        "sort | uniq -c | awk -v nfiles=$NFILES '{if($1==$nfiles){print $2}}' > {output.unique_ids} 2> {log.std}"
 
 
 rule species_ids:
@@ -39,4 +39,4 @@ rule species_ids:
         time=config["unique_ids_time"],
         mem=config["unique_ids_mem_mb"]
     shell:
-        "ls {input.single_copy_dir}/*.fna | sed 's/.fna//' > {output.ids}"
+        "ls {input.single_copy_dir}/*.fna | sed 's/.fna//' > {output.ids} 2> {log.std}"
