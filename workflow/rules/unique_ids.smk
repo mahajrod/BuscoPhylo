@@ -26,7 +26,7 @@ rule species_ids:
     input:
         single_copy_dir=directory(busco_dir_path / "{species}/single_copy_busco_sequences")
     output:
-        ids=temp(busco_dir_path / "{species}.ids")
+        ids=busco_dir_path / "{species}.ids"
     log:
         std=log_dir_path / "{species}.species_ids.log",
         cluster_log=cluster_log_dir_path / "{species}.species_ids.cluster.log",
