@@ -38,4 +38,4 @@ rule species_ids:
         time=config["unique_ids_time"],
         mem=config["unique_ids_mem_mb"]
     shell:
-        "ls {input.single_copy_dir}/*.fna | sed 's/.fna//' > {output.ids} 2> {log.std}"
+        "ls {input.single_copy_dir} | grep -P '.fna$' | sed 's/.fna//' > {output.ids} 2> {log.std}"
