@@ -18,9 +18,8 @@ rule unique_ids:
         time=config["unique_ids_time"],
         mem=config["unique_ids_mem_mb"]
     shell:
-        "NFILES={params.quantity}"
         "cat {input.id_files} |"
-        "sort | uniq -c | awk -v nfiles=$NFILES '{if($1==$nfiles){print $2}}' > {output.unique_ids} 2> {log.std}"
+        "sort | uniq -c | awk -v nfiles=$NFILES '{if($1==${params.nfiles}){print $2}}' > {output.unique_ids} 2> {log.std}"
 
 
 rule species_ids:
