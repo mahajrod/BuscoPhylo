@@ -8,18 +8,18 @@ rule unique_ids:
     params:
         nfiles=len(config["species_list"])
     log:
-        std=log_dir_path / "{species}.unique_ids.log",
-        cluster_log=cluster_log_dir_path / "{species}.unique_ids.cluster.log",
-        cluster_err=cluster_log_dir_path / "{species}.unique_ids.cluster.err"
+        std=log_dir_path / "unique_ids.log",
+        cluster_log=cluster_log_dir_path / "unique_ids.cluster.log",
+        cluster_err=cluster_log_dir_path / "unique_ids.cluster.err"
     benchmark:
-        benchmark_dir_path / "single_copy_busco_sequences.benchmark.txt"
+        benchmark_dir_path / "unique_ids.benchmark.txt"
     resources:
         cpus=config["unique_ids_threads"],
         time=config["unique_ids_time"],
         mem=config["unique_ids_mem_mb"]
     shell:
         "cat {input.id_files} |"
-        "sort | uniq -c | awk '\{if($1=={params.nfiles})\{print $2\}\}' > {output.unique_ids} 2> {log.std}"
+        "sort | uniq -c | awk '{if(\$1=={params.nfiles}){print \$2}}' > {output.unique_ids} 2> {log.std}"
 
 
 rule species_ids:
