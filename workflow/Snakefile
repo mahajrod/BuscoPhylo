@@ -16,7 +16,7 @@ localrules: all
 
 rule all:
     input:
-        expand(busco_dir_path / "{species}/short_summary_{species}.txt", species=config["species_list"])
+        expand(busco_dir_path / "{species}/short_summary_{species}.txt", species=config["species_list"]),
         busco_dir_path / "single_copy_busco_sequences.uniq.ids"
 
 include: "rules/BUSCO.smk"
