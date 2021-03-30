@@ -10,6 +10,7 @@ def main():
     outdir = Path(args.outdir)
     outdir.mkdir()
     for idname in common_ids_file:
+        idname = idname.strip()
         filename = idname + ".faa"
         merged_filename = "merged_" + filename
         outfile = open(outdir / merged_filename, 'a')
