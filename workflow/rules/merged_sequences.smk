@@ -22,4 +22,4 @@ rule merged_sequences:
         "workflow/scripts/merged_sequences.py "
         "--input {input.unique_ids} "
         "--single_copy_files {input.single_copy_files} "
-        "--outdir {output.merged_ids} "
+        "--outdir {output.merged_ids} 2> {log.std}"
