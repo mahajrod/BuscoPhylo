@@ -14,10 +14,9 @@ def main():
         outfile = open(outdir / filename, 'a')
         for directory in args.single_copy_files:
             dirpath = Path(directory)
-            species_name = dirpath.parents[1].split("/")[-1]
-            header = ">" + species_name
+            header = ">" + str(dirpath.stem)
             with open(dirpath / idname + ".faa", 'r') as f:
-                seq = f.readlines()[1]
+                seq = f.readlines()[1].strip()
             outline = "\n".join([header, seq])
             outfile.write(outline)
 
