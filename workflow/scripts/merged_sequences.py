@@ -18,7 +18,7 @@ def main():
             dirpath = Path(directory)
             header = ">" + str(dirpath.parents[0].stem)
             with open(dirpath / filename, 'r') as f:
-                seq = f.readlines()[1].strip()
+                seq = f.readlines()[1].strip() + "\n"
             outline = "\n".join([header, seq])
             outfile.write(outline)
 
