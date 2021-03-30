@@ -9,13 +9,13 @@ busco_dir: "busco"
 benchmark_dir: "benchmarks"
 #---- Tool threads ----
 busco_threads: 4 #TODO: adjust for cluster
-unique_ids_threads: 1
+common_ids_threads: 1
 #---- Tool memory ---- #TODO: adjust memory requirements
 busco_mem_mb: 20000
-unique_ids_mem_mb: 2000
+common_ids_mem_mb: 2000
 #---- Tool time ----
 busco_time: "60:00:00"
-unique_ids_time: "00:30:00"
+common_ids_time: "00:30:00"
 #---- Tool variables ----
 busco_path:
 busco_mode: "genome"

@@ -26,7 +26,8 @@ def main():
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="script for merging files with sequences of different species")
     group_required = parser.add_argument_group('Required options')
-    group_required.add_argument('-i', '--input', type=str, help="single_copy_busco_sequences.uniq.ids file")
+    group_required.add_argument('-i', '--input', type=str,
+                                help="single_copy_busco_sequences.uniq.ids file")
     group_required.add_argument('-s', '--single_copy_files', type=str, nargs='+',
                                 help="list of single_copy_busco_sequences files")
     group_required.add_argument('-o', '--outdir', type=str, help="output directory name")
