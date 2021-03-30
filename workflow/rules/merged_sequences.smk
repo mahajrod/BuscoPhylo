@@ -1,11 +1,11 @@
-localrules: merged_sequenses
+localrules: merged_sequences
 
-rule merged_sequenses:
+rule merged_sequences:
     input:
         unique_ids=busco_dir_path / "single_copy_busco_sequences.uniq.ids",
-        single_copy_dir=expand(busco_dir_path / "{species}/single_copy_busco_sequences")
+        single_copy_dir=expand(busco_dir_path / "{species}/single_copy_busco_sequences", species=config["species_list"])
     output:
-        merged_ids=directory(busco_dir_path / "merged_sequenses")
+        merged_ids=directory(busco_dir_path / "merged_sequences")
     params:
         nfiles=len(config["species_list"])
     log:
@@ -19,7 +19,7 @@ rule merged_sequenses:
         time=config["unique_ids_time"],
         mem=config["unique_ids_mem_mb"]
     shell:
-        "workflow/scripts/merged_sequenses.py "
+        "workflow/scripts/merged_sequences.py "
         "--input {input.unique_ids} "
         "--species-directories {input.single_copy_dir} "
         "--outdir {output.merged_ids} "
