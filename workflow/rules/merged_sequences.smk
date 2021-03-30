@@ -6,8 +6,8 @@ rule merged_sequences:
         single_copy_dir=expand(busco_dir_path / "{species}/single_copy_busco_sequences", species=config["species_list"])
     output:
         merged_ids=directory(busco_dir_path / "merged_sequences")
-    params:
-        nfiles=len(config["species_list"])
+    # params:
+    #     nfiles=len(config["species_list"])
     log:
         std=log_dir_path / "merged_ids.log",
         cluster_log=cluster_log_dir_path / "merged_ids.cluster.log",

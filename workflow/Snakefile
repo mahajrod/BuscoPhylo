@@ -18,6 +18,7 @@ rule all:
     input:
         expand(busco_dir_path / "{species}/short_summary_{species}.txt", species=config["species_list"]),
         busco_dir_path / "single_copy_busco_sequences.uniq.ids",
+        directory(busco_dir_path / "merged_sequences")
 
 
 include: "rules/BUSCO.smk"
