@@ -3,7 +3,7 @@ localrules: merged_sequences
 rule merged_sequences:
     input:
         unique_ids=busco_dir_path / "single_copy_busco_sequences.uniq.ids",
-        single_copy_dir=expand(busco_dir_path / "{species}/single_copy_busco_sequences", species=config["species_list"])
+        single_copy_files=expand(busco_dir_path / "{species}/single_copy_busco_sequences", species=config["species_list"])
     output:
         merged_ids=directory(busco_dir_path / "merged_sequences")
     # params:
@@ -21,5 +21,5 @@ rule merged_sequences:
     shell:
         "workflow/scripts/merged_sequences.py "
         "--input {input.unique_ids} "
-        "--species-directories {input.single_copy_dir} "
+        "--single_copy_files {input.single_copy_files} "
         "--outdir {output.merged_ids} "
