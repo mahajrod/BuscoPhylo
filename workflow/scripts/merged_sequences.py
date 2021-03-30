@@ -10,7 +10,8 @@ def main():
     outdir = Path(args.outdir)
     outdir.mkdir()
     for idname in common_ids_file:
-        outfile = open(outdir / "merged_" + idname + ".faa", 'a')
+        filename = "merged_" + idname + ".faa"
+        outfile = open(outdir / filename, 'a')
         for directory in args.single_copy_files:
             dirpath = Path(directory)
             species_name = dirpath.parents[1].split("/")[-1]
