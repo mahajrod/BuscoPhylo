@@ -22,8 +22,10 @@ def main():
             with open(outfile.with_suffix(".sh"), 'a') as out:
                 out.write(mafft_faa_command.format(input=file, output=args.outdir) + "\n")
         else:
-            tmpname = "mafft.tasks.%s" % counter
+            tmpname = "mafft.tasks.%s" % str(counter)
             outfile = outdir / tmpname
+            with open(outfile.with_suffix(".sh"), 'a') as out:
+                out.write(mafft_faa_command.format(input=file, output=args.outdir) + "\n")
 
 
 if __name__ == "__main__":
