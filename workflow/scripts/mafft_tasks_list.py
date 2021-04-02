@@ -19,7 +19,7 @@ def main():
     for file in merged_files:
         counter += 1
         if counter % args.amount != 0:
-            with open(outfile + ".sh", 'a') as out:
+            with open(str(outfile) + ".sh", 'a') as out:
                 out.write(mafft_faa_command.format(input=file, output=args.outdir) + "\n")
         else:
             outfile = outdir / "mafft.tasks.%s" % str(counter)
