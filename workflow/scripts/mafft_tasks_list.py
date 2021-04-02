@@ -9,7 +9,7 @@ def main():
     outdir = Path(args.outdir)
     outdir.mkdir()
     dir_in_command = outdir.parent
-    outfile = outdir / "mafft.tasks.0"
+    outfile = outdir / "mafft.tasks.0.sh"
     counter = 0
 
     if args.file_extension == "faa":
@@ -24,12 +24,10 @@ def main():
         name = file.stem + ".mafft." + args.file_extension
         mafft_command_output = dir_in_command / name
         if counter % args.amount == 0:
-            tmpname = "mafft.tasks.%s" % str(counter)
+            tmpname = "mafft.tasks.%s.sh" % str(counter)
             outfile = outdir / tmpname
-            with open(outfile.with_suffix(".sh"), 'a') as out:
-                out.write(mafft_faa_command.format(input=file, output=mafft_command_output) + "\n")
-        # with open(outfile.with_suffix(".sh"), 'a') as out:
-        #     out.write(mafft_faa_command.format(input=file, output=mafft_command_output) + "\n")
+        with open(outfile, 'a') as out:
+            out.write(mafft_faa_command.format(input=file, output=mafft_command_output) + "\n")
 
 
 if __name__ == "__main__":
