@@ -26,10 +26,10 @@ def main():
         if counter % args.amount == 0:
             tmpname = "mafft.tasks.%s" % str(counter)
             outfile = outdir / tmpname
-        else:
-            pass
-        with open(outfile.with_suffix(".sh"), 'a') as out:
-            out.write(mafft_faa_command.format(input=file, output=mafft_command_output) + "\n")
+            with open(outfile.with_suffix(".sh"), 'a') as out:
+                out.write(mafft_faa_command.format(input=file, output=mafft_command_output) + "\n")
+        # with open(outfile.with_suffix(".sh"), 'a') as out:
+        #     out.write(mafft_faa_command.format(input=file, output=mafft_command_output) + "\n")
 
 
 if __name__ == "__main__":
