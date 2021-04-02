@@ -45,5 +45,5 @@ rule mafft_tasks_list:
         "--input {input.merged_ids} "
         "--file-extension {params.file_extension} "
         "--amount {params.amount_of_tasks} "
-        "--mafft_command_outdir {params.mafft_command_outdir}"
+        "--mafft_command_outdir {params.mafft_command_outdir} "
         "--outdir {output.mafft_tasks}"
