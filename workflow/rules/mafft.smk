@@ -17,7 +17,7 @@ rule mafft:
         mem=config["common_ids_threads"]
     shell:
         "for task in `ls {input.mafft_tasks}`; do"
-        "bash $task; "
+        "./$task; "
         "done"
 
 
@@ -29,7 +29,7 @@ rule mafft_tasks_list:
     params:
         amount_of_tasks = 20,
         file_extension = "faa",
-        mafft_command_outdir = mafft_dir_path
+        mafft_command_outdir = mafft_dir_path / "output"
     log:
         std=log_dir_path / "mafft_tasks_list.log",
         cluster_log=cluster_log_dir_path / "mafft_tasks_list.cluster.log",
