@@ -41,6 +41,6 @@ if __name__ == "__main__":
     group_additional = parser.add_argument_group('Additional options')
     group_additional.add_argument('-a', '--amount', type=int, 
                              default=20, help="amount of mafft commands in the file")
-    group_additional.add_argument('-m', '--mafft_command_outdir', type=str, help="output directory in maft command")
+    group_additional.add_argument('-m', '--mafft_command_outdir', type=Path, help="output directory in maft command")
     args = parser.parse_args()
     main()
