@@ -1,4 +1,4 @@
-localrules: mafft_tasks_list
+localrules: mafft_tasks_list, mafft
 
 rule mafft:
     input:
@@ -16,9 +16,7 @@ rule mafft:
         time=config["common_ids_threads"],
         mem=config["common_ids_threads"]
     shell:
-        "for task in `ls {input.mafft_tasks}`; do"
-        "./$task; "
-        "done"
+        "for task in `ls {input.mafft_tasks}`; do ./$task; done"
 
 
 rule mafft_tasks_list:
