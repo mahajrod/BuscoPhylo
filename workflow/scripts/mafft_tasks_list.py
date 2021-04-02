@@ -23,7 +23,7 @@ def main():
         counter += 1
         name = file.stem + ".mafft." + args.file_extension
         mafft_command_output = dir_in_command / name
-        if counter % args.amount:
+        if counter % args.amount == 0:
             tmpname = "mafft.tasks.%s" % str(counter)
             outfile = outdir / tmpname
         else:
