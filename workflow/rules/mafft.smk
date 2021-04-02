@@ -1,4 +1,4 @@
-localrules: mafft_tasks_list, mafft
+localrules: mafft_tasks_list
 
 rule mafft:
     input:
