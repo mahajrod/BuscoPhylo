@@ -8,6 +8,7 @@ import argparse
 def main():
     outdir = Path(args.outdir)
     outdir.mkdir()
+    dir_in_command = outdir.parent
     outfile = outdir / "mafft.tasks.0"
     counter = 0
     if args.file_extension == "faa":
@@ -18,16 +19,15 @@ def main():
         mafft_faa_command = "mafft {input} > {output}"
     for file in merged_files:
         counter += 1
+        name = "mafft." + str(file)
+        mafft_command_output = dir_in_command + name
         if counter % args.amount != 0:
-            mafft_output = args.mafft_output + file
-            with open(outfile.with_suffix(".sh"), 'a') as out:
-                out.write(mafft_faa_command.format(input=file, output=mafft_output) + "\n")
+            pass
         else:
             tmpname = "mafft.tasks.%s" % str(counter)
             outfile = outdir / tmpname
-            mafft_output = args.mafft_output + file
-            with open(outfile.with_suffix(".sh"), 'a') as out:
-                out.write(mafft_faa_command.format(input=file, output=mafft_output) + "\n")
+        with open(outfile.with_suffix(".sh"), 'a') as out:
+            out.write(mafft_faa_command.format(input=file, output=mafft_command_output) + "\n")
 
 
 if __name__ == "__main__":
@@ -40,7 +40,5 @@ if __name__ == "__main__":
     group_additional = parser.add_argument_group('Additional options')
     group_additional.add_argument('-a', '--amount', type=int, 
                              default=20, help="the number of mafft commands in the file")
-    group_additional.add_argument('-m', '--mafft-output', type=str, 
-                             default=20, help="mafft output path")
     args = parser.parse_args()
     main()
