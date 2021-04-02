@@ -44,7 +44,7 @@ rule mafft_tasks_list:
         "counter=0; filename='mafft_task'; "
         "for i in `ls {input.merged_ids}.faa`; do "
         "(( counter++ )); "
-        "echo -e \"mafft --anysymbol {params.merged_ids_path}/${i} > {params.mafft_outpath}mafft.${i}\" >> {output.mafft_tasks}/${filename}.sh; "
+        "echo -e \"mafft --anysymbol {params.merged_ids_path}/$i > {params.mafft_outpath}mafft.$i\" >> {output.mafft_tasks}/${filename}.sh; "
         "if [ $[$C % {params.number_of_tasks}] -eq '0']; "
         "then filename=mafft_task_${C}.sh; fi; "
         "done"
