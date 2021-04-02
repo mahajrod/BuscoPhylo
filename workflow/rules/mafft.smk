@@ -29,7 +29,7 @@ rule mafft_tasks_list:
     params:
         number_of_tasks = 50, 
         merged_ids_path = busco_dir_path / "merged_sequences",
-        mafft_outpath = directory("mafft_aligment")
+        mafft_outpath = directory("mafft_aligment" / "output")
     log:
         std=log_dir_path / "mafft_tasks_list.log",
         cluster_log=cluster_log_dir_path / "mafft_tasks_list.cluster.log",

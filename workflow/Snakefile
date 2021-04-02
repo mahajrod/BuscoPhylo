@@ -18,9 +18,10 @@ rule all:
     input:
         expand(busco_dir_path / "{species}/short_summary_{species}.txt", species=config["species_list"]),
         busco_dir_path / "single_copy_busco_sequences.common.ids",
-        directory(busco_dir_path / "merged_sequences")
-
+        directory(busco_dir_path / "merged_sequences"),
+        directory("mafft_aligment" / "output")
 
 include: "rules/BUSCO.smk"
 include: "rules/common_ids.smk"
 include: "rules/merged_sequences.smk"
+include: "rules/mafft.smk"
