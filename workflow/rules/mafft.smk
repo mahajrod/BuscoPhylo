@@ -29,7 +29,8 @@ rule mafft_tasks_list:
     params:
         number_of_tasks = 50, 
         merged_ids_path = busco_dir_path / "merged_sequences",
-        mafft_outpath = mafft_dir_path / "output"
+        mafft_outpath = mafft_dir_path / "output",
+        out_dir = mafft_dir_path / "slurm"
     log:
         std=log_dir_path / "mafft_tasks_list.log",
         cluster_log=cluster_log_dir_path / "mafft_tasks_list.cluster.log",
@@ -41,10 +42,11 @@ rule mafft_tasks_list:
         time=config["common_ids_threads"],
         mem=config["common_ids_threads"]
     shell:
+        "mkdir {params.out_dir}; "
         "counter=0; filename='mafft_task'; "
         "for i in `ls {input.merged_ids}/*.faa`; do "
         "(( counter++ )); "
-        "echo -e \"mafft --anysymbol {params.merged_ids_path}/$i > {params.mafft_outpath}mafft.$i\" >> {output.mafft_tasks}/$filename.sh; "
+        "echo -e \"mafft --anysymbol {params.merged_ids_path}/$i > {params.mafft_outpath}/mafft.$i\" >> {output.mafft_tasks}/$filename.sh; "
         "if [ $[$counter % {params.number_of_tasks}] -eq '0']; "
         "then filename=mafft_task_$counter.sh; fi; "
         "done"
