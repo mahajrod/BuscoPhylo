@@ -19,7 +19,7 @@ def main():
         mafft_faa_command = "mafft {input} > {output}"
     for file in merged_files:
         counter += 1
-        name = "mafft." + str(file)
+        name = "mafft." + file
         mafft_command_output = dir_in_command + name
         if counter % args.amount != 0:
             pass
