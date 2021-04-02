@@ -19,13 +19,15 @@ def main():
     for file in merged_files:
         counter += 1
         if counter % args.amount != 0:
+            mafft_output = args.mafft_output + file
             with open(outfile.with_suffix(".sh"), 'a') as out:
-                out.write(mafft_faa_command.format(input=file, output=args.outdir) + "\n")
+                out.write(mafft_faa_command.format(input=file, output=mafft_output) + "\n")
         else:
             tmpname = "mafft.tasks.%s" % str(counter)
             outfile = outdir / tmpname
+            mafft_output = args.mafft_output + file
             with open(outfile.with_suffix(".sh"), 'a') as out:
-                out.write(mafft_faa_command.format(input=file, output=args.outdir) + "\n")
+                out.write(mafft_faa_command.format(input=file, output=mafft_output) + "\n")
 
 
 if __name__ == "__main__":
@@ -38,5 +40,7 @@ if __name__ == "__main__":
     group_additional = parser.add_argument_group('Additional options')
     group_additional.add_argument('-a', '--amount', type=int, 
                              default=20, help="the number of mafft commands in the file")
+    group_additional.add_argument('-m', '--mafft-output', type=str, 
+                             default=20, help="mafft output path")
     args = parser.parse_args()
     main()
