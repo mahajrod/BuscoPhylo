@@ -42,11 +42,6 @@ rule mafft_tasks_list:
         time=config["common_ids_threads"],
         mem=config["common_ids_threads"]
     shell:
-        "mkdir -p {params.out_dir}; "
-        "counter=0; filename='mafft_task'; "
-        "for i in `ls {input.merged_ids}/*.faa`; do "
-        "(( counter++ )); "
-        "echo -e \"mafft --anysymbol {params.merged_ids_path}/$i > {params.mafft_outpath}/mafft.$i\" >> {output.mafft_tasks}/$filename.sh; "
-        "if [ $[$counter % {params.number_of_tasks}] -eq '0']; "
-        "then filename=mafft_task_$counter.sh; fi; "
-        "done"
+        "workflow\scripts\mafft_tasks_list.py "
+        "--input {input.merged_ids} "
+        "--outdir {output.mafft_tasks} "

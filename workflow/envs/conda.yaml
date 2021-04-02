@@ -8,6 +8,7 @@ dependencies:
   - blast
   - hmmer
   - busco=3
+  - mafft
   #- augustus
   #- scipy
   #- xmltodict
