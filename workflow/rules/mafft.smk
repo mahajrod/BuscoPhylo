@@ -42,7 +42,7 @@ rule mafft_tasks_list:
         time=config["common_ids_threads"],
         mem=config["common_ids_threads"]
     shell:
-        "mkdir {params.out_dir}; "
+        "mkdir -p {params.out_dir}; "
         "counter=0; filename='mafft_task'; "
         "for i in `ls {input.merged_ids}/*.faa`; do "
         "(( counter++ )); "
