@@ -27,10 +27,9 @@ rule mafft_tasks_list:
     output:
         mafft_tasks=directory(mafft_dir_path / "slurm")
     params:
-        number_of_tasks = 50, 
-        merged_ids_path = busco_dir_path / "merged_sequences",
-        mafft_outpath = mafft_dir_path / "output",
-        out_dir = mafft_dir_path / "slurm"
+        amount_of_tasks = 20,
+        file_extension = "faa",
+        mafft_command_outdir = mafft_dir_path
     log:
         std=log_dir_path / "mafft_tasks_list.log",
         cluster_log=cluster_log_dir_path / "mafft_tasks_list.cluster.log",
@@ -44,4 +43,7 @@ rule mafft_tasks_list:
     shell:
         "workflow/scripts/mafft_tasks_list.py "
         "--input {input.merged_ids} "
-        "--outdir {output.mafft_tasks} "
+        "--file-extension {params.file_extension} "
+        "--amount {params.amount_of_tasks} "
+        "--mafft_command_outdir {params.mafft_command_outdir}"
+        "--outdir {output.mafft_tasks}"
