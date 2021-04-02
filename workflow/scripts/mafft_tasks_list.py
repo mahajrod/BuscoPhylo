@@ -19,7 +19,7 @@ def main():
         mafft_faa_command = "mafft {input} > {output}"
     for file in merged_files:
         counter += 1
-        name = file.stem.with_suffix(".mafft.%s" % args.file_extension)
+        name = file.stem[:-3] + "mafft." + args.file_extension
         mafft_command_output = dir_in_command / name
         if counter % args.amount != 0:
             pass
