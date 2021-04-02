@@ -42,7 +42,7 @@ rule mafft_tasks_list:
         mem=config["common_ids_threads"]
     shell:
         "counter=0; filename='mafft_task'; "
-        "for i in `ls {input.merged_ids}.faa`; do "
+        "for i in `ls {input.merged_ids}/*.faa`; do "
         "(( counter++ )); "
         "echo -e \"mafft --anysymbol {params.merged_ids_path}/$i > {params.mafft_outpath}mafft.$i\" >> {output.mafft_tasks}/$filename.sh; "
         "if [ $[$counter % {params.number_of_tasks}] -eq '0']; "
