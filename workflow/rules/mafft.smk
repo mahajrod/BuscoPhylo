@@ -42,6 +42,6 @@ rule mafft_tasks_list:
         time=config["common_ids_threads"],
         mem=config["common_ids_threads"]
     shell:
-        "workflow\scripts\mafft_tasks_list.py "
+        "workflow/scripts/mafft_tasks_list.py "
         "--input {input.merged_ids} "
         "--outdir {output.mafft_tasks} "
