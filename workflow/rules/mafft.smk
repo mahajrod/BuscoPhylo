@@ -12,9 +12,9 @@ rule mafft:
     benchmark:
         benchmark_dir_path / "mafft.benchmark.txt"
     resources:
-        cpus=config["common_ids_threads"],
-        time=config["common_ids_threads"],
-        mem=config["common_ids_threads"]
+        cpus=config["mafft_threads"],
+        time=config["mafft_time"],
+        mem=config["mafft_mem_mb"],
     shell:
         "for task in `ls {input.mafft_tasks}`; do ./$task; done"
 
