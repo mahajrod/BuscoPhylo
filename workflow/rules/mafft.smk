@@ -10,7 +10,7 @@ def aggregate_input(wildcards):
 
 rule mafft:
     input:
-        mafft_task=aggregate_input
+        mafft_task=expand(mafft_dir_path / 'slurm/mafft.tasks.{i}.sh',i=aggregate_input)
     output:
         mafft_outpath=directory(mafft_dir_path / "output")
     log:
