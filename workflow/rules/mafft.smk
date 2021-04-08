@@ -24,7 +24,7 @@ rule mafft:
         time=config["mafft_time"],
         mem=config["mafft_mem_mb"],
     shell:
-        "bash {input.mafft.task} > {log.std} 2>&1"
+        "bash {input.mafft_task} > {log.std} 2>&1"
 
 
 checkpoint mafft_tasks_list:
