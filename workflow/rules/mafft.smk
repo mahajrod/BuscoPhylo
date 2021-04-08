@@ -1,10 +1,18 @@
 localrules: mafft_tasks_list
 
+def aggregate_input(wildcards):
+    '''
+    aggregate the file names of the random number of files
+    '''
+    checkpoint_output = checkpoints.scatter.get(**wildcards).output[0]
+    return expand(mafft_dir_path / 'slurm/mafft.tasks.{i}.sh',
+                  i=glob_wildcards(os.path.join(checkpoint_output, 'mafft.tasks.{i}.sh')).i)
+
 rule mafft:
     input:
-        mafft_tasks=directory(mafft_dir_path / "slurm")
+        mafft_task=aggregate_input
     output:
-        mafft_tasks=directory(mafft_dir_path / "output")
+        mafft_outpath=directory(mafft_dir_path / "output")
     log:
         std=log_dir_path / "mafft.log",
         cluster_log=cluster_log_dir_path / "mafft.cluster.log",
@@ -16,7 +24,7 @@ rule mafft:
         time=config["mafft_time"],
         mem=config["mafft_mem_mb"],
     shell:
-        "for task in `ls {input.mafft_tasks}`; do ./$task; done"
+        "bash {input.mafft.task} > {log.std} 2>&1"
 
 
 rule mafft_tasks_list:
@@ -44,4 +52,4 @@ rule mafft_tasks_list:
         "--file-extension {params.file_extension} "
         "--amount {params.amount_of_tasks} "
         "--mafft_command_outdir {params.mafft_command_outdir} "
-        "--outdir {output.mafft_tasks}"
+        "--outdir {output.mafft_tasks} > {log.std} 2>&1"
