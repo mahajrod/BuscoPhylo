@@ -13,6 +13,8 @@ rule mafft:
         mafft_task=aggregate_input
     output:
         mafft_outpath=directory(mafft_dir_path / "output")
+    params:
+        mafft_outdir = mafft_dir_path / "output"
     log:
         std=log_dir_path / "mafft.log",
         cluster_log=cluster_log_dir_path / "mafft.cluster.log",
@@ -24,6 +26,7 @@ rule mafft:
         time=config["mafft_time"],
         mem=config["mafft_mem_mb"],
     shell:
+        "mkdir {params.mafft_outdir}; "
         "bash {input.mafft_task} > {log.std} 2>&1"
 
 
