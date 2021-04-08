@@ -6,12 +6,12 @@ def aggregate_input(wildcards):
     '''
     checkpoint_output = checkpoints.mafft_tasks_list.get(**wildcards).output[0]
     return expand(mafft_dir_path / 'slurm/mafft.tasks.{i}.sh',
-                  i=glob_wildcards(os.path.join(checkpoint_output, 'mafft.tasks.{i}.sh')).i)
+                  i=glob_wildcards(os.path.join(checkpoint_output, 'mafft.tasks.{i}.sh')).spec)
 
 
 rule mafft:
     input:
-        mafft_task=aggregate_input.spec
+        mafft_task=expand(mafft_dir_path / 'slurm/mafft.tasks.{i}.sh', i = aggregate_input)
     output:
         mafft_outpath=directory(mafft_dir_path / "output")
     log:
