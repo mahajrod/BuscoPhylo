@@ -4,7 +4,7 @@ def aggregate_input(wildcards):
     '''
     aggregate the file names of the random number of files
     '''
-    checkpoint_output = checkpoints.scatter.get(**wildcards).output[0]
+    checkpoint_output = checkpoints.mafft_tasks_list.get(**wildcards).output[0]
     return expand(mafft_dir_path / 'slurm/mafft.tasks.{i}.sh',
                   i=glob_wildcards(os.path.join(checkpoint_output, 'mafft.tasks.{i}.sh')).i)
 
@@ -27,7 +27,7 @@ rule mafft:
         "bash {input.mafft.task} > {log.std} 2>&1"
 
 
-rule mafft_tasks_list:
+checkpoint mafft_tasks_list:
     input:
         merged_ids=directory(busco_dir_path / "merged_sequences")
     output:
