@@ -12,10 +12,10 @@ def main():
 
     if args.file_extension == "faa":
         merged_files = Path(args.input).glob("*.faa")
-        mafft_faa_command = "mafft --anysymbol {input} > {output}"
+        mafft_command = "mafft --anysymbol {input} > {output}"
     elif args.file_extension == "fna":
         merged_files = Path(args.input).glob("*.fna")
-        mafft_faa_command = "mafft {input} > {output}"
+        mafft_command = "mafft {input} > {output}"
     else:
         print ("your extension is wrong!")
 
@@ -28,7 +28,7 @@ def main():
             outfile = "mafft.tasks.%s.sh" % str(counter)
             outfile_path = outdir / outfile
         with open(outfile_path, 'a') as out:
-            out.write(mafft_faa_command.format(input=file, output=mafft_command_output) + "\n")
+            out.write(mafft_command.format(input=file, output=mafft_command_output) + "\n")
 
 
 if __name__ == "__main__":
