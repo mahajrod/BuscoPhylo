@@ -1,5 +1,7 @@
 localrules: mafft_tasks_list
 
+import glob
+
 def aggregate_input(wildcards):
     '''
     aggregate the file names of the random number of files
@@ -8,10 +10,12 @@ def aggregate_input(wildcards):
     return expand(mafft_dir_path / 'slurm/mafft.tasks.{i}.sh',
                   i=glob_wildcards(os.path.join(checkpoint_output, 'mafft.tasks.{i}.sh')).i)
 
+def get_merged_input(wildcards):
+    return glob.glob(mafft_dir_path / "slurm/mafft.tasks.{wildcards.barcode}.sh")
 
 rule mafft:
     input:
-        mafft_task=aggregate_input
+        mafft_task=get_merged_input
     output:
         mafft_outpath=directory(mafft_dir_path / "output")
     log:
