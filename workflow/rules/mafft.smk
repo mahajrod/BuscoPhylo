@@ -15,7 +15,7 @@ checkpoint mafft:
         std=log_dir_path / "mafft_tasks_list.log"
     output:
         mafft_outpath=directory(mafft_dir_path / "output"),
-        l = expand("{f}.log", f=list(Path(mafft_dir_path / 'slurm').rglob('mafft.tasks.*.sh')))
+        l = "{f}.log"
     log:
         std=log_dir_path / "mafft.log",
         cluster_log=cluster_log_dir_path / "mafft.cluster.log",
