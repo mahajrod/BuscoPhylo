@@ -5,13 +5,12 @@ def aggregate_input(wildcards):
     aggregate the file names of the random number of files
     '''
     checkpoint_output = checkpoints.mafft_tasks_list.get(**wildcards).output[0]
-    return expand(mafft_dir_path / 'slurm/mafft.tasks.{i}.sh',
-                  i=glob_wildcards(os.path.join(checkpoint_output, 'mafft.tasks.{i}.sh')).i)
+    return glob_wildcards(os.path.join(checkpoint_output, 'mafft.tasks.{i}.sh')).i
 
 
 checkpoint mafft:
     input:
-        mafft_task=expand(mafft_dir_path / 'slurm/mafft.tasks.{i}.sh', i=glob_wildcards(os.path.join(checkpoints.mafft_tasks_list.get(**wildcards).output[0], 'mafft.tasks.{i}.sh')).i)
+        mafft_task=expand(mafft_dir_path / 'slurm/mafft.tasks.{i}.sh', i=aggregate_input)
     output:
         mafft_outpath=directory(mafft_dir_path / "output")
     log:
