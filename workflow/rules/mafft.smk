@@ -11,7 +11,7 @@ def aggregate_input(wildcards):
 
 checkpoint mafft:
     input:
-        mafft_task=aggregate_input
+        mafft_task=expand("{f}", f=[k.name for k in Path(mafft_dir_path / 'slurm').rglob('mafft.tasks.*.sh')])
     output:
         mafft_outpath=directory(mafft_dir_path / "output")
     log:
