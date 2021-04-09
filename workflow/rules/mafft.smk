@@ -11,9 +11,11 @@ def aggregate_input(wildcards):
 
 checkpoint mafft:
     input:
-        mafft_task=aggregate_input
+        mafft_task=expand("{f}", f=list(Path(mafft_dir_path / 'slurm').rglob('mafft.tasks.*.sh'))),
+        std=log_dir_path / "mafft_tasks_list.log"
     output:
-        mafft_outpath=directory(mafft_dir_path / "output")
+        mafft_outpath=directory(mafft_dir_path / "output"),
+        l = expand("{f}.log", f=list(Path(mafft_dir_path / 'slurm').rglob('mafft.tasks.*.sh')))
     log:
         std=log_dir_path / "mafft.log",
         cluster_log=cluster_log_dir_path / "mafft.cluster.log",
@@ -25,7 +27,7 @@ checkpoint mafft:
         time=config["mafft_time"],
         mem=config["mafft_mem_mb"],
     shell:
-        "bash {input.mafft_task} > {log.std} 2>&1"
+        "bash {input.mafft_task} > {output.l} 2>&1"
 
 
 checkpoint mafft_tasks_list:
