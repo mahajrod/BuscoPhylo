@@ -22,7 +22,7 @@ rule all:
         directory(busco_dir_path / "merged_sequences"),
         directory(mafft_dir_path / "slurm"),
         directory(mafft_dir_path / "output"),
-        expand("{f}", f=list(Path(mafft_dir_path / 'slurm').rglob('mafft.tasks.*.sh')))
+        aggregate_input
 
 include: "rules/BUSCO.smk"
 include: "rules/common_ids.smk"
