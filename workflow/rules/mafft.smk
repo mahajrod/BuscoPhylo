@@ -8,7 +8,7 @@ def aggregate_input(wildcards):
 
 checkpoint mafft:
     input:
-        mafft_task=mafft_dir_path / 'slurm/mafft.tasks.{i}.sh'
+        mafft_task= aggregate_input # mafft_dir_path / 'slurm/mafft.tasks.{i}.sh'
     output:
         mafft_outpath=directory(mafft_dir_path / "output")
     log:
@@ -22,7 +22,6 @@ checkpoint mafft:
         time=config["mafft_time"],
         mem=config["mafft_mem_mb"],
     shell:
-        "mkdir {output.mafft_outpath}; "
         "bash {input.mafft_task} > {log.std} 2>&1 "
 
 
@@ -46,7 +45,6 @@ checkpoint mafft_tasks_list:
         time=config["common_ids_threads"],
         mem=config["common_ids_threads"]
     shell:
-        "mkdir -p {params.mafft_command_outdir}; "
         "workflow/scripts/mafft_tasks_list.py "
         "--input {input.merged_ids} "
         "--file-extension {params.file_extension} "
