@@ -21,7 +21,8 @@ rule all:
         busco_dir_path / "single_copy_busco_sequences.common.ids",
         directory(busco_dir_path / "merged_sequences"),
         directory(mafft_dir_path / "slurm"),
-        directory(mafft_dir_path / "output")
+        directory(mafft_dir_path / "output"),
+        aggregate_input
 
 include: "rules/BUSCO.smk"
 include: "rules/common_ids.smk"
