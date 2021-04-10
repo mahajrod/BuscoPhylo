@@ -22,7 +22,8 @@ checkpoint mafft:
         time=config["mafft_time"],
         mem=config["mafft_mem_mb"],
     shell:
-        "bash {input.mafft_task} > {log.std} 2>&1"
+        "mkdir {output.mafft_outpath}; "
+        "bash {input.mafft_task} > {log.std} 2>&1 "
 
 
 checkpoint mafft_tasks_list:
