@@ -10,13 +10,13 @@ checkpoint mafft:
     input:
         mafft_task=mafft_dir_path / "slurm/mafft.tasks.{i}.sh"
     output:
-        mafft_outpath=directory(mafft_dir_path / "output{i}")
+        mafft_outpath=directory(mafft_dir_path / "output.{i}")
     log:
-        std=log_dir_path / "mafft.log",
-        cluster_log=cluster_log_dir_path / "mafft.cluster.log",
-        cluster_err=cluster_log_dir_path / "mafft.cluster.err"
+        std=log_dir_path / "mafft.{i}.log",
+        cluster_log=cluster_log_dir_path / "mafft.cluster.{i}.log",
+        cluster_err=cluster_log_dir_path / "mafft.cluster.{i}.err"
     benchmark:
-        benchmark_dir_path / "mafft.benchmark.txt"
+        benchmark_dir_path / "mafft.benchmark.{i}.txt"
     resources:
         cpus=config["mafft_threads"],
         time=config["mafft_time"],
