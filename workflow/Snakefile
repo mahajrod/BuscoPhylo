@@ -27,7 +27,7 @@ rule all:
         directory(busco_dir_path / "merged_sequences"),
         directory(mafft_dir_path / "slurm"),
         aggregate_input,
-        log_dir_path / "mafft.{i}.log"
+        directory(mafft_dir_path / "output")
 
 include: "rules/BUSCO.smk"
 include: "rules/common_ids.smk"
