@@ -14,9 +14,6 @@ if "species_list" not in config:
     config["species_list"] = [d.name[:-6] for d in genome_dir_path.iterdir() if d.is_file()]
 
 def aggregate_input(wildcards):
-    '''
-    aggregate the file names of the random number of files
-    '''
     checkpoint_output = checkpoints.mafft_tasks_list.get(**wildcards).output[0]
     return expand(mafft_dir_path / 'slurm/mafft.tasks.{i}.sh',
                   i=glob_wildcards(os.path.join(checkpoint_output, 'mafft.tasks.{i}.sh')).i)
@@ -29,8 +26,8 @@ rule all:
         busco_dir_path / "single_copy_busco_sequences.common.ids",
         directory(busco_dir_path / "merged_sequences"),
         directory(mafft_dir_path / "slurm"),
-        directory(mafft_dir_path / "output"),
-        aggregate_input
+        aggregate_input,
+        directory(mafft_dir_path / "output")
 
 include: "rules/BUSCO.smk"
 include: "rules/common_ids.smk"
