@@ -9,8 +9,8 @@ def aggregate_input(wildcards):
 checkpoint mafft:
     input:
         mafft_task=mafft_dir_path / "slurm/mafft.tasks.{i}.sh"
-    output:
-        mafft_outpath=directory(mafft_dir_path / "output.{i}")
+    # output:
+    #     mafft_outpath=directory(mafft_dir_path / "output.{i}")
     log:
         std=log_dir_path / "mafft.{i}.log",
         cluster_log=cluster_log_dir_path / "mafft.cluster.{i}.log",
