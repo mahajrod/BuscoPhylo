@@ -6,11 +6,11 @@ def aggregate_input(wildcards):
                   i=glob_wildcards(os.path.join(checkpoint_output, 'mafft.tasks.{i}.sh')).i)
 
 
-rule mafft:
+checkpoint mafft:
     input:
         mafft_task=mafft_dir_path / "slurm/mafft.tasks.{i}.sh"
     output:
-        mafft_outpath=directory(mafft_dir_path / "output")
+        mafft_outpath=directory(mafft_dir_path / "output{i}")
     log:
         std=log_dir_path / "mafft.log",
         cluster_log=cluster_log_dir_path / "mafft.cluster.log",
