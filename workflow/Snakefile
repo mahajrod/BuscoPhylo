@@ -6,11 +6,17 @@ genome_dir_path = Path(config["genome_dir"]) #.absolute()
 
 out_dir_path =  Path(config["out_dir"]) #.absolute()
 busco_dir_path = out_dir_path / config["busco_dir"]
+mafft_dir_path = out_dir_path / config["mafft_dir"]
 log_dir_path = out_dir_path / config["log_dir"]
 benchmark_dir_path = out_dir_path / config["benchmark_dir"]
 
 if "species_list" not in config:
     config["species_list"] = [d.name[:-6] for d in genome_dir_path.iterdir() if d.is_file()]
+
+def aggregate_input(wildcards):
+    checkpoint_output = checkpoints.mafft_tasks_list.get(**wildcards).output[0]
+    return expand(mafft_dir_path / 'slurm/mafft.tasks.{i}.sh',
+                  i=glob_wildcards(os.path.join(checkpoint_output, 'mafft.tasks.{i}.sh')).i)
 
 localrules: all
 
@@ -18,9 +24,12 @@ rule all:
     input:
         expand(busco_dir_path / "{species}/short_summary_{species}.txt", species=config["species_list"]),
         busco_dir_path / "single_copy_busco_sequences.common.ids",
-        directory(busco_dir_path / "merged_sequences")
-
+        directory(busco_dir_path / "merged_sequences"),
+        directory(mafft_dir_path / "slurm"),
+        aggregate_input,
+        directory(mafft_dir_path / "output")
 
 include: "rules/BUSCO.smk"
 include: "rules/common_ids.smk"
 include: "rules/merged_sequences.smk"
+include: "rules/mafft.smk"

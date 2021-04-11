@@ -11,16 +11,20 @@ def main():
     outdir.mkdir()
     for idname in common_ids_file:
         idname = idname.strip()
-        filename = idname + ".faa"
-        merged_filename = "merged_" + filename
-        outfile = open(outdir / merged_filename, 'a')
+        file_faa, file_fna = idname + ".faa", idname + ".fna"
+        merged_file_faa, merged_file_fna = "merged_" + file_faa, "merged_" + file_fna
+        out_faa, out_fna = open(outdir / merged_file_faa, 'a'), open(outdir / merged_file_fna, 'a')
         for directory in args.single_copy_files:
             dirpath = Path(directory)
             header = ">" + str(dirpath.parents[0].stem)
-            with open(dirpath / filename, 'r') as f:
-                seq = f.readlines()[1].strip() + "\n"
-            outline = "\n".join([header, seq])
-            outfile.write(outline)
+            with open(dirpath / file_faa, 'r') as f:
+                seq_faa = f.readlines()[1].strip() + "\n"
+            with open(dirpath / file_fna, 'r') as f:
+                seq_fna = f.readlines()[1].strip() + "\n"
+            outline_faa, outline_fna = "\n".join([header, seq_faa]), "\n".join([header, seq_fna])
+            out_faa.write(outline_faa)
+            out_fna.write(outline_fna)
+
 
 
 if __name__ == "__main__":
