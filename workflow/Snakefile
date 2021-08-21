@@ -1,14 +1,18 @@
 from pathlib import Path
 
+
+#---- setup config ----
+configfile: "config/default.yaml"
+
 cluster_log_dir_path = Path(config["cluster_log_dir"]) #.absolute()
 genome_dir_path = Path(config["genome_dir"]) #.absolute()
 
+output_dir_path =  Path(config["output_dir"]) #.absolute()
+busco_dir_path = output_dir_path / config["busco_dir"]
+mafft_dir_path = output_dir_path / config["mafft_dir"]
 
-out_dir_path =  Path(config["out_dir"]) #.absolute()
-busco_dir_path = out_dir_path / config["busco_dir"]
-mafft_dir_path = out_dir_path / config["mafft_dir"]
-log_dir_path = out_dir_path / config["log_dir"]
-benchmark_dir_path = out_dir_path / config["benchmark_dir"]
+log_dir_path = output_dir_path / config["log_dir"]
+benchmark_dir_path = output_dir_path / config["benchmark_dir"]
 
 if "species_list" not in config:
     config["species_list"] = [d.name[:-6] for d in genome_dir_path.iterdir() if d.is_file()]
@@ -29,7 +33,9 @@ rule all:
         aggregate_input,
         directory(mafft_dir_path / "output")
 
-include: "rules/BUSCO.smk"
+
+#---- load rules ----
+include: "rules/busco.smk"
 include: "rules/common_ids.smk"
 include: "rules/merged_sequences.smk"
 include: "rules/mafft.smk"

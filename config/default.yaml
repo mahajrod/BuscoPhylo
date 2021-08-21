@@ -3,7 +3,7 @@ conda_config: "workflow/envs/conda.yaml"
 
 #---- Directory structure config ----
 genome_dir: "genomes"
-out_dir: "results"
+output_dir: "results"
 log_dir: "logs"
 cluster_log_dir: "cluster_logs"
 busco_dir: "busco"
