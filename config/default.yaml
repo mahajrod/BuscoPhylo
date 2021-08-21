@@ -1,0 +1,32 @@
+#---- Configuration files ----
+conda_config: "workflow/envs/conda.yaml"
+
+#---- Directory structure config ----
+genome_dir: "genomes"
+out_dir: "results"
+log_dir: "logs"
+cluster_log_dir: "cluster_logs"
+busco_dir: "busco"
+mafft_dir: "mafft"
+benchmark_dir: "benchmarks"
+
+#---- Tool threads ----
+busco_threads: 4 #TODO: adjust for cluster
+mafft_threads: 4
+common_ids_threads: 1
+
+#---- Tool memory ---- #TODO: adjust memory requirements
+busco_mem_mb: 20000
+mafft_mem_mb: 20000
+common_ids_mem_mb: 2000
+
+#---- Tool time ----
+busco_time: "60:00:00"
+mafft_time: "60:00:00"
+common_ids_time: "00:30:00"
+
+#---- Tool variables ----
+busco_path:
+busco_mode: "genome"
+augustus_species: "human"
+busco_dataset_path:
