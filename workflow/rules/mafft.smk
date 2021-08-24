@@ -32,7 +32,7 @@ def mafft_input(*wildcards):
 
 checkpoint mafft:
     input:
-        expand(busco_dir_path / "merged_sequences" / "{sample}", sample=mafft_input)
+        expand(busco_dir_path / "merged_sequences" / "{sample}")
     output:
         outfile=directory(mafft_dir_path / "out")
     params:
