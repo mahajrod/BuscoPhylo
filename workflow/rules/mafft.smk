@@ -33,7 +33,7 @@ def mafft_input(wildcards):
 
 rule mafft_fna:
     input:
-        expand(busco_dir_path / "merged_sequences" / "merged_{sample}.fna", sample=mafft_input(wildcards))
+        expand(busco_dir_path / "merged_sequences" / "merged_{sample}.fna", sample=mafft_input)
     output:
         outfile=directory(mafft_dir_path)
     params:
