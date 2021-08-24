@@ -34,8 +34,8 @@ def ids_list(single_copy_busco_sequences):
 rule mafft_fna:
     input:
         fna=expand(busco_dir_path / "merged_sequences" / "merged_{sample}.fna", sample=ids_list(busco_dir_path / "single_copy_busco_sequences.common.ids"))
-    output:
-        mafft_outpath=mafft_dir_path / "{sample}"
+    # output:
+    #     mafft_outpath=mafft_dir_path / "{sample}"
     log:
         std=log_dir_path / "mafft.log",
         cluster_log=cluster_log_dir_path / "mafft.cluster.log",
@@ -49,7 +49,8 @@ rule mafft_fna:
         time=config["mafft_time"],
         mem=config["mafft_mem_mb"],
     shell:
-        "mafft input > output > {log.std} 2>&1 "
+        "print input.fna"
+        #"mafft input > output > {log.std} 2>&1 "
 
 
 # checkpoint mafft_tasks_list:
