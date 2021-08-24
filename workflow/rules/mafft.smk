@@ -1,23 +1,48 @@
-localrules: mafft_tasks_list
-ruleorder: 
+localrules: merged_sequences
+ruleorder:merged_sequences > mafft_fna
 
-checkpoint mafft:
+rule merged_sequences:
     input:
-        mafft_task= aggregate_input # mafft_dir_path / 'slurm/mafft.tasks.{i}.sh'
+        common_ids=busco_dir_path / "single_copy_busco_sequences.common.ids",
+        single_copy_files=expand(busco_dir_path / "{species}/single_copy_busco_sequences", species=config["species_list"])
     output:
-        mafft_outpath=directory(mafft_dir_path / "output")
+        merged_ids=directory(busco_dir_path / "merged_sequences")
+    log:
+        std=log_dir_path / "merged_ids.log",
+        cluster_log=cluster_log_dir_path / "merged_ids.cluster.log",
+        cluster_err=cluster_log_dir_path / "merged_ids.cluster.err"
+    benchmark:
+        benchmark_dir_path / "merged_ids.benchmark.txt"
+    resources:
+        cpus=config["common_ids_threads"],
+        time=config["common_ids_threads"],
+        mem=config["common_ids_threads"]
+    shell:
+        "workflow/scripts/merged_sequences.py "
+        "--input {input.common_ids} "
+        "--single_copy_files {input.single_copy_files} "
+        "--outdir {output.merged_ids} 2> {log.std}"
+
+
+rule mafft_fna:
+    input:
+        fna=busco_dir_path / "merged_sequences" / "merged_{sample}.fna"
+    output:
+        mafft_outpath=mafft_dir_path / "{sample}"
     log:
         std=log_dir_path / "mafft.log",
         cluster_log=cluster_log_dir_path / "mafft.cluster.log",
         cluster_err=cluster_log_dir_path / "mafft.cluster.err"
     benchmark:
         benchmark_dir_path / "mafft.benchmark.txt"
+    conda:
+        "../../%s" % config["conda_config"]
     resources:
         cpus=config["mafft_threads"],
         time=config["mafft_time"],
         mem=config["mafft_mem_mb"],
     shell:
-        "bash {input.mafft_task} > {log.std} 2>&1 "
+        "mafft input > output > {log.std} 2>&1 "
 
 
 # checkpoint mafft_tasks_list:
