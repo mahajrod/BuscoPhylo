@@ -35,7 +35,6 @@ rule mafft_fna:
     input:
         fna=busco_dir_path / "merged_sequences" / "merged_{sample}.fna"
     output:
-        outpath=directory(mafft_dir_path),
         outfile=mafft_dir_path / "{sample}"
     params:
         mafft_path=config["mafft_path"]
@@ -52,7 +51,7 @@ rule mafft_fna:
         time=config["mafft_time"],
         mem=config["mafft_mem_mb"],
     shell:
-        "mkdir -p {output.outpath}; {params.mafft_path}/mafft {input.fna} > {output.outfile} 2> {log.std}"
+        "{params.mafft_path}/mafft {input.fna} > {output.outfile} 2> {log.std}"
 
 
 # checkpoint mafft_tasks_list:
