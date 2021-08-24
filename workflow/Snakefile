@@ -37,8 +37,8 @@ rule all:
         directory(busco_dir_path / "merged_sequences"),
 
         # mafft:
-        # expand(mafft_dir_path / "{sample}", sample=get_ids_list(busco_dir_path / "single_copy_busco_sequences.common.ids"))
-        directory(busco_dir_path / "merged_sequences")
+        directory(busco_dir_path / "merged_sequences"),
+        expand(mafft_dir_path / "{sample}", sample=get_ids_list(busco_dir_path / "single_copy_busco_sequences.common.ids"))
 
 
 #---- load rules ----
