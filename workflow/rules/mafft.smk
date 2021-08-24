@@ -29,7 +29,7 @@ def mafft_input(wildcards):
     checkpoint_output = checkpoints.merged_sequences.get(**wildcards).output[0]
     return expand(busco_dir_path / "merged_sequences" / "{sample}.fna",
         #    sample=wildcards.sample)
-            sample=glob_wildcards(os.path.join(checkpoint_output, "{sample}.fna")).sample)
+            sample=glob_wildcards(os.path.join(checkpoint_output, "{sample}.fna")))
 
 
 rule mafft_fna:
