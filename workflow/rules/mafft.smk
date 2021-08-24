@@ -40,11 +40,11 @@ rule mafft_fna:
         outfile=mafft_dir_path / "{sample}",
         mafft_path=config["mafft_path"]
     log:
-        std=log_dir_path / "mafft.log",
-        cluster_log=cluster_log_dir_path / "mafft.cluster.log",
-        cluster_err=cluster_log_dir_path / "mafft.cluster.err"
+        std=log_dir_path / "{sample}.mafft_fna.log",
+        cluster_log=cluster_log_dir_path / "{sample}.mafft_fna.cluster.log",
+        cluster_err=cluster_log_dir_path / "{sample}.mafft_fna.cluster.err"
     benchmark:
-        benchmark_dir_path / "mafft.benchmark.txt"
+        benchmark_dir_path / "mafft_fna.benchmark.txt"
     conda:
         "../../%s" % config["conda_config"]
     resources:
@@ -52,7 +52,7 @@ rule mafft_fna:
         time=config["mafft_time"],
         mem=config["mafft_mem_mb"],
     shell:
-        "mkdir -p output; params.mafft_path input.fna > params.outfile > {log.std} 2>&1 "
+        "mkdir -p {output}; {params.mafft_path}/mafft {input.fna} > {params.outfile} 2> {log.std}"
 
 
 # checkpoint mafft_tasks_list:
