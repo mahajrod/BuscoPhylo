@@ -26,7 +26,8 @@ rule merged_sequences:
 
 rule mafft_fna:
     input:
-        fna=busco_dir_path / "merged_sequences" / "merged_{sample}.fna"
+        fna=expand(busco_dir_path / "merged_sequences" / "merged_{sample}.fna", sample=get_ids_list(busco_dir_path / "single_copy_busco_sequences.common.ids")))
+        # fna=busco_dir_path / "merged_sequences" / "merged_{sample}.fna"
     output:
         outfile=mafft_dir_path / "{sample}"
     params:
