@@ -44,7 +44,7 @@ rule mafft_fna:
         cluster_log=cluster_log_dir_path / "{sample}.mafft_fna.cluster.log",
         cluster_err=cluster_log_dir_path / "{sample}.mafft_fna.cluster.err"
     benchmark:
-        benchmark_dir_path / "mafft_fna.benchmark.txt"
+        benchmark_dir_path / "{sample}.mafft_fna.benchmark.txt"
     conda:
         "../../%s" % config["conda_config"]
     resources:
