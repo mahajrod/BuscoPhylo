@@ -28,6 +28,7 @@ def get_ids_list(common_ids):
 
 
 localrules: all
+ruleorder:busco > mafft_fna
 
 rule all:
     input:
@@ -37,8 +38,7 @@ rule all:
         directory(busco_dir_path / "merged_sequences"),
 
         # mafft:
-        directory(mafft_dir_path)
-        # expand(mafft_dir_path / "{sample}", sample=get_ids_list(busco_dir_path / "single_copy_busco_sequences.common.ids"))
+        expand(mafft_dir_path / "{sample}", sample=get_ids_list(busco_dir_path / "single_copy_busco_sequences.common.ids"))
 
 
 #---- load rules ----
