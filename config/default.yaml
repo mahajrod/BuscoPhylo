@@ -30,3 +30,4 @@ busco_path:
 busco_mode: "genome"
 augustus_species: "human"
 busco_dataset_path:
+mafft_path:

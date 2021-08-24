@@ -37,7 +37,8 @@ rule mafft_fna:
     output:
         directory(mafft_dir_path)
     params:
-        outfile=mafft_dir_path / "{sample}"
+        outfile=mafft_dir_path / "{sample}",
+        mafft_path=config["mafft_path"]
     log:
         std=log_dir_path / "mafft.log",
         cluster_log=cluster_log_dir_path / "mafft.cluster.log",
@@ -51,7 +52,7 @@ rule mafft_fna:
         time=config["mafft_time"],
         mem=config["mafft_mem_mb"],
     shell:
-        "mkdir -p output; mafft input.fna > params.outfile > {log.std} 2>&1 "
+        "mkdir -p output; params.mafft_path input.fna > params.outfile > {log.std} 2>&1 "
 
 
 # checkpoint mafft_tasks_list:
