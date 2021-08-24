@@ -1,3 +1,4 @@
+import os
 localrules: merged_sequences
 ruleorder:merged_sequences > mafft_fna
 
@@ -23,10 +24,15 @@ rule merged_sequences:
         "--single_copy_files {input.single_copy_files} "
         "--outdir {output.merged_ids} 2> {log.std}"
 
+def ids_list(single_copy_busco_sequences):
+    result = []
+    for line in single_copy_busco_sequences.readlines():
+        result.append(line.strip())
+    return result
 
 rule mafft_fna:
     input:
-        fna=busco_dir_path / "merged_sequences" / "merged_{sample}.fna"
+        fna=expand(busco_dir_path / "merged_sequences" / "merged_{sample}.fna", sample=ids_list(busco_dir_path / "single_copy_busco_sequences.common.ids"))
     output:
         mafft_outpath=mafft_dir_path / "{sample}"
     log:
