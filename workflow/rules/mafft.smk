@@ -26,13 +26,13 @@ checkpoint merged_sequences:
         "--outdir {output.merged_ids} 2> {log.std}"
 
 def mafft_input(*wildcards):
-    print(checkpoints.merged_sequences.get().output)
-    return checkpoints.merged_sequences.get().output
+    print(os.listdir(busco_dir_path / "merged_sequences"))
+    return os.listdir(busco_dir_path / "merged_sequences")
 
 
 checkpoint mafft:
     input:
-        expand(busco_dir_path / "merged_sequences" / "merged_{sample}.fna", sample=mafft_input)
+        expand(busco_dir_path / "merged_sequences" / "{sample}", sample=mafft_input)
     output:
         outfile=directory(mafft_dir_path)
     params:
