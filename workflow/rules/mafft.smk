@@ -31,7 +31,7 @@ def ids_list(single_copy_busco_sequences):
             result.append(line.strip())
     return result
 
-rule mafft_fna:
+checkpoint mafft_fna:
     input:
         fna=expand(busco_dir_path / "merged_sequences" / "merged_{sample}.fna", sample=ids_list(busco_dir_path / "single_copy_busco_sequences.common.ids"))
     output:
