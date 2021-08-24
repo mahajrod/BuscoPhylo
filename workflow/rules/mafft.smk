@@ -34,7 +34,7 @@ checkpoint mafft:
     input:
         expand(busco_dir_path / "merged_sequences" / "{sample}", sample=mafft_input)
     output:
-        outfile=directory(mafft_dir_path)
+        outfile=directory(mafft_dir_path / "out")
     params:
         outfile=mafft_dir_path / "{sample}",
         mafft_path=config["mafft_path"]
