@@ -29,6 +29,7 @@ def ids_list(common_ids):
     with open(common_ids, 'r') as file:
         for line in file:
             result.append(line.strip())
+    print(result)
     return result
 
 checkpoint mafft_fna:
