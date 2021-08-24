@@ -26,8 +26,9 @@ rule merged_sequences:
 
 def ids_list(single_copy_busco_sequences):
     result = []
-    for line in single_copy_busco_sequences.readlines():
-        result.append(line.strip())
+    with open(single_copy_busco_sequences, 'r') as file:
+        for line in file:
+            result.append(line.strip())
     return result
 
 rule mafft_fna:
