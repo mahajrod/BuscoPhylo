@@ -24,9 +24,9 @@ rule merged_sequences:
         "--single_copy_files {input.single_copy_files} "
         "--outdir {output.merged_ids} 2> {log.std}"
 
-def ids_list(single_copy_busco_sequences):
+def ids_list(common_ids):
     result = []
-    with open(single_copy_busco_sequences, 'r') as file:
+    with open(common_ids, 'r') as file:
         for line in file:
             result.append(line.strip())
     return result
@@ -34,10 +34,10 @@ def ids_list(single_copy_busco_sequences):
 checkpoint mafft_fna:
     input:
         fna=expand(busco_dir_path / "merged_sequences" / "merged_{sample}.fna", sample=ids_list(busco_dir_path / "single_copy_busco_sequences.common.ids"))
-    # output:
-    #     directory(mafft_dir_path)
+    output:
+        outpath=directory(mafft_dir_path),
+        outfile=mafft_dir_path / "{sample}"
     params:
-        outfile=mafft_dir_path / "{sample}",
         mafft_path=config["mafft_path"]
     log:
         std=log_dir_path / "{sample}.mafft_fna.log",
@@ -52,7 +52,7 @@ checkpoint mafft_fna:
         time=config["mafft_time"],
         mem=config["mafft_mem_mb"],
     shell:
-        "mkdir -p {output}; {params.mafft_path}/mafft {input.fna} > {params.outfile} 2> {log.std}"
+        "mkdir -p {output.outpath}; {params.mafft_path}/mafft {input.fna} > {output.outfile} 2> {log.std}"
 
 
 # checkpoint mafft_tasks_list:
