@@ -37,7 +37,7 @@ rule all:
         directory(busco_dir_path / "merged_sequences"),
 
         # mafft:
-        expand(mafft_dir_path / "{sample}", sample=get_ids_list(rule.merged_sequences.input.common_ids))
+        expand(mafft_dir_path / "{sample}", sample=get_ids_list(checkpoint.merged_sequences.input.common_ids))
 
 
 #---- load rules ----

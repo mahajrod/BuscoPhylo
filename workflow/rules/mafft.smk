@@ -26,7 +26,7 @@ rule merged_sequences:
         "--outdir {output.merged_ids} 2> {log.std}"
 
 
-rule mafft_fna:
+checkpoint mafft_fna:
     input:
         fna=busco_dir_path / "merged_sequences" / "merged_{sample}.fna"
     output:
