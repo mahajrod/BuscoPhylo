@@ -31,8 +31,7 @@ rule all:
         expand(busco_dir_path / "{species}/short_summary_{species}.txt", species=config["species_list"]),
         busco_dir_path / "single_copy_busco_sequences.common.ids",
         directory(busco_dir_path / "merged_sequences"),
-        expand(busco_dir_path / "merged_sequences" / "merged_{sample}.fna", sample=ids_list(busco_dir_path / "single_copy_busco_sequences.common.ids")),
-        mafft_dir_path / "{sample}"
+        expand(mafft_dir_path / "{sample}", sample=ids_list(busco_dir_path / "single_copy_busco_sequences.common.ids"))
         # directory(mafft_dir_path)
         # directory(mafft_dir_path / "slurm"),
         # aggregate_input,
