@@ -20,10 +20,8 @@ if "species_list" not in config:
 
 #---- necessary functions ----
 def get_ids_list(common_ids):
-    result = []
     with open(common_ids, 'r') as file:
-        for line in file:
-            result.append(line.strip())
+        result = [line.rstrip() for line in file]
     return result
 
 
@@ -37,7 +35,7 @@ rule all:
         directory(busco_dir_path / "merged_sequences"),
 
         # mafft:
-        expand(mafft_dir_path / "{sample}", sample=get_ids_list(checkpoint.merged_sequences.input.common_ids))
+        # expand(mafft_dir_path / "{sample}", sample=get_ids_list(busco_dir_path / "single_copy_busco_sequences.common.ids"))
 
 
 #---- load rules ----
