@@ -34,8 +34,8 @@ def ids_list(single_copy_busco_sequences):
 checkpoint mafft_fna:
     input:
         fna=expand(busco_dir_path / "merged_sequences" / "merged_{sample}.fna", sample=ids_list(busco_dir_path / "single_copy_busco_sequences.common.ids"))
-    output:
-        directory(mafft_dir_path)
+    # output:
+    #     directory(mafft_dir_path)
     params:
         outfile=mafft_dir_path / "{sample}",
         mafft_path=config["mafft_path"]
