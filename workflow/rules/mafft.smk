@@ -28,7 +28,7 @@ checkpoint merged_sequences:
 
 checkpoint mafft:
     input:
-        expand(busco_dir_path / "merged_sequences" / "{sample}", sample=os.listdir(busco_dir_path / "merged_sequences"))
+        expand(busco_dir_path / "merged_sequences" / "{sample}")
     output:
         outfile=directory(mafft_dir_path / "out")
     params:
