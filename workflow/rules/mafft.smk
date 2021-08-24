@@ -39,8 +39,8 @@ rule mafft_fna:
         cluster_err=cluster_log_dir_path / "{sample}.mafft_fna.cluster.err"
     benchmark:
         benchmark_dir_path / "{sample}.mafft_fna.benchmark.txt"
-    conda:
-        "../../%s" % config["conda_config"]
+    # conda:
+    #     "../../%s" % config["conda_config"]
     resources:
         cpus=config["mafft_threads"],
         time=config["mafft_time"],
