@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-__author__ = 'tomarovsky'
 
 from pathlib import Path
 import argparse
