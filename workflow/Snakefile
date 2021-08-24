@@ -37,7 +37,7 @@ rule all:
         directory(busco_dir_path / "merged_sequences"),
 
         # mafft:
-        if busco_dir_path / "single_copy_busco_sequences.common.ids".is_file():
+        if Path(busco_dir_path / "single_copy_busco_sequences.common.ids").is_file():
             expand(mafft_dir_path / "{sample}", sample=get_ids_list(busco_dir_path / "single_copy_busco_sequences.common.ids"))
 
 
