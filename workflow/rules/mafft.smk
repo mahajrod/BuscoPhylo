@@ -1,6 +1,5 @@
 import os
-localrules: merged_sequences
-ruleorder:merged_sequences > mafft_fna
+localrules: merged_sequences, finished
 
 
 checkpoint merged_sequences:
