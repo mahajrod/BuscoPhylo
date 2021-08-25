@@ -50,19 +50,19 @@ rule mafft_fna:
         "{params.mafft_path}/mafft --thread {threads} {input.fna} > {output.outfile} 2> {log.std}"
 
 
-def aggregate_merged_sequences(wildcards):
-    checkpoint_output = checkpoints.merged_sequences.get(**wildcards).output[0]    
-    file_names = expand(mafft_dir_path / "{sample}", 
-                        sample = glob_wildcards(os.path.join(checkpoint_output, "merged_{sample}.fna")).sample) #busco_dir_path / "merged_sequences" / 
-    return file_names
+# def aggregate_merged_sequences(wildcards):
+#     checkpoint_output = checkpoints.merged_sequences.get(**wildcards).output[0]    
+#     file_names = expand(mafft_dir_path / "{sample}", 
+#                         sample = glob_wildcards(os.path.join(checkpoint_output, "merged_{sample}.fna")).sample) #busco_dir_path / "merged_sequences" / 
+#     return file_names
     
-rule finished:
-    input: 
-        aggregate_merged_sequences
-    output: 
-        "finished.txt"
-    shell:
-        "touch {output}"
+# rule finished:
+#     input: 
+#         aggregate_merged_sequences
+#     output: 
+#         "finished.txt"
+#     shell:
+#         "touch {output}"
 
 # rule merged_sequences:
 #     input:
