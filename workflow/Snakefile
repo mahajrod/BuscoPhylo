@@ -19,7 +19,7 @@ if "species_list" not in config:
     config["species_list"] = [d.name[:-6] for d in genome_dir_path.iterdir() if d.is_file()]
 
 #---- necessary functions ----
-def aggregate_merged_sequences(wildcards):
+def mafft_input(wildcards):
     checkpoint_output = checkpoints.merged_sequences.get(**wildcards).output[0]    
     file_names = expand(mafft_dir_path / "{sample}", 
                         sample = glob_wildcards(os.path.join(checkpoint_output, "merged_{sample}.fna")).sample) #busco_dir_path / "merged_sequences" / 
@@ -36,8 +36,8 @@ rule all:
         directory(busco_dir_path / "merged_sequences"),
 
         # mafft:
-        aggregate_merged_sequences
-        # expand(mafft_dir_path / "{sample}", sample=get_ids_list(busco_dir_path / "single_copy_busco_sequences.common.ids"))
+        mafft_input
+        
 
 
 #---- load rules ----
