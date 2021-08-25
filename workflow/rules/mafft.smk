@@ -1,12 +1,11 @@
 import os
 localrules: merged_sequences
-ruleorder: merged_sequences > mafft
+# ruleorder: merged_sequences > mafft
 
 
 checkpoint merged_sequences:
     input:
-        # rules.common_ids.output.common_ids,
-        common_ids=busco_dir_path / "single_copy_busco_sequences.common.ids",
+        rules.common_ids.output.common_ids, #common_ids=busco_dir_path / "single_copy_busco_sequences.common.ids"
         single_copy_files=expand(busco_dir_path / "{species}", species=config["species_list"])
     output:
         merged_ids=directory(busco_dir_path / "merged_sequences")
