@@ -21,8 +21,9 @@ if "species_list" not in config:
 #---- necessary functions ----
 def mafft_input(wildcards):
     checkpoint_output = checkpoints.merged_sequences.get(**wildcards).output[0]    
-    file_names = expand(mafft_dir_path / "{sample}", 
-                        sample = glob_wildcards(os.path.join(checkpoint_output, "merged_{sample}.fna")).sample) #busco_dir_path / "merged_sequences" / 
+    file_names = expand(mafft_dir_path / "{sample}.{extension}", 
+                        sample = glob_wildcards(os.path.join(checkpoint_output, "merged_{sample}.{extension}")).sample,
+                        extension = wildcards.extension)
     return file_names
 
 

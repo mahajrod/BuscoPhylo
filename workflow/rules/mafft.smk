@@ -27,17 +27,17 @@ checkpoint merged_sequences:
 
 rule mafft:
     input:
-        fna=busco_dir_path / "merged_sequences" / "merged_{sample}.fna"
+        fna=busco_dir_path / "merged_sequences" / "merged_{sample}.{extension}"
     output:
-        outfile=mafft_dir_path / "{sample}"
+        outfile=mafft_dir_path / "{sample}.{extension}"
     params:
         mafft_path=config["mafft_path"]
     log:
-        std=log_dir_path / "{sample}.mafft.log",
-        cluster_log=cluster_log_dir_path / "{sample}.mafft.cluster.log",
-        cluster_err=cluster_log_dir_path / "{sample}.mafft.cluster.err"
+        std=log_dir_path / "{sample}.{extension}.mafft.log",
+        cluster_log=cluster_log_dir_path / "{sample}.{extension}.mafft.cluster.log",
+        cluster_err=cluster_log_dir_path / "{sample}.{extension}.mafft.cluster.err"
     benchmark:
-        benchmark_dir_path / "{sample}.mafft.benchmark.txt"
+        benchmark_dir_path / "{sample}.{extension}.mafft.benchmark.txt"
     # conda:
     #     "../../%s" % config["conda_config"]
     resources:
