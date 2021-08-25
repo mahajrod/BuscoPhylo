@@ -1,5 +1,5 @@
 localrules: common_ids, species_ids
-ruleorder: species_ids > common_ids
+# ruleorder: species_ids > common_ids
 
 rule species_ids:
     input:
@@ -22,7 +22,8 @@ rule species_ids:
 
 rule common_ids:
     input:
-        id_files=expand(busco_dir_path/ "{species}.ids", species=config["species_list"])
+        rules.species_ids.output.ids
+        # id_files=busco_dir_path/ "{species}.ids"
     output:
         common_ids=busco_dir_path / "single_copy_busco_sequences.common.ids"
     params:
