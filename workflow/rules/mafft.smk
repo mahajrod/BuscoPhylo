@@ -1,5 +1,6 @@
 import os
-localrules: merged_sequences, finished
+localrules: merged_sequences
+ruleorder: merged_sequences > mafft
 
 
 checkpoint merged_sequences:

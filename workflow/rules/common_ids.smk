@@ -3,7 +3,7 @@ ruleorder: species_ids > common_ids
 
 rule species_ids:
     input:
-        single_copy_dir=directory(busco_dir_path / "{species}")# / "single_copy_busco_sequences")
+        single_copy_dir=directory(busco_dir_path / "{species}")
     output:
         ids=busco_dir_path / "{species}.ids"
     log:
