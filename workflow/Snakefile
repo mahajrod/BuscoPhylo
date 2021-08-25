@@ -37,7 +37,7 @@ rule all:
         # directory(busco_dir_path / "merged_sequences")
 
         # mafft:
-        mafft_input
+        # mafft_input
         
 
 
