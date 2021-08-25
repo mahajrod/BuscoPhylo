@@ -33,11 +33,11 @@ rule all:
     input:
         # busco:
         expand(busco_dir_path / "{species}/short_summary_{species}.txt", species=config["species_list"]),
-        busco_dir_path / "single_copy_busco_sequences.common.ids",
-        directory(busco_dir_path / "merged_sequences"),
+        # busco_dir_path / "single_copy_busco_sequences.common.ids",
+        # directory(busco_dir_path / "merged_sequences"),
 
         # mafft:
-        mafft_input
+        # mafft_input
         
 
 
