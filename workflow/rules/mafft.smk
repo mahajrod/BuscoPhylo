@@ -7,7 +7,7 @@ checkpoint merged_sequences:
     input:
         rules.common_ids.output.common_ids,
         # common_ids=busco_dir_path / "single_copy_busco_sequences.common.ids",
-        single_copy_files=expand(busco_dir_path / "{species}" / "single_copy_busco_sequences", species=config["species_list"])
+        single_copy_files=expand(busco_dir_path / "{species}", species=config["species_list"])
     output:
         merged_ids=directory(busco_dir_path / "merged_sequences")
     log:
@@ -23,7 +23,7 @@ checkpoint merged_sequences:
     shell:
         "workflow/scripts/merged_sequences.py "
         "--input {input.common_ids} "
-        "--single_copy_files {input.single_copy_files} "
+        "--single_copy_files {input.single_copy_files}/single_copy_busco_sequences/ "
         "--outdir {output.merged_ids} 2> {log.std}"
 
 
