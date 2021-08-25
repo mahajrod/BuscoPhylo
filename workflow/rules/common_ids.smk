@@ -22,8 +22,7 @@ rule species_ids:
 
 rule common_ids:
     input:
-        rules.species_ids.output.ids
-        # id_files=busco_dir_path/ "{species}.ids"
+        id_files=expand(busco_dir_path/ "{species}.ids", species=config["species_list"])
     output:
         common_ids=busco_dir_path / "single_copy_busco_sequences.common.ids"
     params:
