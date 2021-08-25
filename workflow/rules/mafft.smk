@@ -54,7 +54,7 @@ rule mafft_fna:
 def aggregate_merged_sequences(wildcards):
     checkpoint_output = checkpoints.merged_sequences.get(**wildcards).output[0]    
     file_names = expand(mafft_dir_path / "{sample}", 
-                        mag = glob_wildcards(os.path.join(checkpoint_output, busco_dir_path / "merged_sequences" / "merged_{sample}.fna")).mag)
+                        sample = glob_wildcards(os.path.join(checkpoint_output, "merged_{sample}.fna")).sample) #busco_dir_path / "merged_sequences" / 
     return file_names
     
 rule finished:
