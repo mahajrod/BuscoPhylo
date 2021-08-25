@@ -1,6 +1,5 @@
 import os
 localrules: merged_sequences
-# ruleorder: merged_sequences > mafft
 
 
 checkpoint merged_sequences:
@@ -39,8 +38,8 @@ rule mafft:
         cluster_err=cluster_log_dir_path / "{sample}.{extension}.mafft.cluster.err"
     benchmark:
         benchmark_dir_path / "{sample}.{extension}.mafft.benchmark.txt"
-    # conda:
-    #     "../../%s" % config["conda_config"]
+    conda:
+        "../../%s" % config["conda_config"]
     resources:
         cpus=config["mafft_threads"],
         time=config["mafft_time"],

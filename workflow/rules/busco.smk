@@ -16,8 +16,8 @@ rule busco:
         cluster_err=cluster_log_dir_path / "{species}.busco.cluster.err"
     benchmark:
         benchmark_dir_path / "{species}/busco.benchmark.txt"
-    # conda:
-    #     "../../%s" % config["conda_config"]
+    conda:
+        "../../%s" % config["conda_config"]
     resources:
         cpus=config["busco_threads"],
         time=config["busco_time"],
