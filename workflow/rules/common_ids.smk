@@ -5,7 +5,7 @@ rule species_ids:
     input:
         single_copy_dir=directory(busco_dir_path / "{species}/single_copy_busco_sequences")
     output:
-        ids=busco_dir_path / "{species}.ids"
+        ids=busco_ids_dir_path / "{species}.ids" #ids=busco_dir_path / "{species}.ids"
     log:
         std=log_dir_path / "{species}.species_ids.log",
         cluster_log=cluster_log_dir_path / "{species}.species_ids.cluster.log",
@@ -22,9 +22,9 @@ rule species_ids:
 
 rule common_ids:
     input:
-        id_files=expand(busco_dir_path/ "{species}.ids", species=config["species_list"])
+        id_files=expand(busco_ids_dir_path/ "{species}.ids", species=config["species_list"]) #id_files=expand(busco_dir_path/ "{species}.ids", species=config["species_list"])
     output:
-        busco_dir_path / "single_copy_busco_sequences.common.ids"
+        busco_ids_dir_path / "single_copy_busco_sequences.common.ids" #busco_dir_path / "single_copy_busco_sequences.common.ids"
     params:
         nfiles=len(config["species_list"])
     log:

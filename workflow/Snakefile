@@ -12,6 +12,7 @@ benchmark_dir_path = Path(config["benchmark_dir"])
 output_dir_path = Path(config["output_dir"])
 
 busco_dir_path = output_dir_path / config["busco_dir"]
+busco_ids_dir_path = busco_dir_path / "busco_ids"
 mafft_dir_path = output_dir_path / config["mafft_dir"]
 
 
