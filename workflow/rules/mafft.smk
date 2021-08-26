@@ -4,10 +4,9 @@ localrules: merged_sequences
 
 checkpoint merged_sequences:
     input:
-        common_ids=ids_dir_path / "single_copy_busco_sequences.common.ids"#,
-        # busco_outfiles=expand(busco_dir_path / "{species}" / "single_copy_busco_sequences", species=config["species_list"])
+        common_ids=busco_dir_path / "single_copy_busco_sequences.common.ids"
     output:
-        merged_ids=directory(merged_sequences)
+        merged_ids=directory(busco_dir_path / "merged_sequences")
     params:
         single_copy_files=expand(busco_dir_path / "{species}" / "single_copy_busco_sequences", species=config["species_list"])
     log:
@@ -29,7 +28,7 @@ checkpoint merged_sequences:
 
 rule mafft:
     input:
-        fna=merged_sequences / "merged_{sample}.{extension}"
+        fna=busco_dir_path / "merged_sequences" / "merged_{sample}.{extension}"
     output:
         outfile=mafft_dir_path / "{sample}.{extension}"
     params:
