@@ -2,7 +2,7 @@ rule busco:
     input:
         fasta=genome_dir_path / "{species}.fasta"
     output:
-        dir=directory(busco_dir_path / "{species}"),
+        busco_outdir=directory(busco_dir_path / "{species}"),
         summary=busco_dir_path / "{species}/short_summary_{species}.txt"
     params:
         busco_path=config["busco_path"],
@@ -25,6 +25,6 @@ rule busco:
     threads:
         config["busco_threads"]
     shell:
-        "mkdir -p {output.dir}; cd {output.dir}; {params.busco_path}/run_BUSCO.py -m {params.mode} -sp {params.species}"
+        "mkdir -p {output.busco_outdir}; cd {output.busco_outdir}; {params.busco_path}/run_BUSCO.py -m {params.mode} -sp {params.species}"
         " -i {input.fasta} -c {threads} -l {params.busco_dataset_path} -o {params.output_prefix} 1>../../../{log.std} 2>&1;"
         " mv run_{params.output_prefix}/* ./; rm -r run_{params.output_prefix} tmp/"
