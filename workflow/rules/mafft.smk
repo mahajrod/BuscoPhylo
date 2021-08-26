@@ -13,6 +13,8 @@ checkpoint merged_sequences:
         std=log_dir_path / "merged_ids.log",
         cluster_log=cluster_log_dir_path / "merged_ids.cluster.log",
         cluster_err=cluster_log_dir_path / "merged_ids.cluster.err"
+    group:
+        "mafft_tasks"
     benchmark:
         benchmark_dir_path / "merged_ids.benchmark.txt"
     resources:
