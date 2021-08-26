@@ -4,7 +4,7 @@ localrules: merged_sequences
 
 checkpoint merged_sequences:
     input:
-        common_ids=busco_dir_path / "single_copy_busco_sequences.common.ids"
+        common_ids=busco_dir_path / "single_copy_busco_sequences.common.ids",
         single_copy_files=expand(busco_dir_path / "{species}", species=config["species_list"])
     output:
         merged_ids=directory(busco_dir_path / "merged_sequences")
