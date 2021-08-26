@@ -12,8 +12,6 @@ benchmark_dir_path = Path(config["benchmark_dir"])
 output_dir_path = Path(config["output_dir"])
 
 busco_dir_path = output_dir_path / config["busco_dir"]
-# ids_dir_path = output_dir_path / "ids"
-# merged_sequences = output_dir_path / "merged_sequences"
 mafft_dir_path = output_dir_path / config["mafft_dir"]
 
 
