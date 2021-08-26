@@ -13,8 +13,6 @@ checkpoint merged_sequences:
         std=log_dir_path / "merged_ids.log",
         cluster_log=cluster_log_dir_path / "merged_ids.cluster.log",
         cluster_err=cluster_log_dir_path / "merged_ids.cluster.err"
-    group:
-        0
     benchmark:
         benchmark_dir_path / "merged_ids.benchmark.txt"
     resources:
@@ -40,7 +38,7 @@ rule mafft:
         cluster_log=cluster_log_dir_path / "{sample}.{extension}.mafft.cluster.log",
         cluster_err=cluster_log_dir_path / "{sample}.{extension}.mafft.cluster.err"
     group:
-        0
+        "0"
     benchmark:
         benchmark_dir_path / "{sample}.{extension}.mafft.benchmark.txt"
     # conda:
