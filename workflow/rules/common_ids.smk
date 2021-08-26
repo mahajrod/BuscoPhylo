@@ -24,7 +24,7 @@ rule common_ids:
     input:
         id_files=expand(busco_dir_path/ "{species}.ids", species=config["species_list"])
     output:
-        common_ids=busco_dir_path / "single_copy_busco_sequences.common.ids"
+        busco_dir_path / "single_copy_busco_sequences.common.ids"
     params:
         nfiles=len(config["species_list"])
     log:
@@ -39,4 +39,4 @@ rule common_ids:
         mem=config["common_ids_mem_mb"]
     shell:
         "cat {input.id_files} |"
-        "sort | uniq -c | awk '{{if($1=={params.nfiles}){{print $2}}}}' > {output.common_ids} 2> {log.std}"
+        "sort | uniq -c | awk '{{if($1=={params.nfiles}){{print $2}}}}' > {output} 2> {log.std}"
