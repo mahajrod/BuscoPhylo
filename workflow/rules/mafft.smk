@@ -38,7 +38,7 @@ rule mafft:
         cluster_log=cluster_log_dir_path / "{sample}.{extension}.mafft.cluster.log",
         cluster_err=cluster_log_dir_path / "{sample}.{extension}.mafft.cluster.err"
     group:
-        "0"
+        "mafft.tasks"
     benchmark:
         benchmark_dir_path / "{sample}.{extension}.mafft.benchmark.txt"
     # conda:
