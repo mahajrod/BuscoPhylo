@@ -4,12 +4,12 @@ localrules: merged_sequences
 
 checkpoint merged_sequences:
     input:
-        common_ids=ids_dir_path / "single_copy_busco_sequences.common.ids",
-        busco_outfiles=expand(directory(busco_dir_path / "{species}" / "single_copy_busco_sequences", species=config["species_list"]))
+        common_ids=ids_dir_path / "single_copy_busco_sequences.common.ids"#,
+        # busco_outfiles=expand(busco_dir_path / "{species}" / "single_copy_busco_sequences", species=config["species_list"])
     output:
         merged_ids=directory(merged_sequences)
     params:
-        single_copy_files="single_copy_busco_sequences/"
+        single_copy_files=expand(busco_dir_path / "{species}" / "single_copy_busco_sequences", species=config["species_list"])
     log:
         std=log_dir_path / "merged_ids.log",
         cluster_log=cluster_log_dir_path / "merged_ids.cluster.log",
@@ -23,7 +23,7 @@ checkpoint merged_sequences:
     shell:
         "workflow/scripts/merged_sequences.py "
         "--input {input.common_ids} "
-        "--single_copy_files {input.busco_outfiles} "
+        "--single_copy_files {params.single_copy_files} "
         "--outdir {output.merged_ids} 2> {log.std}"
 
 
