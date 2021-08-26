@@ -12,7 +12,6 @@ benchmark_dir_path = Path(config["benchmark_dir"])
 output_dir_path = Path(config["output_dir"])
 
 busco_dir_path = output_dir_path / config["busco_dir"]
-busco_ids_dir_path = busco_dir_path / "busco_ids"
 mafft_dir_path = output_dir_path / config["mafft_dir"]
 
 
@@ -34,7 +33,7 @@ rule all:
     input:
         # busco:
         expand(busco_dir_path / "{species}/short_summary_{species}.txt", species=config["species_list"]),
-        busco_ids_dir_path / "single_copy_busco_sequences.common.ids",
+        busco_dir_path / "single_copy_busco_sequences.common.ids",
         directory(busco_dir_path / "merged_sequences"),
 
         # mafft:
