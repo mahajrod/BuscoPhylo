@@ -3,7 +3,7 @@ ruleorder: species_ids > common_ids
 
 rule species_ids:
     input:
-        single_copy_dir=directory(busco_dir_path / "{species}")
+        single_copy_dir=directory(busco_dir_path / "{species}" / "single_copy_busco_sequences")
     output:
         ids=busco_dir_path / "{species}.ids"
     log:
@@ -17,7 +17,7 @@ rule species_ids:
         time=config["common_ids_time"],
         mem=config["common_ids_mem_mb"]
     shell:
-        "ls {input.single_copy_dir}/single_copy_busco_sequences/ | grep -P '.fna$' | sed 's/.fna//' > {output.ids} 2> {log.std}"
+        "ls {input.single_copy_dir} | grep -P '.fna$' | sed 's/.fna//' > {output.ids} 2> {log.std}"
 
 
 rule common_ids:
