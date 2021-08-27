@@ -1,5 +1,5 @@
 from pathlib import Path
-
+import os
 
 #---- setup config ----
 configfile: "config/default.yaml"
@@ -20,7 +20,7 @@ if "species_list" not in config:
 
 #---- necessary functions ----
 def mafft_input(wildcards):
-    checkpoint_output = rules.merged_sequences.get(**wildcards).output[0]    
+    checkpoint_output = checkpoint.merged_sequences.get(**wildcards).output[0]    
     file_names = expand(mafft_dir_path / "{sample}.{extension}", 
                         sample = glob_wildcards(os.path.join(checkpoint_output, "merged_{sample}.{extension}")).sample,
                         extension = ["fna", "faa"])
@@ -37,7 +37,8 @@ rule all:
         directory(busco_dir_path / "merged_sequences"),
 
         # mafft:
-        mafft_input
+        # mafft_input
+        expand(mafft_dir_path / "{sample}.{extension}", sample=[".".join(f.split(".")[:-1]) for f in os.listdir(mafft_dir_path) if os.path.isfile(f)], extension = ["fna", "faa"])
         
 
 
