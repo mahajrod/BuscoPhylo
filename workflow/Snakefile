@@ -1,35 +1,47 @@
 from pathlib import Path
 
-cluster_log_dir_path = Path(config["cluster_log_dir"]) #.absolute()
-genome_dir_path = Path(config["genome_dir"]) #.absolute()
 
+#---- setup config ----
+configfile: "config/default.yaml"
 
-out_dir_path =  Path(config["out_dir"]) #.absolute()
-busco_dir_path = out_dir_path / config["busco_dir"]
-mafft_dir_path = out_dir_path / config["mafft_dir"]
-log_dir_path = out_dir_path / config["log_dir"]
-benchmark_dir_path = out_dir_path / config["benchmark_dir"]
+#---- setup paths ----
+cluster_log_dir_path = Path(config["cluster_log_dir"])
+genome_dir_path = Path(config["genome_dir"])
+log_dir_path = Path(config["log_dir"])
+benchmark_dir_path = Path(config["benchmark_dir"])
+output_dir_path = Path(config["output_dir"])
+
+busco_dir_path = output_dir_path / config["busco_dir"]
+mafft_dir_path = output_dir_path / config["mafft_dir"]
+
 
 if "species_list" not in config:
     config["species_list"] = [d.name[:-6] for d in genome_dir_path.iterdir() if d.is_file()]
 
-def aggregate_input(wildcards):
-    checkpoint_output = checkpoints.mafft_tasks_list.get(**wildcards).output[0]
-    return expand(mafft_dir_path / 'slurm/mafft.tasks.{i}.sh',
-                  i=glob_wildcards(os.path.join(checkpoint_output, 'mafft.tasks.{i}.sh')).i)
+#---- necessary functions ----
+def mafft_input(wildcards):
+    checkpoint_output = checkpoints.merged_sequences.get(**wildcards).output[0]    
+    file_names = expand(mafft_dir_path / "{sample}.{extension}", 
+                        sample = glob_wildcards(os.path.join(checkpoint_output, "merged_{sample}.{extension}")).sample,
+                        extension = ["fna", "faa"])
+    return file_names
+
 
 localrules: all
 
 rule all:
     input:
+        # busco:
         expand(busco_dir_path / "{species}/short_summary_{species}.txt", species=config["species_list"]),
         busco_dir_path / "single_copy_busco_sequences.common.ids",
         directory(busco_dir_path / "merged_sequences"),
-        directory(mafft_dir_path / "slurm"),
-        aggregate_input,
-        directory(mafft_dir_path / "output")
 
-include: "rules/BUSCO.smk"
+        # mafft:
+        mafft_input
+        
+
+
+#---- load rules ----
+include: "rules/busco.smk"
 include: "rules/common_ids.smk"
-include: "rules/merged_sequences.smk"
 include: "rules/mafft.smk"
