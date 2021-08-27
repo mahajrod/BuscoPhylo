@@ -1,4 +1,3 @@
-import os
 localrules: merged_sequences
 
 
