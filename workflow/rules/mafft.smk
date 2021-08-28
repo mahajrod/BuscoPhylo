@@ -23,8 +23,13 @@ checkpoint merged_sequences:
         "--single_copy_files {params.single_copy_files} "
         "--outdir {output.merged_ids} 2> {log.std}"
 
-
 rule mafft:
+    input:
+        fna=busco_dir_path / "merged_sequences" / "merged_{sample}.{extension}"
+    shell:
+        "echo {input.fna}"
+
+rule mafft_run:
     input:
         fna=busco_dir_path / "merged_sequences" / "merged_{sample}.{extension}"
     output:
