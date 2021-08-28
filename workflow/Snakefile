@@ -37,9 +37,7 @@ rule all:
         directory(busco_dir_path / "merged_sequences"),
 
         # mafft:
-        directory(busco_dir_path / "merged_sequences"),
-        expand(busco_dir_path / "merged_sequences" / "merged_{sample}.{extension}", sample = os.path.splitext(mafft_dir_path)[0], extension = ["fna", "faa"])
-        #mafft_input
+        mafft_input
 
 
 #---- load rules ----

@@ -1,6 +1,6 @@
 localrules: merged_sequences
 
-rule merged_sequences:
+checkpoint merged_sequences:
     input:
         common_ids=busco_dir_path / "single_copy_busco_sequences.common.ids"
     output:
@@ -26,13 +26,11 @@ rule merged_sequences:
 
 rule mafft:
     input:
-        # fna=busco_dir_path / "merged_sequences" / "merged_{sample}.{extension}"
-        fna_dir=rules.merged_sequences.output.merged_ids
+        fna=busco_dir_path / "merged_sequences" / "merged_{sample}.{extension}"
     output:
         outfile=mafft_dir_path / "{sample}.{extension}"
     params:
-        mafft_path=config["mafft_path"],
-        fna=expand(busco_dir_path / "merged_sequences" / "merged_{sample}.{extension}", sample = os.path.splitext(mafft_dir_path)[0], extension = ["fna", "faa"])
+        mafft_path=config["mafft_path"]
     log:
         std=log_dir_path / "{sample}.{extension}.mafft.log",
         cluster_log=cluster_log_dir_path / "{sample}.{extension}.mafft.cluster.log",
@@ -48,4 +46,4 @@ rule mafft:
     threads:
         config["mafft_threads"]
     shell:
-        "{params.mafft_path}/mafft --thread {threads} {input.fna_dir}/{params.fna} > {output.outfile} 2> {log.std}"
+        "{params.mafft_path}/mafft --thread {threads} {input.fna} > {output.outfile} 2> {log.std}"
