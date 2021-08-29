@@ -1,6 +1,6 @@
 localrules: merged_sequences
 
-checkpoint merged_sequences:
+rule merged_sequences:
     input:
         common_ids=busco_dir_path / "single_copy_busco_sequences.common.ids"
     output:
@@ -24,19 +24,28 @@ checkpoint merged_sequences:
         "--outdir {output.merged_ids} 2> {log.std}"
 
 
+rule crutch:
+    input:
+        rules.merged_sequences.output.merged_ids
+    output:
+        ids=temp(busco_dir_path / "merged_sequences" / "ids.tab")
+    shell:
+        "for name in `ls {input}`; do echo {{name%.*}} > {output}"
+
+
 rule mafft_run:
     input:
-        fna=busco_dir_path / "merged_sequences" / "merged_{sample}.{extension}"
+        fna=busco_dir_path / "merged_sequences" / "merged_{sample}.fna"
     output:
-        outfile=mafft_dir_path / "{sample}.{extension}"
+        outfile=mafft_dir_path / "{sample}.fna"
     params:
         mafft_path=config["mafft_path"]
     log:
-        std=log_dir_path / "{sample}.{extension}.mafft.log",
-        cluster_log=cluster_log_dir_path / "{sample}.{extension}.mafft.cluster.log",
-        cluster_err=cluster_log_dir_path / "{sample}.{extension}.mafft.cluster.err"
+        std=log_dir_path / "{sample}.fna.mafft.log",
+        cluster_log=cluster_log_dir_path / "{sample}.fna.mafft.cluster.log",
+        cluster_err=cluster_log_dir_path / "{sample}.fna.mafft.cluster.err"
     benchmark:
-        benchmark_dir_path / "{sample}.{extension}.mafft.benchmark.txt"
+        benchmark_dir_path / "{sample}.fna.mafft.benchmark.txt"
     # conda:
     #     "../../%s" % config["conda_config"]
     resources:
@@ -47,3 +56,28 @@ rule mafft_run:
         config["mafft_threads"]
     shell:
         "{params.mafft_path}/mafft --thread {threads} {input.fna} > {output.outfile} 2> {log.std}"
+
+
+# rule mafft_run:
+#     input:
+#         fna=busco_dir_path / "merged_sequences" / "merged_{sample}.{extension}"
+#     output:
+#         outfile=mafft_dir_path / "{sample}.{extension}"
+#     params:
+#         mafft_path=config["mafft_path"]
+#     log:
+#         std=log_dir_path / "{sample}.{extension}.mafft.log",
+#         cluster_log=cluster_log_dir_path / "{sample}.{extension}.mafft.cluster.log",
+#         cluster_err=cluster_log_dir_path / "{sample}.{extension}.mafft.cluster.err"
+#     benchmark:
+#         benchmark_dir_path / "{sample}.{extension}.mafft.benchmark.txt"
+#     # conda:
+#     #     "../../%s" % config["conda_config"]
+#     resources:
+#         cpus=config["mafft_threads"],
+#         time=config["mafft_time"],
+#         mem=config["mafft_mem_mb"]
+#     threads:
+#         config["mafft_threads"]
+#     shell:
+#         "{params.mafft_path}/mafft --thread {threads} {input.fna} > {output.outfile} 2> {log.std}"
