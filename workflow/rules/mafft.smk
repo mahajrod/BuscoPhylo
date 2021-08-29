@@ -1,20 +1,5 @@
 localrules: merged_sequences
 
-shell.prefix("""
-# http://linuxcommand.org/wss0150.php
-PROGNAME=$(basename $0)
-
-function error_exit
-{{
-#   ----------------------------------------------------------------
-#   Function for exit due to fatal program error
-#       Accepts 1 argument:
-#           string containing descriptive error message
-#   ----------------------------------------------------------------
-    echo "${{PROGNAME}}: ${{1:-"Unknown Error"}}" 1>&2
-    exit 1
-}}
-""")
 
 checkpoint merged_sequences:
     input:
@@ -52,10 +37,10 @@ rule mafft:
         outfile=mafft_dir_path / "{sample}"
     params:
         mafft_path=config["mafft_path"]
-    log:
-        std=log_dir_path / "{sample}.mafft.log",
-        cluster_log=cluster_log_dir_path / "{sample}.mafft.cluster.log",
-        cluster_err=cluster_log_dir_path / "{sample}.mafft.cluster.err"
+    # log:
+    #     std=log_dir_path / "{sample}.mafft.log",
+    #     cluster_log=cluster_log_dir_path / "{sample}.mafft.cluster.log",
+    #     cluster_err=cluster_log_dir_path / "{sample}.mafft.cluster.err"
     benchmark:
         benchmark_dir_path / "{sample}.mafft.benchmark.txt"
     # conda:
@@ -67,7 +52,7 @@ rule mafft:
     threads:
         config["mafft_threads"]
     shell:
-        "{params.mafft_path}/mafft --thread {threads} {input.fna} > {output.outfile} 2> {log.std}; "
+        "{params.mafft_path}/mafft --thread {threads} {input.fna} > {output.outfile}" # 2> {log.std}; "
 
 rule finished:
     input: 
