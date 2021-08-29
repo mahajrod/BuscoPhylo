@@ -53,7 +53,7 @@ rule mafft:
     threads:
         config["mafft_threads"]
     shell:
-        "{params.mafft_path}/mafft --thread {threads} {input.fna} > {output.outfile} 2> {log.std}"
+        "{params.mafft_path}/mafft --thread {threads} {input.fna} > {output.outfile} 2> {log.std}; "
 
 rule finished:
     input: 
