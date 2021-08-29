@@ -37,7 +37,7 @@ rule all:
         directory(busco_dir_path / "merged_sequences"),
 
         # mafft:
-        expand(mafft_dir_path / "{sample}.fna", sample = [line.rstrip('\n') for line in open(busco_dir_path / "merged_sequences" / "ids.tab")])
+        directory(mafft_dir_path)
         # mafft_input
 
 

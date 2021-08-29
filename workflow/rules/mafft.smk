@@ -1,4 +1,6 @@
 localrules: merged_sequences, crutch
+ruleorder: merged_sequences > crutch > mafft_run
+
 
 rule merged_sequences:
     input:
@@ -35,11 +37,12 @@ rule crutch:
 
 rule mafft_run:
     input:
-        fna=busco_dir_path / "merged_sequences" / "merged_{sample}.fna"
+        fna=expand(busco_dir_path / "merged_sequences" / "merged_{sample}.fna", sample =  [line.rstrip('\n') for line in open(rules.crutch.output.ids)])
     output:
-        outfile=mafft_dir_path / "{sample}.fna"
+        outfile=directory(mafft_dir_path)
     params:
-        mafft_path=config["mafft_path"]
+        mafft_path=config["mafft_path"],
+        filename="{sample}.fna"
     log:
         std=log_dir_path / "{sample}.fna.mafft.log",
         cluster_log=cluster_log_dir_path / "{sample}.fna.mafft.cluster.log",
@@ -55,7 +58,7 @@ rule mafft_run:
     threads:
         config["mafft_threads"]
     shell:
-        "{params.mafft_path}/mafft --thread {threads} {input.fna} > {output.outfile} 2> {log.std}"
+        "{params.mafft_path}/mafft --thread {threads} {input.fna} > {output.outfile}/{params.filename} 2> {log.std}"
 
 
 # rule mafft_run:
