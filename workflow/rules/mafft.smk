@@ -1,4 +1,4 @@
-localrules: merged_sequences
+localrules: merged_sequences, crutch
 
 rule merged_sequences:
     input:
