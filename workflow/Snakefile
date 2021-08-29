@@ -37,9 +37,7 @@ rule all:
         directory(busco_dir_path / "merged_sequences"),
 
         # mafft:
-        directory(busco_dir_path / "merged_sequences"),
-        busco_dir_path / "merged_sequences" / "ids.tab",
-        directory(mafft_dir_path)
+        "finished.txt"
         # mafft_input
 
 

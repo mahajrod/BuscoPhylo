@@ -25,30 +25,26 @@ rule merged_sequences:
         "--single_copy_files {params.single_copy_files} "
         "--outdir {output.merged_ids} 2> {log.std}"
 
+def mafft_input(wildcards):
+    checkpoint_output = checkpoints.merged_sequences.get(**wildcards).output[0]
+    file_names = expand(mafft_dir_path / "{sample}.{extension}", 
+                        sample = glob_wildcards(os.path.join(checkpoint_output, "merged_{sample}.{extension}")).sample,
+                        extension = ["fna", "faa"])
+    return file_names
 
-rule crutch:
+rule mafft:
     input:
-        directory(busco_dir_path / "merged_sequences")
+        fna=busco_dir_path / "merged_sequences" / "merged_{sample}.{extension}"
     output:
-        ids=busco_dir_path / "merged_sequences" / "ids.tab"
-    shell:
-        "for name in `ls {input}`; do echo {{name%.*}} >> {output}"
-
-
-rule mafft_run:
-    input:
-        fna=expand(busco_dir_path / "merged_sequences" / "merged_{sample}.fna", sample = glob_wildcards(busco_dir_path / "merged_sequences" / "ids.tab"))
-    output:
-        outfile=directory(mafft_dir_path)
+        outfile=mafft_dir_path / "{sample}.{extension}"
     params:
-        mafft_path=config["mafft_path"],
-        filename="{sample}.fna"
+        mafft_path=config["mafft_path"]
     log:
-        std=log_dir_path / "{sample}.fna.mafft.log",
-        cluster_log=cluster_log_dir_path / "{sample}.fna.mafft.cluster.log",
-        cluster_err=cluster_log_dir_path / "{sample}.fna.mafft.cluster.err"
+        std=log_dir_path / "{sample}.{extension}.mafft.log",
+        cluster_log=cluster_log_dir_path / "{sample}.{extension}.mafft.cluster.log",
+        cluster_err=cluster_log_dir_path / "{sample}.{extension}.mafft.cluster.err"
     benchmark:
-        benchmark_dir_path / "{sample}.fna.mafft.benchmark.txt"
+        benchmark_dir_path / "{sample}.{extension}.mafft.benchmark.txt"
     # conda:
     #     "../../%s" % config["conda_config"]
     resources:
@@ -58,8 +54,13 @@ rule mafft_run:
     threads:
         config["mafft_threads"]
     shell:
-        "{params.mafft_path}/mafft --thread {threads} {input.fna} > {output.outfile}/{params.filename} 2> {log.std}"
+        "{params.mafft_path}/mafft --thread {threads} {input.fna} > {output.outfile} 2> {log.std}"
 
+rule finished:
+    input: mafft_input
+    output: "finished.txt"
+    shell:'''
+    touch {output}
 
 # rule mafft_run:
 #     input:
