@@ -1,5 +1,5 @@
 localrules: merged_sequences, crutch
-ruleorder: merged_sequences > crutch > mafft_run
+# ruleorder: merged_sequences > crutch > mafft_run
 
 
 rule merged_sequences:
@@ -28,7 +28,7 @@ rule merged_sequences:
 
 rule crutch:
     input:
-        rules.merged_sequences.output.merged_ids
+        directory(busco_dir_path / "merged_sequences")
     output:
         ids=temp(busco_dir_path / "merged_sequences" / "ids.tab")
     shell:
