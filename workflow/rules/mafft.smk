@@ -32,12 +32,12 @@ rule crutch:
     output:
         ids=busco_dir_path / "merged_sequences" / "ids.tab"
     shell:
-        "for name in `ls {input}`; do echo {{name%.*}} > {output}"
+        "for name in `ls {input}`; do echo {{name%.*}} >> {output}"
 
 
 rule mafft_run:
     input:
-        fna=expand(busco_dir_path / "merged_sequences" / "merged_{sample}.fna", sample = directory(busco_dir_path / "merged_sequences")) #[line.rstrip('\n') for line in open(rules.crutch.output.ids)])
+        fna=expand(busco_dir_path / "merged_sequences" / "merged_{sample}.fna", sample = glob_wildcards(busco_dir_path / "merged_sequences" / "ids.tab"))
     output:
         outfile=directory(mafft_dir_path)
     params:
