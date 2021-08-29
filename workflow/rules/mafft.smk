@@ -1,8 +1,8 @@
-localrules: merged_sequences, crutch
-ruleorder: merged_sequences > crutch > mafft_run
+localrules: merged_sequences
 
 
-rule merged_sequences:
+
+checkpoint merged_sequences:
     input:
         common_ids=busco_dir_path / "single_copy_busco_sequences.common.ids"
     output:
