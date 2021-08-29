@@ -27,24 +27,23 @@ checkpoint merged_sequences:
 
 def mafft_input(wildcards):
     checkpoint_output = checkpoints.merged_sequences.get(**wildcards).output[0]
-    file_names = expand(mafft_dir_path / "{sample}.{extension}", 
-                        sample = glob_wildcards(os.path.join(checkpoint_output, "merged_{sample}.{extension}")).sample,
-                        extension = ["fna", "faa"])
+    file_names = expand(mafft_dir_path / "{sample}", 
+                        sample = glob_wildcards(os.path.join(checkpoint_output, "merged_{sample}")).sample)
     return file_names
 
 rule mafft:
     input:
-        fna=busco_dir_path / "merged_sequences" / "merged_{sample}.{extension}"
+        fna=busco_dir_path / "merged_sequences" / "merged_{sample}"
     output:
-        outfile=mafft_dir_path / "{sample}.{extension}"
+        outfile=mafft_dir_path / "{sample}"
     params:
         mafft_path=config["mafft_path"]
     log:
-        std=log_dir_path / "{sample}.{extension}.mafft.log",
-        cluster_log=cluster_log_dir_path / "{sample}.{extension}.mafft.cluster.log",
-        cluster_err=cluster_log_dir_path / "{sample}.{extension}.mafft.cluster.err"
+        std=log_dir_path / "{sample}.mafft.log",
+        cluster_log=cluster_log_dir_path / "{sample}.mafft.cluster.log",
+        cluster_err=cluster_log_dir_path / "{sample}.mafft.cluster.err"
     benchmark:
-        benchmark_dir_path / "{sample}.{extension}.mafft.benchmark.txt"
+        benchmark_dir_path / "{sample}.mafft.benchmark.txt"
     # conda:
     #     "../../%s" % config["conda_config"]
     resources:
