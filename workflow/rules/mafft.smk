@@ -37,7 +37,7 @@ rule crutch:
 
 rule mafft_run:
     input:
-        fna=expand(busco_dir_path / "merged_sequences" / "merged_{sample}.fna", sample =  [line.rstrip('\n') for line in open(rules.crutch.output.ids)])
+        fna=expand(busco_dir_path / "merged_sequences" / "merged_{sample}.fna", sample =  [line.rstrip('\n') for line in open(busco_dir_path / "merged_sequences" / "ids.tab")])
     output:
         outfile=directory(mafft_dir_path)
     params:
