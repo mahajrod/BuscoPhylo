@@ -30,7 +30,7 @@ rule crutch:
     input:
         directory(busco_dir_path / "merged_sequences")
     output:
-        ids=temp(busco_dir_path / "merged_sequences" / "ids.tab")
+        ids=busco_dir_path / "merged_sequences" / "ids.tab"
     shell:
         "for name in `ls {input}`; do echo {{name%.*}} > {output}"
 
