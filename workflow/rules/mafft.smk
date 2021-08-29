@@ -57,10 +57,12 @@ rule mafft:
         "{params.mafft_path}/mafft --thread {threads} {input.fna} > {output.outfile} 2> {log.std}"
 
 rule finished:
-    input: mafft_input
-    output: "finished.txt"
-    shell:'''
-    touch {output}
+    input: 
+        mafft_input
+    output: 
+        "finished.txt"
+    shell:
+        "touch {output}"
 
 # rule mafft_run:
 #     input:
