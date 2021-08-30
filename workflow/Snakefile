@@ -37,8 +37,7 @@ rule all:
         directory(busco_dir_path / "merged_sequences"),
 
         # mafft:
-        "finished.txt"
-        # mafft_input
+        mafft_input
 
 
 #---- load rules ----
