@@ -41,7 +41,7 @@ rule mafft_dna:
     output:
         outfile=mafft_dir_path / "{sample}.fna"
     params:
-        fna = expand("merged_sequences_tmp/merged_{sample}.fna", sample = [os.path.splitext(filename)[0] for filename in os.listdir(rules.tmp.output)]),
+        fna = expand("merged_sequences_tmp/merged_{sample}.fna", sample = rules.tmp.output),
         mafft_path=config["mafft_path"]
     log:
         std=log_dir_path / "{sample}.fna.mafft.log",
