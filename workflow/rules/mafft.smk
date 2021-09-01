@@ -1,5 +1,5 @@
-localrules: merged_sequences, tmp, finished
-ruleorder: merged_sequences > tmp > mafft_dna > mafft_protein
+localrules: merged_sequences
+
 
 checkpoint merged_sequences:
     input:
@@ -24,36 +24,13 @@ checkpoint merged_sequences:
         "--single_copy_files {params.single_copy_files} "
         "--outdir {output.merged_ids} 2> {log.std}"
 
-def mafft_dna_input(wildcards):
-    checkpoint_output = checkpoints.merged_sequences.get(**wildcards).output[0]
-    file_names = expand(mafft_dir_path / "{sample}.fna",
-                        sample = glob_wildcards(os.path.join(checkpoint_output, "merged_{sample}.fna")).sample)
-    return file_names
-
-def mafft_protein_input(wildcards):
-    checkpoint_output = checkpoints.merged_sequences.get(**wildcards).output[0]
-    file_names = expand(mafft_dir_path / "{sample}.faa",
-                        sample = glob_wildcards(os.path.join(checkpoint_output, "merged_{sample}.faa")).sample)
-    return file_names
-
-rule tmp:
-    input:
-        fna = busco_dir_path / "merged_sequences" / "merged_{sample}.fna",
-        faa=busco_dir_path / "merged_sequences" / "merged_{sample}.faa"
-    output:
-        fna="merged_sequences_tmp/{sample}.fna",
-        faa="merged_sequences_tmp/{sample}.faa"
-    shell:
-        "mv {input.fna} {output.fna}; "
-        "mv {input.faa} {output.faa} "
 
 rule mafft_dna:
     input:
-        rules.tmp.output.fna
+        fna=busco_dir_path / "merged_sequences" / "merged_{sample}.fna"
     output:
         outfile=mafft_dir_path / "{sample}.fna"
     params:
-        fna = expand("{sample}", sample = rules.tmp.output.fna),
         mafft_path=config["mafft_path"]
     log:
         std=log_dir_path / "{sample}.fna.mafft.log",
@@ -70,16 +47,15 @@ rule mafft_dna:
     threads:
         config["mafft_threads"]
     shell:
-        "{params.mafft_path}/mafft --thread {threads} /mnt/tank/scratch/atomarovsky/BuscoPhylo/{params.fna} > /mnt/tank/scratch/atomarovsky/BuscoPhylo/{output.outfile} 2> /mnt/tank/scratch/atomarovsky/BuscoPhylo/{log.std}"
+        "{params.mafft_path}/mafft --thread {threads} {input.fna} > {output.outfile} 2> {log.std}"
 
 
 rule mafft_protein:
     input:
-        rules.tmp.output.faa
+        fna=busco_dir_path / "merged_sequences" / "merged_{sample}.faa"
     output:
         outfile=mafft_dir_path / "{sample}.faa"
     params:
-        faa = expand("{sample}", sample = rules.tmp.output.faa),
         mafft_path=config["mafft_path"]
     log:
         std=log_dir_path / "{sample}.faa.mafft.log",
@@ -96,13 +72,6 @@ rule mafft_protein:
     threads:
         config["mafft_threads"]
     shell:
-        "{params.mafft_path}/mafft --anysymbol --thread {threads} /mnt/tank/scratch/atomarovsky/BuscoPhylo/{params.faa} > /mnt/tank/scratch/atomarovsky/BuscoPhylo/{output.outfile} 2> /mnt/tank/scratch/atomarovsky/BuscoPhylo/{log.std}"
+        "{params.mafft_path}/mafft --anysymbol --thread {threads} {input.fna} > {output.outfile} 2> {log.std}"
 
-rule finished:
-    input:
-        mafft_dna_input,
-        mafft_protein_input
-    output:
-        "finished.txt"
-    shell:
-        "touch {output}"
+
