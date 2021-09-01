@@ -49,7 +49,7 @@ rule tmp:
 
 rule mafft_dna:
     input:
-        rules.tmp.output
+        rules.tmp.output.fna
     output:
         outfile=mafft_dir_path / "{sample}.fna"
     params:
@@ -75,7 +75,7 @@ rule mafft_dna:
 
 rule mafft_protein:
     input:
-        rules.tmp.output
+        rules.tmp.output.faa
     output:
         outfile=mafft_dir_path / "{sample}.faa"
     params:
