@@ -25,9 +25,19 @@ checkpoint merged_sequences:
         "--outdir {output.merged_ids} 2> {log.std}"
 
 
+rule tmp:
+    input:
+        fna = busco_dir_path / "merged_sequences" / "merged_{sample}.fna",
+        faa=busco_dir_path / "merged_sequences" / "merged_{sample}.faa"
+    output:
+        directory(busco_dir_path / "merged_sequences_tmp")
+    shell:
+        "mv {input.faa} {output}; "
+        "mv {input.fna} {output} "
+
 rule mafft_dna:
     input:
-        fna=busco_dir_path / "merged_sequences" / "merged_{sample}.fna"
+        fna = busco_dir_path / "merged_sequences_tmp" / "merged_{sample}.fna"
     output:
         outfile=mafft_dir_path / "{sample}.fna"
     params:
@@ -52,7 +62,7 @@ rule mafft_dna:
 
 rule mafft_protein:
     input:
-        fna=busco_dir_path / "merged_sequences" / "merged_{sample}.faa"
+        faa=busco_dir_path / "merged_sequences_tmp" / "merged_{sample}.faa"
     output:
         outfile=mafft_dir_path / "{sample}.faa"
     params:
@@ -72,4 +82,4 @@ rule mafft_protein:
     threads:
         config["mafft_threads"]
     shell:
-        "{params.mafft_path}/mafft --anysymbol --thread {threads} {input.fna} > {output.outfile} 2> {log.std}"
+        "{params.mafft_path}/mafft --anysymbol --thread {threads} {input.faa} > {output.outfile} 2> {log.std}"
