@@ -67,7 +67,7 @@ rule mafft_protein:
     output:
         outfile=mafft_dir_path / "{sample}.faa"
     params:
-        faa = expand("merged_sequences_tmp/merged_{sample}.faa", sample = [os.path.splitext(filename)[0] for filename in os.listdir(rules.tmp.output)]),
+        faa = expand("merged_sequences_tmp/merged_{sample}.faa", sample = rules.tmp.output),
         mafft_path=config["mafft_path"]
     log:
         std=log_dir_path / "{sample}.faa.mafft.log",
