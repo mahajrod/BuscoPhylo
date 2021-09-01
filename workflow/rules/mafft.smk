@@ -45,10 +45,8 @@ def mafft_protein_input(wildcards):
 
 rule tmp:
     input:
-        fna=mafft_dna_input,
-        faa=mafft_protein_input
-        # fna = busco_dir_path / "merged_sequences" / "merged_{sample}.fna",
-        # faa=busco_dir_path / "merged_sequences" / "merged_{sample}.faa"
+        fna = busco_dir_path / "merged_sequences" / "merged_{sample}.fna",
+        faa=busco_dir_path / "merged_sequences" / "merged_{sample}.faa"
     output:
         fna="merged_sequences_tmp/{sample}.fna",
         faa="merged_sequences_tmp/{sample}.faa"
