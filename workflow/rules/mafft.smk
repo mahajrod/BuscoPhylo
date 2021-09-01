@@ -47,7 +47,7 @@ rule mafft_dna:
     threads:
         config["mafft_threads"]
     shell:
-        "{params.mafft_path}/mafft --thread {threads} {input.fna} > {output.outfile}"# 2> {log.std}"
+        "{params.mafft_path}/mafft --thread {threads} {input.fna} > {output.outfile} 2> {log.std}"
 
 
 rule mafft_protein:
@@ -72,6 +72,6 @@ rule mafft_protein:
     threads:
         config["mafft_threads"]
     shell:
-        "{params.mafft_path}/mafft --anysymbol --thread {threads} {input.fna} > {output.outfile}"# 2> {log.std}"
+        "{params.mafft_path}/mafft --anysymbol --thread {threads} {input.fna} > {output.outfile} 2> {log.std}"
 
 
