@@ -1,4 +1,4 @@
-localrules: merged_sequences
+localrules: merged_sequences, tmp
 ruleorder: merged_sequences > tmp > mafft_dna > mafft_protein
 
 checkpoint merged_sequences:
