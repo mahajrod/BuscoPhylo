@@ -37,11 +37,11 @@ rule tmp:
 
 rule mafft_dna:
     input:
-        # directory("merged_sequences_tmp"),
-        fna = "merged_sequences_tmp/merged_{sample}.fna"
+        directory("merged_sequences_tmp")
     output:
         outfile=mafft_dir_path / "{sample}.fna"
     params:
+        fna = "merged_sequences_tmp/merged_{sample}.fna",
         mafft_path=config["mafft_path"]
     log:
         std=log_dir_path / "{sample}.fna.mafft.log",
@@ -58,16 +58,16 @@ rule mafft_dna:
     threads:
         config["mafft_threads"]
     shell:
-        "{params.mafft_path}/mafft --thread {threads} {input.fna} > {output.outfile} 2> {log.std}"
+        "{params.mafft_path}/mafft --thread {threads} {params.fna} > {output.outfile} 2> {log.std}"
 
 
 rule mafft_protein:
     input:
-        # directory("merged_sequences_tmp"),
-        faa= "merged_sequences_tmp/merged_{sample}.faa"
+        directory("merged_sequences_tmp")
     output:
         outfile=mafft_dir_path / "{sample}.faa"
     params:
+        faa = "merged_sequences_tmp/merged_{sample}.faa",
         mafft_path=config["mafft_path"]
     log:
         std=log_dir_path / "{sample}.faa.mafft.log",
@@ -84,4 +84,4 @@ rule mafft_protein:
     threads:
         config["mafft_threads"]
     shell:
-        "{params.mafft_path}/mafft --anysymbol --thread {threads} {input.faa} > {output.outfile} 2> {log.std}"
+        "{params.mafft_path}/mafft --anysymbol --thread {threads} {params.faa} > {output.outfile} 2> {log.std}"
