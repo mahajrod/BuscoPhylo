@@ -37,6 +37,7 @@ rule tmp:
 
 rule mafft_dna:
     input:
+        directory("merged_sequences_tmp"),
         fna = "merged_sequences_tmp" / "merged_{sample}.fna"
     output:
         outfile=mafft_dir_path / "{sample}.fna"
@@ -62,6 +63,7 @@ rule mafft_dna:
 
 rule mafft_protein:
     input:
+        directory("merged_sequences_tmp"),
         faa= "merged_sequences_tmp" / "merged_{sample}.faa"
     output:
         outfile=mafft_dir_path / "{sample}.faa"
