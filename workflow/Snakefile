@@ -42,10 +42,8 @@ rule all:
         directory(busco_dir_path / "merged_sequences"),
 
         # mafft:
-        # mafft_dna_input,
-        # mafft_protein_input,
-        # directory("merged_sequences_tmp")
-        "finished.txt"
+        mafft_dna_input,
+        mafft_protein_input
 
 #---- load rules ----
 include: "rules/busco.smk"
