@@ -106,3 +106,12 @@ rule mafft_protein:
         config["mafft_threads"]
     shell:
         "{params.mafft_path}/mafft --anysymbol --thread {threads} {params.faa} > {output.outfile} 2> {log.std}"
+
+rule finished:
+    input:
+        mafft_dna_input,
+        mafft_protein_input
+    output:
+        "finished.txt"
+    shell:
+        "touch {output}"
