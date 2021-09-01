@@ -30,14 +30,14 @@ rule tmp:
         fna = busco_dir_path / "merged_sequences" / "merged_{sample}.fna",
         faa=busco_dir_path / "merged_sequences" / "merged_{sample}.faa"
     output:
-        directory(busco_dir_path / "merged_sequences_tmp")
+        directory("merged_sequences_tmp")
     shell:
         "mv {input.faa} {output}; "
         "mv {input.fna} {output} "
 
 rule mafft_dna:
     input:
-        fna = busco_dir_path / "merged_sequences_tmp" / "merged_{sample}.fna"
+        fna = "merged_sequences_tmp" / "merged_{sample}.fna"
     output:
         outfile=mafft_dir_path / "{sample}.fna"
     params:
@@ -62,7 +62,7 @@ rule mafft_dna:
 
 rule mafft_protein:
     input:
-        faa=busco_dir_path / "merged_sequences_tmp" / "merged_{sample}.faa"
+        faa= "merged_sequences_tmp" / "merged_{sample}.faa"
     output:
         outfile=mafft_dir_path / "{sample}.faa"
     params:
