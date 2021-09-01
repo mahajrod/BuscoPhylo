@@ -70,7 +70,7 @@ rule mafft_dna:
     threads:
         config["mafft_threads"]
     shell:
-        "{params.mafft_path}/mafft --thread {threads} /mnt/tank/scratch/atomarovsky/BuscoPhylo/{params.fna} > /mnt/tank/scratch/atomarovsky/BuscoPhylo/{output.outfile} 2> {log.std}"
+        "{params.mafft_path}/mafft --thread {threads} /mnt/tank/scratch/atomarovsky/BuscoPhylo/{params.fna} > /mnt/tank/scratch/atomarovsky/BuscoPhylo/{output.outfile} 2> /mnt/tank/scratch/atomarovsky/BuscoPhylo/{log.std}"
 
 
 rule mafft_protein:
@@ -96,7 +96,7 @@ rule mafft_protein:
     threads:
         config["mafft_threads"]
     shell:
-        "{params.mafft_path}/mafft --anysymbol --thread {threads} /mnt/tank/scratch/atomarovsky/BuscoPhylo/{params.faa} > /mnt/tank/scratch/atomarovsky/BuscoPhylo/{output.outfile} 2> {log.std}"
+        "{params.mafft_path}/mafft --anysymbol --thread {threads} /mnt/tank/scratch/atomarovsky/BuscoPhylo/{params.faa} > /mnt/tank/scratch/atomarovsky/BuscoPhylo/{output.outfile} 2> /mnt/tank/scratch/atomarovsky/BuscoPhylo/{log.std}"
 
 rule finished:
     input:
