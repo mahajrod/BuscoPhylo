@@ -43,7 +43,7 @@ rule all:
 
         # mafft:
         mafft_dna_input,
-        mafft_protein_input
+        # mafft_protein_input
 
 #---- load rules ----
 include: "rules/busco.smk"
