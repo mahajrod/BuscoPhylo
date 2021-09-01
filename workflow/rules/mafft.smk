@@ -24,13 +24,6 @@ checkpoint merged_sequences:
         "--single_copy_files {params.single_copy_files} "
         "--outdir {output.merged_ids} 2> {log.std}"
 
-def mafft_input(wildcards):
-    checkpoint_output = checkpoints.merged_sequences.get(**wildcards).output[0]
-    file_names = expand(mafft_dir_path / "{sample}.{extension}",
-                        sample = glob_wildcards(os.path.join(checkpoint_output, "merged_{sample}.{extension}")).sample,
-                        extension = ["fna", "faa"])
-    return file_names
-
 def mafft_dna_input(wildcards):
     checkpoint_output = checkpoints.merged_sequences.get(**wildcards).output[0]
     file_names = expand(mafft_dir_path / "{sample}.fna",
