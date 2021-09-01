@@ -31,16 +31,30 @@ def mafft_input(wildcards):
                         extension = ["fna", "faa"])
     return file_names
 
+def mafft_dna_input(wildcards):
+    checkpoint_output = checkpoints.merged_sequences.get(**wildcards).output[0]
+    file_names = expand(mafft_dir_path / "{sample}.fna",
+                        sample = glob_wildcards(os.path.join(checkpoint_output, "merged_{sample}.fna")).sample)
+    return file_names
+
+def mafft_protein_input(wildcards):
+    checkpoint_output = checkpoints.merged_sequences.get(**wildcards).output[0]
+    file_names = expand(mafft_dir_path / "{sample}.faa",
+                        sample = glob_wildcards(os.path.join(checkpoint_output, "merged_{sample}.faa")).sample)
+    return file_names
+
 rule tmp:
     input:
-        mafft_input
+        fna=mafft_dna_input,
+        faa=mafft_protein_input
         # fna = busco_dir_path / "merged_sequences" / "merged_{sample}.fna",
         # faa=busco_dir_path / "merged_sequences" / "merged_{sample}.faa"
     output:
-        directory("merged_sequences_tmp")
+        fna="merged_sequences_tmp/{sample}.fna",
+        faa="merged_sequences_tmp/{sample}.faa"
     shell:
-        "mv {input} {output}; "
-        # "mv {input.fna} {output} "
+        "mv {input.fna} {output.fna}; "
+        "mv {input.faa} {output.faa} "
 
 rule mafft_dna:
     input:
