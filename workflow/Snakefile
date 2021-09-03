@@ -21,6 +21,11 @@ if "species_list" not in config:
     config["species_list"] = [d.name[:-6] for d in genome_dir_path.iterdir() if d.is_file()]
 
 #---- necessary functions ----
+def expand_template_from_bin_clusters(wildcards, template):
+    checkpoint_output = checkpoints.merged_sequences.get(**wildcards).output[0]
+    sample, = glob_wildcards(os.path.join(checkpoint_output, "merged_{sample}.fna"))
+    return expand(str(template), sample=sample)
+
 # def mafft_dna_input(wildcards):
 #     checkpoint_output = checkpoints.merged_sequences.get(**wildcards).output[0]
 #     file_names = expand(mafft_dir_path / "{sample}.fna",
@@ -49,36 +54,6 @@ if "species_list" not in config:
 
 localrules: all
 
-# if os.path.exists(merged_sequences_dir_path):
-#     rule get_sample_names:
-#         input:
-#             expand(mafft_dir_path / "{sample}.{extension}",
-#                 sample=[os.path.splitext(filename)[0] for filename in os.listdir(merged_sequences_dir_path)],
-#                 extension=["fna", "faa"])
-
-rule merged_sequences:
-    input:
-        common_ids=busco_dir_path / "single_copy_busco_sequences.common.ids"
-    output:
-        merged_ids=directory(merged_sequences_dir_path)
-    params:
-        single_copy_files=expand(busco_dir_path / "{species}" / "single_copy_busco_sequences", species=config["species_list"])
-    log:
-        std=log_dir_path / "merged_ids.log",
-        cluster_log=cluster_log_dir_path / "merged_ids.cluster.log",
-        cluster_err=cluster_log_dir_path / "merged_ids.cluster.err"
-    benchmark:
-        benchmark_dir_path / "merged_ids.benchmark.txt"
-    resources:
-        cpus=config["common_ids_threads"],
-        time=config["common_ids_threads"],
-        mem=config["common_ids_threads"]
-    shell:
-        "workflow/scripts/merged_sequences.py "
-        "--input {input.common_ids} "
-        "--single_copy_files {params.single_copy_files} "
-        "--outdir {output.merged_ids} 2> {log.std}"
-
 rule all:
     input:
         # busco:
@@ -87,8 +62,7 @@ rule all:
         directory(merged_sequences_dir_path),
 
         # mafft:
-        expand(mafft_dir_path / "{sample}.fna", sample = [
-            os.path.splitext(filename)[0] for filename in os.listdir(rules.merged_sequences.output.merged_ids)])
+        lambda w: expand_template_from_bin_clusters(w,merged_sequences_dir_path / "merged_{sample}.fna"),
 
         # mafft_dna_input,
         # mafft_protein_input,
