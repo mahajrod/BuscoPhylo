@@ -21,36 +21,10 @@ if "species_list" not in config:
     config["species_list"] = [d.name[:-6] for d in genome_dir_path.iterdir() if d.is_file()]
 
 #---- necessary functions ----
-def expand_template_from_bin_clusters(wildcards, template):
+def expand_template_from_merged_sequences(wildcards, template):
     checkpoint_output = checkpoints.merged_sequences.get(**wildcards).output[0]
-    sample_ids, = glob_wildcards(os.path.join(checkpoint_output, "merged_{sample}.fna"))
-    return expand(str(template), sample=sample_ids)
-
-# def mafft_dna_input(wildcards):
-#     checkpoint_output = checkpoints.merged_sequences.get(**wildcards).output[0]
-#     file_names = expand(mafft_dir_path / "{sample}.fna",
-#                         sample = glob_wildcards(os.path.join(checkpoint_output, "merged_{sample}.fna")).sample)
-#     return file_names
-#
-# def mafft_protein_input(wildcards):
-#     checkpoint_output = checkpoints.merged_sequences.get(**wildcards).output[0]
-#     file_names = expand(mafft_dir_path / "{sample}.faa",
-#                         sample = glob_wildcards(os.path.join(checkpoint_output, "merged_{sample}.faa")).sample)
-#     return file_names
-#
-# def gblocks_dna_input(wildcards):
-#     checkpoint_output = checkpoints.merged_sequences.get(**wildcards).output[0]
-#     file_names = expand(gblocks_dir_path / "{sample}.fna-{extension}",
-#                         sample = glob_wildcards(os.path.join(checkpoint_output, "merged_{sample}.fna")).sample,
-#                         extension = ["gb", "gb.txt"])
-#     return file_names
-#
-# def gblocks_protein_input(wildcards):
-#     checkpoint_output = checkpoints.merged_sequences.get(**wildcards).output[0]
-#     file_names = expand(gblocks_dir_path / "{sample}.faa-{extension}",
-#                         sample = glob_wildcards(os.path.join(checkpoint_output, "merged_{sample}.faa")).sample,
-#                         extension = ["gb", "gb.txt"])
-#     return file_names
+    sample, = glob_wildcards(os.path.join(checkpoint_output, "merged_{sample}.fna"))
+    return expand(str(template), sample=sample)
 
 localrules: all
 
@@ -62,14 +36,12 @@ rule all:
         directory(merged_sequences_dir_path),
 
         # mafft:
-        lambda w: expand_template_from_bin_clusters(w, mafft_dir_path / "{sample}.fna"),
-
-        # mafft_dna_input,
-        # mafft_protein_input,
+        lambda w: expand_template_from_merged_sequences(w, mafft_dir_path / "{sample}.fna"),
+        lambda w: expand_template_from_merged_sequences(w, mafft_dir_path / "{sample}.faa"),
 
         # gblocks:
-        # gblocks_dna_input,
-        # gblocks_protein_input
+        lambda w: expand_template_from_merged_sequences(w, gblocks_dir_path / "{sample}.fna-gb"),
+        lambda w: expand_template_from_merged_sequences(w, gblocks_dir_path / "{sample}.faa-gb"),
 
 #---- load rules ----
 include: "rules/busco.smk"
