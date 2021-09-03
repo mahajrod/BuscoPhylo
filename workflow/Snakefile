@@ -12,6 +12,7 @@ benchmark_dir_path = Path(config["benchmark_dir"])
 output_dir_path = Path(config["output_dir"])
 
 busco_dir_path = output_dir_path / config["busco_dir"]
+merged_sequences_dir_path = busco_dir_path / config["merged_sequences_dir"]
 mafft_dir_path = output_dir_path / config["mafft_dir"]
 gblocks_dir_path = output_dir_path / config["gblocks_dir"]
 
@@ -20,48 +21,57 @@ if "species_list" not in config:
     config["species_list"] = [d.name[:-6] for d in genome_dir_path.iterdir() if d.is_file()]
 
 #---- necessary functions ----
-def mafft_dna_input(wildcards):
-    checkpoint_output = checkpoints.merged_sequences.get(**wildcards).output[0]
-    file_names = expand(mafft_dir_path / "{sample}.fna",
-                        sample = glob_wildcards(os.path.join(checkpoint_output, "merged_{sample}.fna")).sample)
-    return file_names
+# def mafft_dna_input(wildcards):
+#     checkpoint_output = checkpoints.merged_sequences.get(**wildcards).output[0]
+#     file_names = expand(mafft_dir_path / "{sample}.fna",
+#                         sample = glob_wildcards(os.path.join(checkpoint_output, "merged_{sample}.fna")).sample)
+#     return file_names
+#
+# def mafft_protein_input(wildcards):
+#     checkpoint_output = checkpoints.merged_sequences.get(**wildcards).output[0]
+#     file_names = expand(mafft_dir_path / "{sample}.faa",
+#                         sample = glob_wildcards(os.path.join(checkpoint_output, "merged_{sample}.faa")).sample)
+#     return file_names
+#
+# def gblocks_dna_input(wildcards):
+#     checkpoint_output = checkpoints.merged_sequences.get(**wildcards).output[0]
+#     file_names = expand(gblocks_dir_path / "{sample}.fna-{extension}",
+#                         sample = glob_wildcards(os.path.join(checkpoint_output, "merged_{sample}.fna")).sample,
+#                         extension = ["gb", "gb.txt"])
+#     return file_names
+#
+# def gblocks_protein_input(wildcards):
+#     checkpoint_output = checkpoints.merged_sequences.get(**wildcards).output[0]
+#     file_names = expand(gblocks_dir_path / "{sample}.faa-{extension}",
+#                         sample = glob_wildcards(os.path.join(checkpoint_output, "merged_{sample}.faa")).sample,
+#                         extension = ["gb", "gb.txt"])
+#     return file_names
 
-def mafft_protein_input(wildcards):
-    checkpoint_output = checkpoints.merged_sequences.get(**wildcards).output[0]
-    file_names = expand(mafft_dir_path / "{sample}.faa",
-                        sample = glob_wildcards(os.path.join(checkpoint_output, "merged_{sample}.faa")).sample)
-    return file_names
-
-def gblocks_dna_input(wildcards):
-    checkpoint_output = checkpoints.merged_sequences.get(**wildcards).output[0]
-    file_names = expand(gblocks_dir_path / "{sample}.fna-{extension}",
-                        sample = glob_wildcards(os.path.join(checkpoint_output, "merged_{sample}.fna")).sample,
-                        extension = ["gb", "gb.txt"])
-    return file_names
-
-def gblocks_protein_input(wildcards):
-    checkpoint_output = checkpoints.merged_sequences.get(**wildcards).output[0]
-    file_names = expand(gblocks_dir_path / "{sample}.faa-{extension}",
-                        sample = glob_wildcards(os.path.join(checkpoint_output, "merged_{sample}.faa")).sample,
-                        extension = ["gb", "gb.txt"])
-    return file_names
-
-localrules: all
+localrules: all, get_sample_names
 
 rule all:
     input:
         # busco:
         expand(busco_dir_path / "{species}/short_summary_{species}.txt", species=config["species_list"]),
         busco_dir_path / "single_copy_busco_sequences.common.ids",
-        directory(busco_dir_path / "merged_sequences"),
+        directory(merged_sequences_dir_path),
 
         # mafft:
-        mafft_dna_input,
-        mafft_protein_input,
+
+
+        # mafft_dna_input,
+        # mafft_protein_input,
 
         # gblocks:
-        gblocks_dna_input,
-        gblocks_protein_input
+        # gblocks_dna_input,
+        # gblocks_protein_input
+
+if os.path.exists(merged_sequences):
+    rule get_sample_names:
+        input:
+            expand(mafft_dir_path / "{sample}.{extension}",
+                sample=[os.path.splitext(filename)[0] for filename in os.listdir(merged_sequences)],
+                extension=["fna, faa"])
 
 #---- load rules ----
 include: "rules/busco.smk"

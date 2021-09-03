@@ -9,6 +9,7 @@ cluster_log_dir: "cluster_logs"
 busco_dir: "busco"
 mafft_dir: "mafft"
 gblocks_dir: "gblocks"
+merged_sequences_dir: "merged_sequences"
 benchmark_dir: "benchmarks"
 
 #---- Tool threads ----
