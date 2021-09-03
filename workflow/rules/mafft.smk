@@ -1,5 +1,5 @@
 localrules: merged_sequences
-ruleorder: merged_sequences > mafft_dna > mafft_protein
+# ruleorder: merged_sequences > mafft_dna > mafft_protein
 
 # rule merged_sequences:
 #     input:
