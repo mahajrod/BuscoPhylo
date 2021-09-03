@@ -60,7 +60,7 @@ rule all:
 
         # gblocks:
         gblocks_dna_input,
-        # gblocks_protein_input
+        gblocks_protein_input
 
 #---- load rules ----
 include: "rules/busco.smk"
