@@ -54,7 +54,7 @@ if os.path.exists(merged_sequences_dir_path):
         input:
             expand(mafft_dir_path / "{sample}.{extension}",
                 sample=[os.path.splitext(filename)[0] for filename in os.listdir(merged_sequences_dir_path)],
-                extension=["fna, faa"])
+                extension=["fna", "faa"])
 
 rule all:
     input:
