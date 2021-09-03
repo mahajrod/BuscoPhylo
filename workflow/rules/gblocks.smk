@@ -2,6 +2,7 @@ rule gblocks_dna:
     input:
         fna=mafft_dir_path / "{sample}.fna"
     output:
+        gblocks_dir=directory(gblocks_dir_path),
         gb=gblocks_dir_path / "{sample}.fna-gb",
         gb_txt=gblocks_dir_path / "{sample}.fna-gb.txt"
     params:
