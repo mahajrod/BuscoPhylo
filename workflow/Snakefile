@@ -16,6 +16,8 @@ merged_sequences_dir_path = busco_dir_path / config["merged_sequences_dir"]
 mafft_dir_path = output_dir_path / config["mafft_dir"]
 gblocks_dir_path = output_dir_path / config["gblocks_dir"]
 
+MAFFT_SAMPLE_FNA = mafft_dir_path / "{sample}.fna"
+MAFFT_SAMPLE_FAA = mafft_dir_path / "{sample}.faa"
 
 if "species_list" not in config:
     config["species_list"] = [d.name[:-6] for d in genome_dir_path.iterdir() if d.is_file()]
@@ -36,8 +38,8 @@ rule all:
         directory(merged_sequences_dir_path),
 
         # mafft:
-        lambda w: expand_template_from_merged_sequences(w, mafft_dir_path / "{sample}.fna"),
-        lambda w: expand_template_from_merged_sequences(w, mafft_dir_path / "{sample}.faa"),
+        lambda w: expand_template_from_merged_sequences(w, MAFFT_SAMPLE_FNA),
+        lambda w: expand_template_from_merged_sequences(w, MAFFT_SAMPLE_FAA),
 
         # gblocks:
         lambda w: expand_template_from_merged_sequences(w, gblocks_dir_path / "{sample}.fna-gb"),
