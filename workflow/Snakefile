@@ -44,6 +44,7 @@ def gblocks_protein_input(wildcards):
     file_names = expand(gblocks_dir_path / "{sample}.faa-{extension}",
                         sample = glob_wildcards(os.path.join(checkpoint_output, "merged_{sample}.faa")).sample,
                         extension = ["gb", "gb.txt"])
+    return file_names
 
 localrules: all
 
