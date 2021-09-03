@@ -22,6 +22,7 @@ rule gblocks_dna:
     # threads:
     #     config["gblocks_threads"]
     shell:
+        "mkdir -p {output.gblocks_dir}; "
         "{params.gblocks_path}/Gblocks {input.fna} -t=d -p=t 1> {log.std}; "
-        "mv {input.fna}-gb {output.gb};"
+        "mv {input.fna}-gb {output.gb}; "
         "mv {input.fna}-gb.txt {output.gb_txt}"
