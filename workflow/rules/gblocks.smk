@@ -30,7 +30,7 @@ rule gblocks_dna:
 
 rule gblocks_protein:
     input:
-        fna=mafft_dir_path / "{sample}.faa"
+        faa=mafft_dir_path / "{sample}.faa"
     output:
         gb=gblocks_dir_path / "{sample}.faa-gb",
         gb_txt=gblocks_dir_path / "{sample}.faa-gb.txt"
