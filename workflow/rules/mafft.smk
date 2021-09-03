@@ -32,8 +32,8 @@ rule combine_samples:
         fna=temp("fna.txt"),
         faa=temp("faa.txt"),
     shell:
-        "cat {input.fna} > {output.fna}"
-        "cat {input.faa} > {output.faa}"
+        "echo {input.fna} > {output.fna}"
+        "echo {input.faa} > {output.faa}"
 
 rule mafft_dna:
     input:
