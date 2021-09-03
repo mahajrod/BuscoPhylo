@@ -1,4 +1,4 @@
-localrules: merged_sequences, combine_samples
+localrules: merged_sequences
 
 
 checkpoint merged_sequences:
@@ -24,20 +24,9 @@ checkpoint merged_sequences:
         "--single_copy_files {params.single_copy_files} "
         "--outdir {output.merged_ids} 2> {log.std}"
 
-rule combine_samples:
-    input:
-        fna=lambda w: expand_template_from_merged_sequences(w, merged_sequences_dir_path / "merged_{sample}.fna"),
-        faa=lambda w: expand_template_from_merged_sequences(w, merged_sequences_dir_path / "merged_{sample}.faa"),
-    output:
-        fna=temp("fna.txt"),
-        faa=temp("faa.txt"),
-    shell:
-        "echo {input.fna} > {output.fna}; "
-        "echo {input.faa} > {output.faa}; "
 
 rule mafft_dna:
     input:
-        f=rules.combine_samples.output.fna,
         fna=merged_sequences_dir_path / "merged_{sample}.fna"
     output:
         outfile=mafft_dir_path / "{sample}.fna"
@@ -63,7 +52,6 @@ rule mafft_dna:
 
 rule mafft_protein:
     input:
-        f = rules.combine_samples.output.faa,
         faa=merged_sequences_dir_path / "merged_{sample}.faa"
     output:
         outfile=mafft_dir_path / "{sample}.faa"
