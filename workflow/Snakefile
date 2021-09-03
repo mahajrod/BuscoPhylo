@@ -40,8 +40,8 @@ rule all:
         lambda w: expand_template_from_merged_sequences(w, mafft_dir_path / "{sample}.faa"),
 
         # gblocks:
-        lambda w: expand_template_from_merged_sequences(w, gblocks_dir_path / "{sample}.fna-gb"),
-        lambda w: expand_template_from_merged_sequences(w, gblocks_dir_path / "{sample}.faa-gb"),
+        # lambda w: expand_template_from_merged_sequences(w, gblocks_dir_path / "{sample}.fna-gb"),
+        # lambda w: expand_template_from_merged_sequences(w, gblocks_dir_path / "{sample}.faa-gb"),
 
 #---- load rules ----
 include: "rules/busco.smk"
