@@ -5,9 +5,7 @@ rule gblocks_dna:
         gb=gblocks_dir_path / "{sample}.fna-gb",
         gb_txt=gblocks_dir_path / "{sample}.fna-gb.txt"
     params:
-        gblocks_path=config["gblocks_path"],
-        gb_tmp=mafft_dir_path / "{sample}.fna-gb",
-        gb_txt_tmp=mafft_dir_path / "{sample}.fna-gb.txt"
+        gblocks_path=config["gblocks_path"]
     log:
         std=log_dir_path / "{sample}.fna.gblocks.log",
         cluster_log=cluster_log_dir_path / "{sample}.fna.gblocks.cluster.log",
@@ -24,5 +22,5 @@ rule gblocks_dna:
     #     config["gblocks_threads"]
     shell:
         "{params.gblocks_path}/Gblocks {input.fna} -t=d -p=t 1> {log.std}; "
-        "mv {params.gb_tmp} {output.gb};"
-        "mv {params.gb_txt_tmp} {output.gb_txt}"
+        "mv {input.fna}-gb {output.gb};"
+        "mv {input.fna}-gb.txt {output.gb_txt}"
