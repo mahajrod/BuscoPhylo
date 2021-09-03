@@ -27,7 +27,6 @@ checkpoint merged_sequences:
 
 rule mafft_dna:
     input:
-        dir=rules.merged_sequences.output.merged_ids,
         fna=merged_sequences_dir_path / "merged_{sample}.fna"
     output:
         outfile=mafft_dir_path / "{sample}.fna"
