@@ -1,5 +1,5 @@
 localrules: merged_sequences
-
+ruleorder: merged_sequences > mafft_dna > mafft_protein
 
 rule merged_sequences:
     input:
@@ -27,6 +27,7 @@ rule merged_sequences:
 
 rule mafft_dna:
     input:
+        dir=rules.merged_sequences.output.merged_ids,
         fna=merged_sequences_dir_path / "merged_{sample}.fna"
     output:
         outfile=mafft_dir_path / "{sample}.fna"
@@ -50,28 +51,28 @@ rule mafft_dna:
         "{params.mafft_path}/mafft --thread {threads} {input.fna} > {output.outfile} 2> {log.std}"
 
 
-rule mafft_protein:
-    input:
-        fna=merged_sequences_dir_path / "merged_{sample}.faa"
-    output:
-        outfile=mafft_dir_path / "{sample}.faa"
-    params:
-        mafft_path=config["mafft_path"]
-    log:
-        std=log_dir_path / "{sample}.faa.mafft.log",
-        cluster_log=cluster_log_dir_path / "{sample}.faa.mafft.cluster.log",
-        cluster_err=cluster_log_dir_path / "{sample}.faa.mafft.cluster.err"
-    benchmark:
-        benchmark_dir_path / "{sample}.faa.mafft.benchmark.txt"
-    # conda:
-    #     "../../%s" % config["conda_config"]
-    resources:
-        cpus=config["mafft_threads"],
-        time=config["mafft_time"],
-        mem=config["mafft_mem_mb"]
-    threads:
-        config["mafft_threads"]
-    shell:
-        "{params.mafft_path}/mafft --anysymbol --thread {threads} {input.fna} > {output.outfile} 2> {log.std}"
+# rule mafft_protein:
+#     input:
+#         faa=merged_sequences_dir_path / "merged_{sample}.faa"
+#     output:
+#         outfile=mafft_dir_path / "{sample}.faa"
+#     params:
+#         mafft_path=config["mafft_path"]
+#     log:
+#         std=log_dir_path / "{sample}.faa.mafft.log",
+#         cluster_log=cluster_log_dir_path / "{sample}.faa.mafft.cluster.log",
+#         cluster_err=cluster_log_dir_path / "{sample}.faa.mafft.cluster.err"
+#     benchmark:
+#         benchmark_dir_path / "{sample}.faa.mafft.benchmark.txt"
+#     # conda:
+#     #     "../../%s" % config["conda_config"]
+#     resources:
+#         cpus=config["mafft_threads"],
+#         time=config["mafft_time"],
+#         mem=config["mafft_mem_mb"]
+#     threads:
+#         config["mafft_threads"]
+#     shell:
+#         "{params.mafft_path}/mafft --anysymbol --thread {threads} {input.faa} > {output.outfile} 2> {log.std}"
 
 

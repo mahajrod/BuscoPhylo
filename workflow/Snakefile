@@ -47,14 +47,14 @@ if "species_list" not in config:
 #                         extension = ["gb", "gb.txt"])
 #     return file_names
 
-localrules: all, get_sample_names
+localrules: all
 
-if os.path.exists(merged_sequences_dir_path):
-    rule get_sample_names:
-        input:
-            expand(mafft_dir_path / "{sample}.{extension}",
-                sample=[os.path.splitext(filename)[0] for filename in os.listdir(merged_sequences_dir_path)],
-                extension=["fna", "faa"])
+# if os.path.exists(merged_sequences_dir_path):
+#     rule get_sample_names:
+#         input:
+#             expand(mafft_dir_path / "{sample}.{extension}",
+#                 sample=[os.path.splitext(filename)[0] for filename in os.listdir(merged_sequences_dir_path)],
+#                 extension=["fna", "faa"])
 
 rule all:
     input:
@@ -64,7 +64,8 @@ rule all:
         directory(merged_sequences_dir_path),
 
         # mafft:
-
+        expand(mafft_dir_path / "{sample}.fna", sample = [
+            os.path.splitext(filename)[0] for filename in os.listdir(rules.merged_sequences.output.merged_ids)])
 
         # mafft_dna_input,
         # mafft_protein_input,
