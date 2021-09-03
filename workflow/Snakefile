@@ -49,6 +49,13 @@ if "species_list" not in config:
 
 localrules: all, get_sample_names
 
+if os.path.exists(merged_sequences_dir_path):
+    rule get_sample_names:
+        input:
+            expand(mafft_dir_path / "{sample}.{extension}",
+                sample=[os.path.splitext(filename)[0] for filename in os.listdir(merged_sequences_dir_path)],
+                extension=["fna, faa"])
+
 rule all:
     input:
         # busco:
@@ -66,12 +73,6 @@ rule all:
         # gblocks_dna_input,
         # gblocks_protein_input
 
-if os.path.exists(merged_sequences_dir_path):
-    rule get_sample_names:
-        input:
-            expand(mafft_dir_path / "{sample}.{extension}",
-                sample=[os.path.splitext(filename)[0] for filename in os.listdir(merged_sequences_dir_path)],
-                extension=["fna, faa"])
 
 #---- load rules ----
 include: "rules/busco.smk"
