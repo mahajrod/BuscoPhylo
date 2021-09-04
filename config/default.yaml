@@ -30,10 +30,12 @@ mafft_time: "60:00:00"
 gblocks_time: "60:00:00"
 common_ids_time: "00:30:00"
 
-#---- Tool variables ----
+#---- Tool paths ----
 busco_path:
-busco_mode: "genome"
-augustus_species: "human"
 busco_dataset_path:
 mafft_path:
 gblocks_path:
+
+#---- Tool variables ----
+busco_mode: "genome"
+augustus_species: "human"
