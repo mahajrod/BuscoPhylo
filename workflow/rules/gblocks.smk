@@ -5,8 +5,9 @@ rule gblocks_dna:
         gb=gblocks_dir_path / "{sample}.fna-gb",
         gb_txt=gblocks_dir_path / "{sample}.fna-gb.txt"
     params:
+        gblocks_dir = directory(gblocks_dir_path),
         gblocks_path=config["gblocks_path"],
-        gblocks_dir=directory(gblocks_dir_path)
+        gblocks_flags="-t=d -p=t"
     log:
         std=log_dir_path / "{sample}.fna.gblocks.log",
         cluster_log=cluster_log_dir_path / "{sample}.fna.gblocks.cluster.log",
@@ -19,11 +20,9 @@ rule gblocks_dna:
         cpus=config["gblocks_threads"],
         time=config["gblocks_time"],
         mem=config["gblocks_mem_mb"]
-    # threads:
-    #     config["gblocks_threads"]
     shell:
         "mkdir -p {params.gblocks_dir}; "
-        "{params.gblocks_path}/Gblocks {input.fna} -t=d -p=t 1> {log.std}; "
+        "{params.gblocks_path}/Gblocks {input.fna} {params.gblocks_flags} 1> {log.std}; "
         "mv {input.fna}-gb {output.gb}; "
         "mv {input.fna}-gb.txt {output.gb_txt}"
 
@@ -35,8 +34,9 @@ rule gblocks_protein:
         gb=gblocks_dir_path / "{sample}.faa-gb",
         gb_txt=gblocks_dir_path / "{sample}.faa-gb.txt"
     params:
+        gblocks_dir = directory(gblocks_dir_path),
         gblocks_path=config["gblocks_path"],
-        gblocks_dir=directory(gblocks_dir_path)
+        gblocks_flags="-t=p -p=t"
     log:
         std=log_dir_path / "{sample}.faa.gblocks.log",
         cluster_log=cluster_log_dir_path / "{sample}.faa.gblocks.cluster.log",
@@ -49,10 +49,8 @@ rule gblocks_protein:
         cpus=config["gblocks_threads"],
         time=config["gblocks_time"],
         mem=config["gblocks_mem_mb"]
-    # threads:
-    #     config["gblocks_threads"]
     shell:
         "mkdir -p {params.gblocks_dir}; "
-        "{params.gblocks_path}/Gblocks {input.faa} -t=d -p=t 1> {log.std}; "
+        "{params.gblocks_path}/Gblocks {input.faa} {params.gblocks_flags} 1> {log.std}; "
         "mv {input.faa}-gb {output.gb}; "
         "mv {input.faa}-gb.txt {output.gb_txt}"
