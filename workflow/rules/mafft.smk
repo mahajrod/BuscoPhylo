@@ -32,16 +32,14 @@ def expand_template_from_merged_sequences(wildcards, template):
 
 def template_from_merged_sequences(wildcards):
     checkpoint_output = checkpoints.merged_sequences.get(**wildcards).output[0]
-    sample = glob_wildcards(os.path.join(checkpoint_output,"merged_{sample}.fna")).sample
-    return sample
-    # return expand(mafft_dir_path / "{sample}.fna",
-           # sample=glob_wildcards(os.path.join(checkpoint_output, "merged_{sample}.fna")).sample)  #wildcards.sample),
+    return expand(merged_sequences_dir_path / "merged_{sample}.fna",
+           sample=glob_wildcards(os.path.join(checkpoint_output, "merged_{sample}.fna")).sample)  #wildcards.sample),
            # scaffold=glob_wildcards(os.path.join(checkpoint_output, "{scaffold}.fasta")).scaffold)
 
 rule mafft_dna:
     input:
         # fna=merged_sequences_dir_path / "merged_{sample}.fna"
-        fna=expand(merged_sequences_dir_path / "merged_{sample}.fna", sample=template_from_merged_sequences)
+        fna=template_from_merged_sequences
     output:
         outfile=mafft_dir_path / "{sample}.fna"
     params:
@@ -93,7 +91,7 @@ rule mafft_protein:
 rule mafft_crutch:
     input:
         fna=mafft_dir_path / "{sample}.fna",
-        faa=mafft_dir_path / "{sample}.faa"
+        # faa=mafft_dir_path / "{sample}.faa"
     output:
         "tmp.txt"
     shell:
