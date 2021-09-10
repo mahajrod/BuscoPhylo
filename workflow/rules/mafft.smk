@@ -83,16 +83,8 @@ rule mafft_protein:
 
 rule mafft_crutch:
     input:
-        fna=lambda w: expand_template_from_merged_sequences(w, mafft_dir_path / "{sample}.fna"),
-    output:
-        merged_sequences_dir_path / "merged_{sample}.fna"
-    shell:
-        "touch {output}"
-
-rule mafft_crutch_2:
-    params:
-        rules.mafft_dna.output.outfile
+        lambda w: expand_template_from_merged_sequences(w, mafft_dir_path / "{sample}.fna"),
     output:
         "tmp.txt"
     shell:
-        "echo {params} > {output}"
+        "touch {output}"
