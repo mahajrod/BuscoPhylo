@@ -38,8 +38,8 @@ def template_from_merged_sequences(wildcards):
 
 rule mafft_dna:
     input:
-        # fna=merged_sequences_dir_path / "merged_{sample}.fna"
-        fna=template_from_merged_sequences
+        fna=merged_sequences_dir_path / "merged_{sample}.fna"
+        # fna=template_from_merged_sequences
     output:
         outfile=mafft_dir_path / "{sample}.fna"
     params:
@@ -90,7 +90,7 @@ rule mafft_protein:
 
 rule mafft_crutch:
     input:
-        fna=mafft_dir_path / "{sample}.fna",
+        fna=lambda w: expand_template_from_merged_sequences(w, mafft_dir_path / "{sample}.fna"),
         # faa=mafft_dir_path / "{sample}.faa"
     output:
         "tmp.txt"
