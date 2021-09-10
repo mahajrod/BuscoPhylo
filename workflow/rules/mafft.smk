@@ -34,7 +34,7 @@ def expand_template_from_merged_sequences(wildcards, template):
 rule mafft_dna:
     input:
         # fna=merged_sequences_dir_path / "merged_{sample}.fna"
-        fna=expand(expand_template_from_merged_sequences(w,mafft_dir_path / "{sample}.fna"))
+        fna=expand(expand_template_from_merged_sequences(mafft_dir_path / "{sample}.fna"))
     output:
         outfile=mafft_dir_path / "{sample}.fna"
     params:
@@ -60,7 +60,7 @@ rule mafft_dna:
 rule mafft_protein:
     input:
         # faa=merged_sequences_dir_path / "merged_{sample}.faa"
-        faa=expand(expand_template_from_merged_sequences(w,mafft_dir_path / "{sample}.faa"))
+        faa=expand(expand_template_from_merged_sequences(mafft_dir_path / "{sample}.faa"))
     output:
         outfile=mafft_dir_path / "{sample}.faa"
     params:
