@@ -1,5 +1,5 @@
 localrules: merged_sequences
-ruleorder: mafft_crutch > mafft_crutch_2 > mafft_dna
+
 
 checkpoint merged_sequences:
     input:
@@ -38,8 +38,8 @@ rule mafft_crutch_2:
 
 rule mafft_dna:
     input:
-        # fna=merged_sequences_dir_path / "merged_{sample}.fna"
-        fna=rules.mafft_crutch_2.output
+        fna=merged_sequences_dir_path / "merged_{sample}.fna",
+        fna_=lambda w: expand_template_from_merged_sequences(w, merged_sequences_dir_path / "merged_{sample}.fna"),
     output:
         outfile=mafft_dir_path / "{sample}.fna"
     params:
