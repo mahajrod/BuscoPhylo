@@ -1,3 +1,4 @@
+import glob
 localrules: merged_sequences
 
 
@@ -33,11 +34,13 @@ def expand_template_from_merged_sequences(wildcards, template):
 
 rule mafft_dna:
     input:
-        fna=merged_sequences_dir_path / "merged_{sample}.fna"
+        # fna=merged_sequences_dir_path / "merged_{sample}.fna"
+        fna=lambda wildcards: glob.glob(merged_sequences_dir_path / "merged_{sample}.fna".format(sample=wildcards.sample))
     output:
         outfile=mafft_dir_path / "{sample}.fna"
     params:
-        mafft_path=config["mafft_path"]
+        mafft_path=config["mafft_path"],
+        fna=
     log:
         std=log_dir_path / "{sample}.fna.mafft.log",
         cluster_log=cluster_log_dir_path / "{sample}.fna.mafft.cluster.log",
@@ -83,7 +86,7 @@ rule mafft_protein:
 
 rule mafft_crutch:
     input:
-        lambda w: expand_template_from_merged_sequences(w, mafft_dir_path / "{sample}.fna"),
+        lambda w: expand_template_from_merged_sequences(w, merged_sequences_dir_path / "merged_{sample}.fna"),
     output:
         "tmp.txt"
     shell:
