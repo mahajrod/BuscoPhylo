@@ -1,5 +1,5 @@
 localrules: merged_sequences
-ruleorder: mafft_crutch > mafft_crutch_2
+ruleorder: mafft_crutch > mafft_crutch_2 > mafft_dna
 
 checkpoint merged_sequences:
     input:
