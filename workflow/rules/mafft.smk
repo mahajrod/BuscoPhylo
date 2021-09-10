@@ -34,13 +34,11 @@ def expand_template_from_merged_sequences(wildcards, template):
 
 rule mafft_dna:
     input:
-        # fna=merged_sequences_dir_path / "merged_{sample}.fna"
-        fna=lambda wildcards: glob.glob(merged_sequences_dir_path / "merged_{sample}.fna".format(sample=wildcards.sample))
+        lambda w: expand_template_from_merged_sequences(w, merged_sequences_dir_path / "merged_{sample}.fna")
     output:
         outfile=mafft_dir_path / "{sample}.fna"
     params:
-        mafft_path=config["mafft_path"],
-        fna=
+        mafft_path=config["mafft_path"]
     log:
         std=log_dir_path / "{sample}.fna.mafft.log",
         cluster_log=cluster_log_dir_path / "{sample}.fna.mafft.cluster.log",
@@ -56,7 +54,7 @@ rule mafft_dna:
     threads:
         config["mafft_threads"]
     shell:
-        "{params.mafft_path}/mafft --thread {threads} {input.fna} > {output.outfile} 2> {log.std}"
+        "{params.mafft_path}/mafft --thread {threads} {input} > {output.outfile} 2> {log.std}"
 
 
 rule mafft_protein:
