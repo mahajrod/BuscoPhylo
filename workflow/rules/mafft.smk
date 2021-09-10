@@ -30,16 +30,10 @@ def expand_template_from_merged_sequences(wildcards, template):
     sample, = glob_wildcards(os.path.join(checkpoint_output, "merged_{sample}.fna"))
     return expand(str(template), sample=sample)
 
-rule mafft_crutch_2:
-    output:
-        merged_sequences_dir_path / "merged_{sample}.fna"
-    shell:
-        "touch {output}"
 
 rule mafft_dna:
     input:
-        fna=merged_sequences_dir_path / "merged_{sample}.fna",
-        fna_=lambda w: expand_template_from_merged_sequences(w, merged_sequences_dir_path / "merged_{sample}.fna"),
+        fna=merged_sequences_dir_path / "merged_{sample}.fna"
     output:
         outfile=mafft_dir_path / "{sample}.fna"
     params:
@@ -91,6 +85,6 @@ rule mafft_crutch:
     input:
         fna=lambda w: expand_template_from_merged_sequences(w, mafft_dir_path / "{sample}.fna"),
     output:
-        "tmp.txt"
+        merged_sequences_dir_path / "merged_{sample}.fna"
     shell:
         "touch {output}"
