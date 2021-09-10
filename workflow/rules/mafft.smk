@@ -1,5 +1,5 @@
 localrules: merged_sequences
-
+ruleorder: mafft_crutch > mafft_crutch_2
 
 checkpoint merged_sequences:
     input:
@@ -88,3 +88,11 @@ rule mafft_crutch:
         "tmp.txt"
     shell:
         "touch {output}"
+
+rule mafft_crutch_2:
+    input:
+        merged_sequences_dir_path / "merged_{sample}.fna"
+    output:
+        merged_sequences_dir_path / "merged_{sample}.fna"
+    shell:
+        "touch {input}"
