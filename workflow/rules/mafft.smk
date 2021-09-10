@@ -1,4 +1,4 @@
-# localrules: merged_sequences
+localrules: merged_sequences
 ruleorder: mafft_crutch > mafft_crutch_2
 
 checkpoint merged_sequences:
