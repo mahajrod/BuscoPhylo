@@ -81,8 +81,8 @@ def expand_template_from_merged_sequences(wildcards, template):
 
 rule mafft_finish:
     input:
-        fna=lambda w: expand_template_from_merged_sequences(w, merged_sequences_dir_path / "merged_{sample}.fna"),
-        faa=lambda w: expand_template_from_merged_sequences(w, merged_sequences_dir_path / "merged_{sample}.fna")
+        fna=lambda w: expand_template_from_merged_sequences(w, mafft_dir_path / "{sample}.fna"),
+        faa=lambda w: expand_template_from_merged_sequences(w, mafft_dir_path / "{sample}.faa")
     output:
         "finish.txt"
     shell:
