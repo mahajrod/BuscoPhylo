@@ -88,3 +88,11 @@ rule mafft_crutch:
         merged_sequences_dir_path / "merged_{sample}.fna"
     shell:
         "touch {output}"
+
+rule mafft_crutch_2:
+    input:
+        rules.mafft_dna.output.outfile
+    output:
+        "tmp.txt"
+    shell:
+        "touch {output}"
