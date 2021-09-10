@@ -90,9 +90,9 @@ rule mafft_crutch:
         "touch {output}"
 
 rule mafft_crutch_2:
-    params:
+    input:
         rules.mafft_dna.output.outfile
     output:
         "tmp.txt"
     shell:
-        "touch {output}"
+        "echo {input} > {output}"
