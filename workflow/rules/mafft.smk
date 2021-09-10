@@ -1,5 +1,4 @@
-import glob
-localrules: merged_sequences, mafft_crutch
+localrules: merged_sequences, mafft_finish
 
 
 checkpoint merged_sequences:
@@ -26,15 +25,9 @@ checkpoint merged_sequences:
         "--outdir {output.merged_ids} 2> {log.std}"
 
 
-def expand_template_from_merged_sequences(wildcards, template):
-    checkpoint_output = checkpoints.merged_sequences.get(**wildcards).output[0]
-    sample, = glob_wildcards(os.path.join(checkpoint_output, "merged_{sample}.fna"))
-    return expand(str(template), sample=sample)
-
-
 rule mafft_dna:
     input:
-        lambda w: expand_template_from_merged_sequences(w, merged_sequences_dir_path / "merged_{sample}.fna")
+        fna=merged_sequences_dir_path / "merged_{sample}.fna"
     output:
         outfile=mafft_dir_path / "{sample}.fna"
     params:
@@ -54,7 +47,7 @@ rule mafft_dna:
     threads:
         config["mafft_threads"]
     shell:
-        "{params.mafft_path}/mafft --thread {threads} {input} > {output.outfile} 2> {log.std}"
+        "{params.mafft_path}/mafft --thread {threads} {input.fna} > {output.outfile} 2> {log.std}"
 
 
 rule mafft_protein:
@@ -81,11 +74,16 @@ rule mafft_protein:
     shell:
         "{params.mafft_path}/mafft --anysymbol --thread {threads} {input.faa} > {output.outfile} 2> {log.std}"
 
+def expand_template_from_merged_sequences(wildcards, template):
+    checkpoint_output = checkpoints.merged_sequences.get(**wildcards).output[0]
+    sample, = glob_wildcards(os.path.join(checkpoint_output, "merged_{sample}.fna"))
+    return expand(str(template), sample=sample)
 
-rule mafft_crutch:
+rule mafft_finish:
     input:
-        lambda w: expand_template_from_merged_sequences(w, merged_sequences_dir_path / "merged_{sample}.fna"),
+        fna=lambda w: expand_template_from_merged_sequences(w, merged_sequences_dir_path / "merged_{sample}.fna"),
+        faa=lambda w: expand_template_from_merged_sequences(w, merged_sequences_dir_path / "merged_{sample}.fna")
     output:
-        "tmp.txt"
+        "finish.txt"
     shell:
         "touch {output}"
