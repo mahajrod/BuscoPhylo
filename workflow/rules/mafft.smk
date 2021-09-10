@@ -1,5 +1,5 @@
 import glob
-localrules: merged_sequences
+localrules: merged_sequences, mafft_crutch
 
 
 checkpoint merged_sequences:
