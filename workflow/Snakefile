@@ -35,9 +35,8 @@ rule all:
         directory(merged_sequences_dir_path),
 
         # mafft:
-        "finish.txt"
-        # lambda w: expand_template_from_merged_sequences(w, mafft_dir_path / "{sample}.fna"),
-        # lambda w: expand_template_from_merged_sequences(w, mafft_dir_path / "{sample}.faa"),
+        lambda w: expand_template_from_merged_sequences(w, mafft_dir_path / "{sample}.fna"),
+        lambda w: expand_template_from_merged_sequences(w, mafft_dir_path / "{sample}.faa"),
 
         # gblocks:
         # lambda w: expand_template_from_merged_sequences(w, gblocks_dir_path / "{sample}.fna-gb"),

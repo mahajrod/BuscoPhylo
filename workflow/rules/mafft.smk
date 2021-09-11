@@ -1,7 +1,7 @@
-localrules: merged_sequences, mafft_finish
+# localrules: merged_sequences
 
 
-checkpoint merged_sequences:
+checkpoint merged_sequences: #TODO: добавить в скрипт разделение по дирректориям
     input:
         common_ids=busco_dir_path / "single_copy_busco_sequences.common.ids"
     output:
@@ -14,6 +14,8 @@ checkpoint merged_sequences:
         cluster_err=cluster_log_dir_path / "merged_ids.cluster.err"
     benchmark:
         benchmark_dir_path / "merged_ids.benchmark.txt"
+    group:
+        "mafft_group0"
     resources:
         cpus=config["common_ids_threads"],
         time=config["common_ids_threads"],
@@ -25,7 +27,7 @@ checkpoint merged_sequences:
         "--outdir {output.merged_ids} 2> {log.std}"
 
 
-rule mafft_dna:
+rule mafft_dna: #TODO: sample - это дирректория, в которой опред. кол-во файлов. Тут просто цикл по этим файлам
     input:
         fna=merged_sequences_dir_path / "merged_{sample}.fna"
     output:
@@ -40,6 +42,8 @@ rule mafft_dna:
         benchmark_dir_path / "{sample}.fna.mafft.benchmark.txt"
     # conda:
     #     "../../%s" % config["conda_config"]
+    group:
+        "mafft_group1"
     resources:
         cpus=config["mafft_threads"],
         time=config["mafft_time"],
@@ -65,6 +69,8 @@ rule mafft_protein:
         benchmark_dir_path / "{sample}.faa.mafft.benchmark.txt"
     # conda:
     #     "../../%s" % config["conda_config"]
+    group:
+        "mafft_group1"
     resources:
         cpus=config["mafft_threads"],
         time=config["mafft_time"],
@@ -73,17 +79,3 @@ rule mafft_protein:
         config["mafft_threads"]
     shell:
         "{params.mafft_path}/mafft --anysymbol --thread {threads} {input.faa} > {output.outfile} 2> {log.std}"
-
-def expand_template_from_merged_sequences(wildcards, template):
-    checkpoint_output = checkpoints.merged_sequences.get(**wildcards).output[0]
-    sample, = glob_wildcards(os.path.join(checkpoint_output, "merged_{sample}.fna"))
-    return expand(str(template), sample=sample)
-
-rule mafft_finish:
-    input:
-        fna=lambda w: expand_template_from_merged_sequences(w, mafft_dir_path / "{sample}.fna"),
-        faa=lambda w: expand_template_from_merged_sequences(w, mafft_dir_path / "{sample}.faa")
-    output:
-        "finish.txt"
-    shell:
-        "touch {output}"
