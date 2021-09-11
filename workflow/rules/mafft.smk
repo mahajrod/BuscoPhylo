@@ -79,3 +79,19 @@ rule mafft_protein:
         config["mafft_threads"]
     shell:
         "{params.mafft_path}/mafft --anysymbol --thread {threads} {input.faa} > {output.outfile} 2> {log.std}"
+
+def expand_template_from_merged_sequences(wildcards, template):
+    checkpoint_output = checkpoints.merged_sequences.get(**wildcards).output[0]
+    sample, = glob_wildcards(os.path.join(checkpoint_output, "merged_{sample}.fna"))
+    return expand(str(template), sample=sample)
+
+rule crutch:
+    input:
+        lambda w: expand_template_from_merged_sequences(w, mafft_dir_path / "{sample}.fna"),
+        lambda w: expand_template_from_merged_sequences(w, mafft_dir_path / "{sample}.faa"),
+    output:
+        "tmp.txt"
+    group:
+        "mafft_group1"
+    shell:
+        "touch {output}"
