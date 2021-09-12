@@ -87,7 +87,7 @@ def expand_template_from_merged_sequences(wildcards, template):
 rule crutch:
     input:
         lambda w: expand_template_from_merged_sequences(w, mafft_dir_path / "{sample}.fna"),
-        lambda w: expand_template_from_merged_sequences(w, mafft_dir_path / "{sample}.faa"),
+        # lambda w: expand_template_from_merged_sequences(w, mafft_dir_path / "{sample}.faa"),
     output:
         "tmp.txt"
     # group:
