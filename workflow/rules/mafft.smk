@@ -1,6 +1,5 @@
 # localrules: merged_sequences
 
-
 checkpoint merged_sequences: #TODO: добавить в скрипт разделение по дирректориям
     input:
         common_ids=busco_dir_path / "single_copy_busco_sequences.common.ids"
@@ -14,8 +13,8 @@ checkpoint merged_sequences: #TODO: добавить в скрипт разде�
         cluster_err=cluster_log_dir_path / "merged_ids.cluster.err"
     benchmark:
         benchmark_dir_path / "merged_ids.benchmark.txt"
-    group:
-        "mafft_group0"
+    # group:
+    #     "mafft_group0"
     resources:
         cpus=config["common_ids_threads"],
         time=config["common_ids_threads"],
@@ -42,8 +41,8 @@ rule mafft_dna: #TODO: sample - это дирректория, в которой
         benchmark_dir_path / "{sample}.fna.mafft.benchmark.txt"
     # conda:
     #     "../../%s" % config["conda_config"]
-    group:
-        "mafft_group1"
+    # group:
+    #     "mafft_group1"
     resources:
         cpus=config["mafft_threads"],
         time=config["mafft_time"],
@@ -69,8 +68,8 @@ rule mafft_protein:
         benchmark_dir_path / "{sample}.faa.mafft.benchmark.txt"
     # conda:
     #     "../../%s" % config["conda_config"]
-    group:
-        "mafft_group1"
+    # group:
+    #     "mafft_group1"
     resources:
         cpus=config["mafft_threads"],
         time=config["mafft_time"],
@@ -91,7 +90,7 @@ rule crutch:
         lambda w: expand_template_from_merged_sequences(w, mafft_dir_path / "{sample}.faa"),
     output:
         "tmp.txt"
-    group:
-        "mafft_group1"
+    # group:
+    #     "mafft_group2"
     shell:
         "touch {output}"
