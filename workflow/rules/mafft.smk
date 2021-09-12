@@ -1,4 +1,4 @@
-# localrules: merged_sequences
+localrules: merged_sequences
 
 checkpoint merged_sequences: #TODO: добавить в скрипт разделение по дирректориям
     input:
