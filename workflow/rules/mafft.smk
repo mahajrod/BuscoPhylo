@@ -84,7 +84,7 @@ checkpoint mafft_one_directory:
         directory(mafft_dir_path)
     shell:
         "for i in {input}; do "
-        "mv $i/* {output}/; rm -r $i; "
+        "mv $i/* {output}/; "
         "done; "
 
 
