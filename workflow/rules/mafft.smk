@@ -76,11 +76,12 @@ checkpoint mafft_one_directory:
         lambda w: expand_template_from_directories_with_sample_names(w,mafft_dir_path / "{sample}")
     output:
         directory(mafft_dir_path)
-    params:
-        outdir = rules.mafft.output.outdir,
     shell:
-        "for i in `ls {params.outdir}`; do"
-        "mv $i/* {output}"
+        "for i in `ls {input}`; do"
+        "for j in `ls`; do "
+        "mv $i/$j/* {output}; "
+        "done; "
+        "done"
 
 
 rule mafft_protein:
