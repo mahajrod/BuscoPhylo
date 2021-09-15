@@ -49,7 +49,6 @@ def expand_template_from_directories_with_sample_names(wildcards, template):
 
 rule mafft:
     input:
-        # fna=merged_sequences_dir_path / "merged_{sample}.fna"
         output_dir_path / "tmp" / "{sample}"
     output:
         # outfile=mafft_dir_path / "{sample}.fna"
@@ -73,8 +72,8 @@ rule mafft:
     shell:
         "mkdir -p {output.outdir}; "
         "for FILE in `ls {input}`; do"
-        "{params.mafft_path}/mafft --thread {threads} {input}/$FILE.fna > {output.outdir}/$FILE.fna 2> {log.std}; "
-        "{params.mafft_path}/mafft --thread {threads} {input}/$FILE.faa > {output.outdir}/$FILE.faa 2> {log.std}; "
+        "{params.mafft_path}/mafft --thread {threads} results/busco/merged_sequences/merged_$FILE.fna > {output.outdir}/merged_$FILE.fna 2> {log.std}; "
+        "{params.mafft_path}/mafft --thread {threads} results/busco/merged_sequences/merged_$FILE.faa > {output.outdir}/merged_$FILE.faa 2> {log.std}; "
         "done"
 
 checkpoint mafft_one_directory:
