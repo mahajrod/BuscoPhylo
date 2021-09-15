@@ -84,10 +84,8 @@ checkpoint mafft_one_directory:
         directory(mafft_dir_path)
     shell:
         "for i in `ls -d {input}`; do "
-        "for j in `ls $i`; do "
-        "mv $i/$j/* {output}; rm -r $i; "
+        "mv $i/* {output}/; rm -r $i; "
         "done; "
-        "done"
 
 
 rule mafft_protein:
