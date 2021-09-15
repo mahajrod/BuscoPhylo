@@ -42,8 +42,8 @@ checkpoint directories_with_sample_names:
 
 def expand_template_from_directories_with_sample_names(wildcards, template):
     checkpoint_output = checkpoints.directories_with_sample_names.get(**wildcards).output[0]
-    sample, = glob_wildcards(os.path.join(checkpoint_output, "{sample}/*"))
-    print(sample)
+    sample, = glob_wildcards(os.path.join(checkpoint_output, "{sample}"))
+    sample = list(set([i.split('/')[0] for i in sample]))
     return expand(str(template), sample=sample)
 
 
