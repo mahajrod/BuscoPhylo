@@ -25,6 +25,11 @@ if "species_list" not in config:
 #     sample, = glob_wildcards(os.path.join(checkpoint_output, "merged_{sample}.fna"))
 #     return expand(str(template), sample=sample)
 
+# def expand_template_from_directories_with_sample_names(wildcards, template):
+#     checkpoint_output = checkpoints.directories_with_sample_names.get(**wildcards).output[0]
+#     sample, = glob_wildcards(os.path.join(checkpoint_output, "{sample}"))
+#     return expand(str(template), sample=sample)
+
 localrules: all
 
 rule all:
@@ -35,9 +40,9 @@ rule all:
         directory(merged_sequences_dir_path),
 
         # mafft:
-        "tmp.txt"
-        # lambda w: expand_template_from_merged_sequences(w, mafft_dir_path / "{sample}.fna"),
-        # lambda w: expand_template_from_merged_sequences(w, mafft_dir_path / "{sample}.faa"),
+        directory(mafft_dir_path)
+        # lambda w: expand_template_from_directories_with_sample_names(w, mafft_dir_path / "{sample}.fna"),
+        # lambda w: expand_template_from_directories_with_sample_names(w, mafft_dir_path / "{sample}.faa"),
 
         # gblocks:
         # lambda w: expand_template_from_merged_sequences(w, gblocks_dir_path / "{sample}.fna-gb"),
