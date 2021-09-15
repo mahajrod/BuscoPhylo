@@ -48,7 +48,7 @@ rule mafft:
         output_dir_path / "tmp" / "{sample}"
     output:
         # outfile=mafft_dir_path / "{sample}.fna"
-        outdir=temp(directory(mafft_dir_path / "{sample}", sample=lambda w: expand_template_from_directories_with_sample_names(w,"{sample}")))
+        outdir=temp(mafft_dir_path / "{sample}", sample=lambda w: expand_template_from_directories_with_sample_names(w,"{sample}"))
     params:
         mafft_path=config["mafft_path"]
     log:
