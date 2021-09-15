@@ -34,5 +34,6 @@ for file in `ls $inputdir/*.fna`; do
   fi
   n=$(( n + 1 ))
   printf 'Moving %s to %s\n' "$file" "$dir"
+  filename=echo ${file%.*} | rev | cut -d'_' -f 1 | rev
   touch "${dir}/${file%.*}"
 done
