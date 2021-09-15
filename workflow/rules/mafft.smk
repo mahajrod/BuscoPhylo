@@ -1,4 +1,4 @@
-localrules: merged_sequences
+localrules: merged_sequences, directories_with_sample_names, mafft_one_directory
 
 rule merged_sequences:
     input:
