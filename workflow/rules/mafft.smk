@@ -84,7 +84,7 @@ checkpoint mafft_one_directory:
     shell:
         "for i in `ls {input}`; do"
         "for j in `ls`; do "
-        "mv $i/$j/* {output}; "
+        "mv $i/$j/* {output}; rm -r $i"
         "done; "
         "done"
 
