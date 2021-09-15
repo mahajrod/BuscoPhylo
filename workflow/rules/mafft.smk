@@ -28,7 +28,7 @@ checkpoint directories_with_sample_names:
     input:
         rules.merged_sequences.output.merged_ids
     output:
-        temp(directory(output_dir_path / "tmp"))
+        ancient(temp(directory(output_dir_path / "tmp")))
     params:
         number_of_files=20
     log:
@@ -83,7 +83,7 @@ checkpoint mafft_one_directory:
     output:
         directory(mafft_dir_path)
     shell:
-        "for i in `ls -d {input}`; do "
+        "for i in {input}; do "
         "mv $i/* {output}/; rm -r $i; "
         "done; "
 
