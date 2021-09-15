@@ -71,7 +71,8 @@ rule mafft:
         config["mafft_threads"]
     shell:
         "mkdir -p {output.outdir}; "
-        "for FILE in `ls -d {input}/*`; do "
+        "for i in `ls -d {input}/*`; do "
+        "FILE=$(basename $FILE); "
         "{params.mafft_path}/mafft --thread {threads} results/busco/merged_sequences/merged_$FILE.fna > {output.outdir}/merged_$FILE.fna 2> {log.std}; "
         "{params.mafft_path}/mafft --thread {threads} results/busco/merged_sequences/merged_$FILE.faa > {output.outdir}/merged_$FILE.faa 2> {log.std}; "
         "done"
