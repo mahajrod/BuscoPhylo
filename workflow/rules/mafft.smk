@@ -72,7 +72,7 @@ rule mafft:
         config["mafft_threads"]
     shell:
         "mkdir -p {output.outdir}; "
-        " FILE in `ls {input}`; do"
+        "for FILE in `ls {input}`; do"
         "{params.mafft_path}/mafft --thread {threads} {input}/$FILE.fna > {output.outdir}/$FILE.fna 2> {log.std}; "
         "{params.mafft_path}/mafft --thread {threads} {input}/$FILE.faa > {output.outdir}/$FILE.faa 2> {log.std}; "
         "done"
