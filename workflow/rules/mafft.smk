@@ -28,7 +28,7 @@ checkpoint directories_with_sample_names:
     input:
         rules.merged_sequences.output.merged_ids
     output:
-        temp(directory(output_dir_path / "tmp"))
+        temp(output_dir_path / "tmp")
     params:
         number_of_files=20
     log:
