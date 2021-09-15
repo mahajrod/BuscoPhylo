@@ -31,16 +31,20 @@ checkpoint directories_with_sample_names:
         temp(directory(output_dir_path / "tmp"))
     params:
         number_of_files=20
+    log:
+        std=log_dir_path / "directories_with_sample_names.log",
     shell:
         "workflow/scripts/get_directories_with_sample_names.sh "
         "-i {input} "
         "-o {output} "
         "-f {params.number_of_files}"
 
+
 def expand_template_from_directories_with_sample_names(wildcards, template):
     checkpoint_output = checkpoints.directories_with_sample_names.get(**wildcards).output[0]
     sample, = glob_wildcards(os.path.join(checkpoint_output, "{sample}"))
     return expand(str(template), sample=sample)
+
 
 rule mafft:
     input:
