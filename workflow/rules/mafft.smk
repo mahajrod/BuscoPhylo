@@ -48,7 +48,7 @@ rule mafft:
         output_dir_path / "tmp" / "{sample}"
     output:
         # outfile=mafft_dir_path / "{sample}.fna"
-        outdir=temp(directory(mafft_dir_path / "{sample}"))
+        outdir=temp(directory(mafft_dir_path / "{sample}", sample=lambda w: expand_template_from_directories_with_sample_names(w,"{sample}")))
     params:
         mafft_path=config["mafft_path"]
     log:
@@ -74,7 +74,7 @@ rule mafft:
 checkpoint mafft_one_directory:
     input:
         outdir=rules.mafft.output.outdir,
-        checkfiles=lambda w: expand_template_from_directories_with_sample_names(w,mafft_dir_path / "{sample}")
+        # checkfiles=lambda w: expand_template_from_directories_with_sample_names(w,mafft_dir_path / "{sample}")
     output:
         directory(mafft_dir_path)
     shell:
