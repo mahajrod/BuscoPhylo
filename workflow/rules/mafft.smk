@@ -53,7 +53,7 @@ rule mafft:
         output_dir_path / "tmp" / "{sample}"
     output:
         # outfile=mafft_dir_path / "{sample}.fna"
-        outdir=mafft_dir_path / "{sample}"
+        outdir=directory(mafft_dir_path / "{sample}")
     params:
         mafft_path=config["mafft_path"]
     log:
