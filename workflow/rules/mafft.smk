@@ -71,9 +71,10 @@ rule mafft:
     threads:
         config["mafft_threads"]
     shell:
-        "for FILE in `ls {input}`; do"
-        "{params.mafft_path}/mafft --thread {threads} $FILE.fna > {output.outdir}/$FILE.fna 2> {log.std} ;"
-        "{params.mafft_path}/mafft --thread {threads} $FILE.faa > {output.outdir}/$FILE.faa 2> {log.std} ;"
+        "mkdir -p {output.outdir}; "
+        " FILE in `ls {input}`; do"
+        "{params.mafft_path}/mafft --thread {threads} {input}/$FILE.fna > {output.outdir}/$FILE.fna 2> {log.std}; "
+        "{params.mafft_path}/mafft --thread {threads} {input}/$FILE.faa > {output.outdir}/$FILE.faa 2> {log.std}; "
         "done"
 
 checkpoint mafft_one_directory:
