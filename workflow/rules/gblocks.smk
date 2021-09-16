@@ -9,7 +9,7 @@ rule gblocks:
         # gb_txt=gblocks_dir_path / "{sample}.fna-gb.txt"
         temp(directory(output_dir_path / "gblocks_tmp" / "{sample}"))
     params:
-        mafft_dir=checkpoints.mafft_results_to_one_directory.output,
+        mafft_dir=directory(mafft_dir_path),
         gblocks_path=config["gblocks_path"],
         gblocks_dna_flags="-t=d -p=t",
         gblocks_protein_flags="-t=p -p=t"
