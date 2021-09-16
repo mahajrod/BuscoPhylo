@@ -3,13 +3,13 @@ localrules: gblocks
 rule gblocks:
     input:
         # fna=mafft_dir_path / "{sample}.fna"
-        directory(output_dir_path / "tmp" / "{sample}")
+        mafft_dir=directory(mafft_dir_path),
+        names_dir=directory(output_dir_path / "tmp" / "{sample}")
     output:
         # gb=gblocks_dir_path / "{sample}.fna-gb",
         # gb_txt=gblocks_dir_path / "{sample}.fna-gb.txt"
         temp(directory(output_dir_path / "gblocks_tmp" / "{sample}"))
     params:
-        mafft_dir=directory(mafft_dir_path),
         gblocks_path=config["gblocks_path"],
         gblocks_dna_flags="-t=d -p=t",
         gblocks_protein_flags="-t=p -p=t"
@@ -27,10 +27,10 @@ rule gblocks:
         mem=config["gblocks_mem_mb"]
     shell:
         "mkdir -p {output}; "
-        "for FILE in `ls -d {input}/*`; do "
+        "for FILE in `ls -d {input.names_dir}/*`; do "
         "FILE=$(basename $FILE); "
-        "{params.gblocks_path}/Gblocks {params.mafft_dir}/merged_$FILE.fna {params.gblocks_dna_flags} 1> {log.std} || true; "
-        "{params.gblocks_path}/Gblocks {params.mafft_dir}/merged_$FILE.faa {params.gblocks_protein_flags} 1> {log.std} || true; "
-        "mv {params.mafft_dir}/merged_$FILE.fna-gb {output}/; mv {params.mafft_dir}/merged_$FILE.fna-gb.txt {output}/; "
-        "mv {params.mafft_dir}/merged_$FILE.faa-gb {output}/; mv {params.mafft_dir}/merged_$FILE.faa-gb.txt {output}/; "
+        "{params.gblocks_path}/Gblocks {input.mafft_dir}/merged_$FILE.fna {params.gblocks_dna_flags} 1> {log.std} || true; "
+        "{params.gblocks_path}/Gblocks {input.mafft_dir}/merged_$FILE.faa {params.gblocks_protein_flags} 1> {log.std} || true; "
+        "mv {input.mafft_dir}/merged_$FILE.fna-gb {output}/; mv {input.mafft_dir}/merged_$FILE.fna-gb.txt {output}/; "
+        "mv {input.mafft_dir}/merged_$FILE.faa-gb {output}/; mv {input.mafft_dir}/merged_$FILE.faa-gb.txt {output}/; "
         "done"

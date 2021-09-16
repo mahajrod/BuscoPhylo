@@ -36,7 +36,6 @@ def expand_template_from_directories_with_sample_names(wildcards, template):
 #     return expand(str(template), sample=sample)
 
 localrules: all
-ruleorder: mafft_results_to_one_directory > mafft > gblocks_results_to_one_directory
 
 rule all:
     input:
