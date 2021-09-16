@@ -76,9 +76,9 @@ rule mafft:
         "{params.mafft_path}/mafft --thread {threads} results/busco/merged_sequences/merged_$FILE.faa > {output.outdir}/merged_$FILE.faa 2> {log.std}; "
         "done"
 
-checkpoint mafft_one_directory:
+checkpoint mafft_results_to_one_directory:
     input:
-        lambda w: expand_template_from_directories_with_sample_names(w,mafft_dir_path / "{sample}")
+        lambda w: expand_template_from_directories_with_sample_names(w, output_dir_path / "mafft_tmp" / "{sample}")
     output:
         directory(mafft_dir_path)
     shell:
