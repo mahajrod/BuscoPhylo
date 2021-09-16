@@ -1,4 +1,4 @@
-localrules: gblocks, gblocks_results_to_one_directory
+localrules: gblocks
 
 rule gblocks:
     input:
@@ -34,21 +34,3 @@ rule gblocks:
         "mv {params.mafft_dir}/merged_$FILE.fna-gb {output}/; mv {params.mafft_dir}/merged_$FILE.fna-gb.txt {output}/; "
         "mv {params.mafft_dir}/merged_$FILE.faa-gb {output}/; mv {params.mafft_dir}/merged_$FILE.faa-gb.txt {output}/; "
         "done"
-
-
-def expand_template_from_directories_with_sample_names(wildcards, template):
-    checkpoint_output = checkpoints.directories_with_sample_names.get(**wildcards).output[0]
-    sample, = glob_wildcards(os.path.join(checkpoint_output, "{sample}"))
-    sample = list(set([i.split('/')[0] for i in sample]))
-    return expand(str(template), sample=sample)
-
-checkpoint gblocks_results_to_one_directory:
-    input:
-        lambda w: expand_template_from_directories_with_sample_names(w, output_dir_path / "gblocks_tmp" / "{sample}")
-    output:
-        directory(gblocks_dir_path)
-    shell:
-        "mkdir -p {output}; "
-        "for i in {input}/*; do "
-        "mv $i {output}/; "
-        "done; "

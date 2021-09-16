@@ -20,6 +20,11 @@ if "species_list" not in config:
     config["species_list"] = [d.name[:-6] for d in genome_dir_path.iterdir() if d.is_file()]
 
 #---- necessary functions ----
+def expand_template_from_directories_with_sample_names(wildcards, template):
+    checkpoint_output = checkpoints.directories_with_sample_names.get(**wildcards).output[0]
+    sample, = glob_wildcards(os.path.join(checkpoint_output, "{sample}"))
+    sample = list(set([i.split('/')[0] for i in sample]))
+    return expand(str(template), sample=sample)
 # def expand_template_from_merged_sequences(wildcards, template):
 #     checkpoint_output = checkpoints.merged_sequences.get(**wildcards).output[0]
 #     sample, = glob_wildcards(os.path.join(checkpoint_output, "merged_{sample}.fna"))
@@ -31,6 +36,7 @@ if "species_list" not in config:
 #     return expand(str(template), sample=sample)
 
 localrules: all
+ruleorder: mafft_results_to_one_directory > gblocks_results_to_one_directory
 
 rule all:
     input:
@@ -48,6 +54,28 @@ rule all:
         directory(gblocks_dir_path)
         # lambda w: expand_template_from_merged_sequences(w, gblocks_dir_path / "{sample}.fna-gb"),
         # lambda w: expand_template_from_merged_sequences(w, gblocks_dir_path / "{sample}.faa-gb"),
+
+checkpoint mafft_results_to_one_directory:
+    input:
+        lambda w: expand_template_from_directories_with_sample_names(w, output_dir_path / "mafft_tmp" / "{sample}")
+    output:
+        directory(mafft_dir_path)
+    shell:
+        "mkdir -p {output}; "
+        "for i in {input}/*; do "
+        "mv $i {output}/; "
+        "done; "
+
+checkpoint gblocks_results_to_one_directory:
+    input:
+        lambda w: expand_template_from_directories_with_sample_names(w, output_dir_path / "gblocks_tmp" / "{sample}")
+    output:
+        directory(gblocks_dir_path)
+    shell:
+        "mkdir -p {output}; "
+        "for i in {input}/*; do "
+        "mv $i {output}/; "
+        "done; "
 
 #---- load rules ----
 include: "rules/busco.smk"

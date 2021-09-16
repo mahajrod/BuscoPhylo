@@ -40,13 +40,6 @@ checkpoint directories_with_sample_names:
         "-f {params.number_of_files} 1> {log.std} 2> {log.std}"
 
 
-def expand_template_from_directories_with_sample_names(wildcards, template):
-    checkpoint_output = checkpoints.directories_with_sample_names.get(**wildcards).output[0]
-    sample, = glob_wildcards(os.path.join(checkpoint_output, "{sample}"))
-    sample = list(set([i.split('/')[0] for i in sample]))
-    return expand(str(template), sample=sample)
-
-
 rule mafft:
     input:
         directory(output_dir_path / "tmp" / "{sample}")
@@ -75,14 +68,3 @@ rule mafft:
         "{params.mafft_path}/mafft --thread {threads} results/busco/merged_sequences/merged_$FILE.fna > {output.outdir}/merged_$FILE.fna 2> {log.std}; "
         "{params.mafft_path}/mafft --thread {threads} --anysymbol results/busco/merged_sequences/merged_$FILE.faa > {output.outdir}/merged_$FILE.faa 2> {log.std}; "
         "done"
-
-checkpoint mafft_results_to_one_directory:
-    input:
-        lambda w: expand_template_from_directories_with_sample_names(w, output_dir_path / "mafft_tmp" / "{sample}")
-    output:
-        directory(mafft_dir_path)
-    shell:
-        "mkdir -p {output}; "
-        "for i in {input}/*; do "
-        "mv $i {output}/; "
-        "done; "
