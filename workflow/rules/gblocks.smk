@@ -31,6 +31,7 @@ rule gblocks:
         "FILE=$(basename $FILE); "
         "{params.gblocks_path}/Gblocks {input.mafft_dir}/merged_$FILE.fna {params.gblocks_dna_flags} 1> {log.std} || true; "
         "{params.gblocks_path}/Gblocks {input.mafft_dir}/merged_$FILE.faa {params.gblocks_protein_flags} 1> {log.std} || true; "
+        "sleep 10"
         "mv {input.mafft_dir}/merged_$FILE.fna-gb {output}/; mv {input.mafft_dir}/merged_$FILE.fna-gb.txt {output}/; "
         "mv {input.mafft_dir}/merged_$FILE.faa-gb {output}/; mv {input.mafft_dir}/merged_$FILE.faa-gb.txt {output}/; "
         "done"
