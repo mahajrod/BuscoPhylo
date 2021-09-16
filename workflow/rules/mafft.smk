@@ -37,7 +37,7 @@ checkpoint directories_with_sample_names:
         "workflow/scripts/get_directories_with_sample_names.sh "
         "-i {input} "
         "-o {output} "
-        "-f {params.number_of_files} 2> {log.std}"
+        "-f {params.number_of_files} 1> {log.std} 2> {log.std}"
 
 
 def expand_template_from_directories_with_sample_names(wildcards, template):
