@@ -1,3 +1,5 @@
+localrules: gblocks, gblocks_results_to_one_directory
+
 rule gblocks:
     input:
         # fna=mafft_dir_path / "{sample}.fna"
