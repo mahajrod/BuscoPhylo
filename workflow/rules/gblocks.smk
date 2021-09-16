@@ -26,6 +26,7 @@ rule gblocks:
         time=config["gblocks_time"],
         mem=config["gblocks_mem_mb"]
     shell:
+        "sleep 10; "
         "mkdir -p {output}; "
         "for FILE in `ls -d {input.names_dir}/*`; do "
         "FILE=$(basename $FILE); "
