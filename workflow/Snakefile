@@ -45,7 +45,7 @@ rule all:
         # lambda w: expand_template_from_directories_with_sample_names(w, mafft_dir_path / "{sample}.faa"),
 
         # gblocks:
-        # directory(gblocks_dir_path)
+        directory(gblocks_dir_path)
         # lambda w: expand_template_from_merged_sequences(w, gblocks_dir_path / "{sample}.fna-gb"),
         # lambda w: expand_template_from_merged_sequences(w, gblocks_dir_path / "{sample}.faa-gb"),
 
