@@ -42,7 +42,7 @@ checkpoint directories_with_sample_names:
 
 rule mafft:
     input:
-        directory(output_dir_path / "tmp" / "{sample}")
+        ancient(directory(output_dir_path / "tmp" / "{sample}"))
     output:
         outdir=temp(directory(output_dir_path / "mafft_tmp" / "{sample}"))
     params:
