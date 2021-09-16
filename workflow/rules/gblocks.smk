@@ -1,5 +1,4 @@
 localrules: gblocks, gblocks_results_to_one_directory
-ruleorder: mafft_results_to_one_directory > gblocks
 
 rule gblocks:
     input:
@@ -10,7 +9,7 @@ rule gblocks:
         # gb_txt=gblocks_dir_path / "{sample}.fna-gb.txt"
         temp(directory(output_dir_path / "gblocks_tmp" / "{sample}"))
     params:
-        mafft_dir=directory(mafft_dir_path),
+        mafft_dir=checkpoints.mafft_results_to_one_directory.output,
         gblocks_path=config["gblocks_path"],
         gblocks_dna_flags="-t=d -p=t",
         gblocks_protein_flags="-t=p -p=t"
