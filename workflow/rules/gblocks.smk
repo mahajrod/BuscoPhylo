@@ -1,4 +1,5 @@
 localrules: gblocks, gblocks_results_to_one_directory
+ruleorder: mafft_results_to_one_directory > gblocks
 
 rule gblocks:
     input:
