@@ -26,12 +26,12 @@ rule gblocks:
         time=config["gblocks_time"],
         mem=config["gblocks_mem_mb"]
     shell:
-        "sleep 5; "
+        "sleep 10; "
         "mkdir -p {output}; "
         "for FILE in `ls -d {input}/*`; do "
         "FILE=$(basename $FILE); "
-        "{params.gblocks_path}/Gblocks {params.mafft_dir}/merged_$FILE.fna {params.gblocks_dna_flags} 1> {log.std} || true; "
-        "{params.gblocks_path}/Gblocks {params.mafft_dir}/merged_$FILE.faa {params.gblocks_protein_flags} 1> {log.std} || true; "
+        "{params.gblocks_path}/Gblocks {params.mafft_dir}/merged_$FILE.fna {params.gblocks_dna_flags} 1> {log.std}; "
+        "{params.gblocks_path}/Gblocks {params.mafft_dir}/merged_$FILE.faa {params.gblocks_protein_flags} 1> {log.std}; "
         "mv {params.mafft_dir}/merged_$FILE.fna-gb {output}/; mv {params.mafft_dir}/merged_$FILE.fna-gb.txt {output}/; "
         "mv {params.mafft_dir}/merged_$FILE.faa-gb {output}/; mv {params.mafft_dir}/merged_$FILE.faa-gb.txt {output}/; "
         "done"
