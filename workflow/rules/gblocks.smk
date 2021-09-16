@@ -30,9 +30,9 @@ rule gblocks:
         "for FILE in `ls -d {input}/*`; do "
         "FILE=$(basename $FILE); "
         "{params.gblocks_path}/Gblocks {params.mafft_dir}/merged_$FILE.fna {params.gblocks_dna_flags} 2> {log.std}; "
-        "mv {params.mafft_dir}/merged_$FILE.fna-gb {output}/; mv {params.mafft_dir}/merged_$FILE.fna-gb.txt {output}/; "
+        "mv merged_$FILE.fna-gb {output}/; mv merged_$FILE.fna-gb.txt {output}/; "
         "{params.gblocks_path}/Gblocks {params.mafft_dir}/merged_$FILE.faa {params.gblocks_protein_flags} 2> {log.std}; "
-        "mv {params.mafft_dir}/merged_$FILE.faa-gb {output}/; mv {params.mafft_dir}/merged_$FILE.faa-gb.txt {output}/; "
+        "mv merged_$FILE.faa-gb {output}/; mv merged_$FILE.faa-gb.txt {output}/; "
         "done"
 
 
