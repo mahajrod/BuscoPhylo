@@ -51,8 +51,7 @@ rule mafft:
     input:
         directory(output_dir_path / "tmp" / "{sample}")
     output:
-        # outfile=mafft_dir_path / "{sample}.fna"
-        outdir=temp(directory(mafft_dir_path / "{sample}"))
+        outdir=temp(directory(output_dir_path / "mafft_tmp" / "{sample}"))
     params:
         mafft_path=config["mafft_path"]
     log:
@@ -81,34 +80,9 @@ checkpoint mafft_one_directory:
     input:
         lambda w: expand_template_from_directories_with_sample_names(w,mafft_dir_path / "{sample}")
     output:
-        directory(output_dir_path / "mafft_test")
+        directory(mafft_dir_path)
     shell:
         "mkdir -p {output}; "
         "for i in {input}/*; do "
         "mv $i {output}/; "
         "done; "
-
-
-rule mafft_protein:
-    input:
-        faa=merged_sequences_dir_path / "merged_{sample}.faa"
-    output:
-        outfile=mafft_dir_path / "{sample}.faa"
-    params:
-        mafft_path=config["mafft_path"]
-    log:
-        std=log_dir_path / "{sample}.faa.mafft.log",
-        cluster_log=cluster_log_dir_path / "{sample}.faa.mafft.cluster.log",
-        cluster_err=cluster_log_dir_path / "{sample}.faa.mafft.cluster.err"
-    benchmark:
-        benchmark_dir_path / "{sample}.faa.mafft.benchmark.txt"
-    # conda:
-    #     "../../%s" % config["conda_config"]
-    resources:
-        cpus=config["mafft_threads"],
-        time=config["mafft_time"],
-        mem=config["mafft_mem_mb"]
-    threads:
-        config["mafft_threads"]
-    shell:
-        "{params.mafft_path}/mafft --anysymbol --thread {threads} {input.faa} > {output.outfile} 2> {log.std}"
