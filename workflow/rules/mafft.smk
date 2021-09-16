@@ -73,10 +73,10 @@ rule mafft:
         "for FILE in `ls -d {input}/*`; do "
         "FILE=$(basename $FILE); "
         "{params.mafft_path}/mafft --thread {threads} results/busco/merged_sequences/merged_$FILE.fna > {output.outdir}/merged_$FILE.fna 2> {log.std}; "
-        "{params.mafft_path}/mafft --thread {threads} results/busco/merged_sequences/merged_$FILE.faa > {output.outdir}/merged_$FILE.faa 2> {log.std}; "
+        "{params.mafft_path}/mafft --thread {threads} --anysymbol results/busco/merged_sequences/merged_$FILE.faa > {output.outdir}/merged_$FILE.faa 2> {log.std}; "
         "done"
 
-checkpoint mafft_results_to_one_directory:
+rule mafft_results_to_one_directory:
     input:
         lambda w: expand_template_from_directories_with_sample_names(w, output_dir_path / "mafft_tmp" / "{sample}")
     output:
