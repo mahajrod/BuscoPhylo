@@ -27,8 +27,10 @@ rule gblocks:
         "mkdir -p {output}; "
         "for FILE in `ls -d {input}/*`; do "
         "FILE=$(basename $FILE); "
-        "{params.gblocks_path}/Gblocks $FILE.fna {params.gblocks_dna_flags} 2> {log.std}; mv $FILE.fna {output}/; "
-        "{params.gblocks_path}/Gblocks $FILE.faa {params.gblocks_protein_flags} 2> {log.std}; mv $FILE.faa {output}/; "
+        "{params.gblocks_path}/Gblocks {params.mafft_dir}/$FILE.fna {params.gblocks_dna_flags} 2> {log.std}; "
+        "mv {params.mafft_dir}/$FILE.fna-gb {output}/; mv {params.mafft_dir}/$FILE.fna-gb.txt {output}/; "
+        "{params.gblocks_path}/Gblocks {params.mafft_dir}/$FILE.faa {params.gblocks_protein_flags} 2> {log.std}; mv $FILE.faa-gb.txt {output}/; "
+        "mv {params.mafft_dir}/$FILE.faa-gb {output}/; mv {params.mafft_dir}/$FILE.faa-gb.txt {output}/; "
         "done"
 
 
