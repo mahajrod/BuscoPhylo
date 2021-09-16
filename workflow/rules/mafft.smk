@@ -83,6 +83,7 @@ checkpoint mafft_one_directory:
     output:
         directory(output_dir_path / "mafft_test")
     shell:
+        "mkdir -p {output}; "
         "for i in {input}/*; do "
         "mv $i {output}/; "
         "done; "
