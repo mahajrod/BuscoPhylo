@@ -81,7 +81,7 @@ checkpoint mafft_one_directory:
     input:
         lambda w: expand_template_from_directories_with_sample_names(w,mafft_dir_path / "{sample}")
     output:
-        directory(mafft_dir_path)
+        directory(output_dir_path / "mafft_test")
     shell:
         "for i in {input}/*; do "
         "mv $i {output}/; "
