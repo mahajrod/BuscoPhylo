@@ -1,13 +1,16 @@
-rule gblocks_dna:
+rule gblocks:
     input:
-        fna=mafft_dir_path / "{sample}.fna"
+        # fna=mafft_dir_path / "{sample}.fna"
+        directory(output_dir_path / "tmp" / "{sample}")
     output:
-        gb=gblocks_dir_path / "{sample}.fna-gb",
-        gb_txt=gblocks_dir_path / "{sample}.fna-gb.txt"
+        # gb=gblocks_dir_path / "{sample}.fna-gb",
+        # gb_txt=gblocks_dir_path / "{sample}.fna-gb.txt"
+        temp(directory(output_dir_path / "gblocks_tmp" / "{sample}"))
     params:
-        gblocks_dir = directory(gblocks_dir_path),
+        mafft_dir=directory(mafft_dir_path),
         gblocks_path=config["gblocks_path"],
-        gblocks_flags="-t=d -p=t"
+        gblocks_dna_flags="-t=d -p=t",
+        gblocks_protein_flags="-t=p -p=t"
     log:
         std=log_dir_path / "{sample}.fna.gblocks.log",
         cluster_log=cluster_log_dir_path / "{sample}.fna.gblocks.cluster.log",
@@ -21,11 +24,30 @@ rule gblocks_dna:
         time=config["gblocks_time"],
         mem=config["gblocks_mem_mb"]
     shell:
-        "mkdir -p {params.gblocks_dir}; "
-        "{params.gblocks_path}/Gblocks {input.fna} {params.gblocks_flags} 1> {log.std}; "
-        "mv {input.fna}-gb {output.gb}; "
-        "mv {input.fna}-gb.txt {output.gb_txt}"
+        "mkdir -p {output}; "
+        "for FILE in `ls -d {input}/*`; do "
+        "FILE=$(basename $FILE); "
+        "{params.gblocks_path}/Gblocks $FILE.fna {params.gblocks_dna_flags} 2> {log.std}; mv $FILE.fna {output}/; "
+        "{params.gblocks_path}/Gblocks $FILE.faa {params.gblocks_protein_flags} 2> {log.std}; mv $FILE.faa {output}/; "
+        "done"
 
+
+def expand_template_from_directories_with_sample_names(wildcards, template):
+    checkpoint_output = checkpoints.directories_with_sample_names.get(**wildcards).output[0]
+    sample, = glob_wildcards(os.path.join(checkpoint_output, "{sample}"))
+    sample = list(set([i.split('/')[0] for i in sample]))
+    return expand(str(template), sample=sample)
+
+rule gblocks_results_to_one_directory:
+    input:
+        lambda w: expand_template_from_directories_with_sample_names(w, output_dir_path / "gblocks_tmp" / "{sample}")
+    output:
+        directory(gblocks_dir_path)
+    shell:
+        "mkdir -p {output}; "
+        "for i in {input}/*; do "
+        "mv $i {output}/; "
+        "done; "
 
 rule gblocks_protein:
     input:
