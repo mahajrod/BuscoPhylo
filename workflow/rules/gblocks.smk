@@ -42,7 +42,7 @@ def expand_template_from_directories_with_sample_names(wildcards, template):
     sample = list(set([i.split('/')[0] for i in sample]))
     return expand(str(template), sample=sample)
 
-rule gblocks_results_to_one_directory:
+checkpoint gblocks_results_to_one_directory:
     input:
         lambda w: expand_template_from_directories_with_sample_names(w, output_dir_path / "gblocks_tmp" / "{sample}")
     output:
