@@ -1,4 +1,4 @@
-localrules: merged_sequences, mafft_dna, mafft_protein, finish
+localrules: merged_sequences, mafft_dna, mafft_protein, mafft_finish
 
 
 checkpoint merged_sequences:
@@ -29,7 +29,7 @@ rule mafft_dna:
     input:
         fna=output_dir_path / "merged_sequences/{N}/"
     output:
-        outdir=directory(output_dir_path / "mafft_tmp" / "fna" / "{N}")
+        outdir=temp(directory(mafft_dir_path / "fna" / "{N}"))
     params:
         mafft_path=config["mafft_path"]
     log:
@@ -57,7 +57,7 @@ rule mafft_protein:
     input:
         faa=output_dir_path / "merged_sequences/{N}/"
     output:
-        outdir=directory(output_dir_path / "mafft_tmp" / "faa" / "{N}")
+        outdir=temp(directory(mafft_dir_path / "faa" / "{N}"))
     params:
         mafft_path=config["mafft_path"]
     log:
@@ -79,3 +79,5 @@ rule mafft_protein:
         "for FILE in `ls {input.faa}/*`; do "
         "{params.mafft_path}/mafft --thread {threads} ${{FILE%.*}}.faa > {output.outdir}/$(basename ${{FILE%.*}}.faa) ; "
         "done"
+
+
