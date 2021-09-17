@@ -25,7 +25,7 @@ rule gblocks_dna:
         "for FILE in `ls {input.fna}/*`; do "
         "{params.gblocks_path}/Gblocks ${{FILE%.*}}.fna {params.gblocks_dna_flags} 1> {log.std} 2> {log.std}; "
         "sleep 10; "
-        "mv ${{FILE%.*}}.fna-gb {output}/; mv ${{FILE%.*}}.fna-gb.txt {output}/; "
+        "mv ${{FILE%.*}}.fna-gb {output}/ 1> {log.std} 2> {log.std}; mv ${{FILE%.*}}.fna-gb.txt {output}/ 1> {log.std} 2> {log.std}; "
         "done"
 
 
@@ -54,5 +54,5 @@ rule gblocks_protein:
         "for FILE in `ls {input.faa}/*`; do "
         "{params.gblocks_path}/Gblocks ${{FILE%.*}}.faa {params.gblocks_protein_flags} 1> {log.std} 2> {log.std}; "
         "sleep 10; "
-        "mv ${{FILE%.*}}.faa-gb {output}/; mv ${{FILE%.*}}.faa-gb.txt {output}/; "
+        "mv ${{FILE%.*}}.faa-gb {output}/ 1> {log.std} 2> {log.std}; mv ${{FILE%.*}}.faa-gb.txt {output}/ 1> {log.std} 2> {log.std}; "
         "done"
