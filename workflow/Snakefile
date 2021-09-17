@@ -20,15 +20,11 @@ if "species_list" not in config:
     config["species_list"] = [d.name[:-6] for d in genome_dir_path.iterdir() if d.is_file()]
 
 #---- necessary functions ----
-def expand_template_from_merged_sequences(wildcards, template):
+def expand_template_from_merged_sequences(wildcards):
     checkpoint_output = checkpoints.merged_sequences.get(**wildcards).output[0]
-    N = wildcards.N
-    sample = glob_wildcards(os.path.join(checkpoint_output, "merged_{sample}.fna")).sample
-    return expand(str(template), N=N, sample=sample)
+    return expand(mafft_dir_path / "{N}/merged_{sample}.fna",
+        N=wildcards.N, sample = glob_wildcards(os.path.join(checkpoint_output, "merged_{sample}.fna")).sample)
 
-    return expand(out_trf_dir_path / "{sample}/{scaffold}.dat",
-           sample=wildcards.sample,
-           scaffold=glob_wildcards(os.path.join(checkpoint_output, "{scaffold}.fasta")).scaffold)
 def expand_template_from_common_ids(wildcards, template):
     checkpoint_output = checkpoints.common_ids.get(**wildcards).output[0]
     N, = glob_wildcards(os.path.join(checkpoint_output, "single_copy_busco_sequences.common.ids{N}"))
@@ -43,9 +39,10 @@ rule all:
         directory(output_dir_path / "single_copy_busco_sequences.common.dir"),
         lambda w: expand_template_from_common_ids(w, output_dir_path / "merged_sequences/{N}"),
         #
-        # # mafft:
-        lambda w: expand_template_from_merged_sequences(w, mafft_dir_path / "{N}/{sample}.fna"),
-        lambda w: expand_template_from_merged_sequences(w, mafft_dir_path / "{N}/{sample}.faa"),
+        expand_template_from_merged_sequences
+        # # # mafft:
+        # lambda w: expand_template_from_merged_sequences(w, mafft_dir_path / "{N}/{sample}.fna"),
+        # lambda w: expand_template_from_merged_sequences(w, mafft_dir_path / "{N}/{sample}.faa"),
         #
         # # gblocks:
         # lambda w: expand_template_from_merged_sequences(w, gblocks_dir_path / "{sample}.fna-gb"),
