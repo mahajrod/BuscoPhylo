@@ -34,7 +34,7 @@ def mafft_dna_aggregate(wildcards):
         outputs_j = glob.glob(f"{checkpoints.merged_sequences.get(N=N).output}")
         samples_list = glob_wildcards(str(outputs_j[0]) + "/merged_{sample}.fna").sample
         for sample in samples_list:
-            split_files.append(f"results/mafft/{N}/merged_{sample}.fna")
+            split_files.append(f"results/mafft_tmp/{N}/merged_{sample}.fna")
     return split_files
 
 def mafft_protein_aggregate(wildcards):
@@ -45,7 +45,7 @@ def mafft_protein_aggregate(wildcards):
         outputs_j = glob.glob(f"{checkpoints.merged_sequences.get(N=N).output}")
         samples_list = glob_wildcards(str(outputs_j[0]) + "/merged_{sample}.faa").sample
         for sample in samples_list:
-            split_files.append(f"results/mafft/{N}/merged_{sample}.fna")
+            split_files.append(f"results/mafft_tmp/{N}/merged_{sample}.fna")
     return split_files
 
 localrules: all
