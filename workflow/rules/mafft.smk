@@ -1,4 +1,4 @@
-localrules: merged_sequences, mafft_dna, mafft_protein
+localrules: merged_sequences, mafft_dna, mafft_protein, finish
 
 
 checkpoint merged_sequences:
@@ -73,3 +73,18 @@ rule mafft_protein:
         config["mafft_threads"]
     shell:
         "{params.mafft_path}/mafft --anysymbol --thread {threads} {input.faa} > {output.outfile} 2> {log.std}"
+
+
+checkpoint finish:
+    input:
+        fna=mafft_dna_aggregate,
+        faa=mafft_protein_aggregate
+    output:
+        directory(mafft_dir_path)
+    shell:
+        "for i in {input.fna}; do "
+        "mv $i {output}/ ; "
+        "done; "
+        "for i in {input.faa}; do "
+        "mv $i {output}/ ; "
+        "done; "
