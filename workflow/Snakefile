@@ -67,8 +67,8 @@ rule all:
         # lambda w: expand_template_from_common_ids(w, gblocks_dir_path / "faa" / "{N}"),
 
         # trimal:
-        lambda w: expand_template_from_common_ids(w, trimal_dir_path/ "fna" / "{N}"),
-        lambda w: expand_template_from_common_ids(w, trimal_dir_path/ "faa" / "{N}"),
+        lambda w: expand_template_from_common_ids(w, trimal_dir_path / "fna" / "{N}"),
+        lambda w: expand_template_from_common_ids(w, trimal_dir_path / "faa" / "{N}"),
 
 
 #---- load rules ----
