@@ -34,7 +34,7 @@ def expand_template_from_common_ids(wildcards, template):
 #         sample = glob_wildcards(os.path.join(checkpoint_output, "merged_{sample}.fna")).sample)
 
 def aggregate(wildcards):
-    outputs_i = glob.glob(f"{checkpoints.common_ids.get().output}/")
+    outputs_i = glob.glob("{checkpoints.common_ids.get().output}/*")
     print(outputs_i)
     outputs_i = [output.split('/')[-2] for output in outputs_i]
     print(outputs_i)
