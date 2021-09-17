@@ -49,51 +49,23 @@ rule mafft_dna:
     shell:
         "mkdir -p {output.outdir}; "
         "for FILE in `ls {input.fna}/*`; do "
-        "{params.mafft_path}/mafft --thread {threads} $FILE > {output.outdir}/$(basename $FILE); "
+        "{params.mafft_path}/mafft --thread {threads} ${{FILE%.*}}.fna > {output.outdir}/$(basename ${{FILE%.*}}.fna) 2> {log.std}; "
         "done"
 
-# rule mafft:
-#     input:
-#         directory(output_dir_path / "tmp" / "{sample}")
-#     output:
-#         outdir=temp(directory(output_dir_path / "mafft_tmp" / "{sample}"))
-#     params:
-#         mafft_path=config["mafft_path"]
-#     log:
-#         std=log_dir_path / "{sample}.mafft.log",
-#         cluster_log=cluster_log_dir_path / "{sample}.mafft.cluster.log",
-#         cluster_err=cluster_log_dir_path / "{sample}.mafft.cluster.err"
-#     benchmark:
-#         benchmark_dir_path / "{sample}.mafft.benchmark.txt"
-#     # conda:
-#     #     "../../%s" % config["conda_config"]
-#     resources:
-#         cpus=config["mafft_threads"],
-#         time=config["mafft_time"],
-#         mem=config["mafft_mem_mb"]
-#     threads:
-#         config["mafft_threads"]
-#     shell:
-#         "mkdir -p {output.outdir}; "
-#         "for FILE in `ls -d {input}/*`; do "
-#         "FILE=$(basename $FILE); "
-#         "{params.mafft_path}/mafft --thread {threads} results/busco/merged_sequences/merged_$FILE.fna > {output.outdir}/merged_$FILE.fna 2> {log.std}; "
-#         "{params.mafft_path}/mafft --thread {threads} --anysymbol results/busco/merged_sequences/merged_$FILE.faa > {output.outdir}/merged_$FILE.faa 2> {log.std}; "
-#         "done"
 
 rule mafft_protein:
     input:
-        faa=output_dir_path / "merged_sequences/{N}/merged_{sample}.faa"
+        faa=output_dir_path / "merged_sequences/{N}/"
     output:
-        outfile=temp(output_dir_path / "mafft_tmp" / "{N}/{sample}.faa")
+        outdir=output_dir_path / "mafft_tmp" / "{N}"
     params:
         mafft_path=config["mafft_path"]
     log:
-        std=log_dir_path / "{N}.{sample}.faa.mafft.log",
-        cluster_log=cluster_log_dir_path / "{N}.{sample}.faa.mafft.cluster.log",
-        cluster_err=cluster_log_dir_path / "{N}.{sample}.faa.mafft.cluster.err"
+        std=log_dir_path / "{N}.faa.mafft.log",
+        cluster_log=cluster_log_dir_path / "{N}.faa.mafft.cluster.log",
+        cluster_err=cluster_log_dir_path / "{N}.faa.mafft.cluster.err"
     benchmark:
-        benchmark_dir_path / "{N}.{sample}.faa.mafft.benchmark.txt"
+        benchmark_dir_path / "{N}.faa.mafft.benchmark.txt"
     # conda:
     #     "../../%s" % config["conda_config"]
     resources:
@@ -103,4 +75,7 @@ rule mafft_protein:
     threads:
         config["mafft_threads"]
     shell:
-        "{params.mafft_path}/mafft --anysymbol --thread {threads} {input.faa} > {output.outfile} 2> {log.std}"
+        "mkdir -p {output.outdir}; "
+        "for FILE in `ls {input.faa}/*`; do "
+        "{params.mafft_path}/mafft --thread {threads} ${{FILE%.*}}.faa > {output.outdir}/$(basename ${{FILE%.*}}.faa) 2> {log.std}; "
+        "done"
