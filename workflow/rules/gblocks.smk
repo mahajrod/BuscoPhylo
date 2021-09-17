@@ -24,7 +24,6 @@ rule gblocks_dna:
         "mkdir -p {output}; "
         "for FILE in `ls {input.fna}/*`; do "
         "{params.gblocks_path}/Gblocks ${{FILE%.*}}.fna {params.gblocks_dna_flags} 1> {log.std} 2> {log.std}; "
-        "sleep 10; "
         "mv ${{FILE%.*}}.fna-gb {output}/; mv ${{FILE%.*}}.fna-gb.txt {output}/; "
         "done"
 
@@ -53,6 +52,5 @@ rule gblocks_protein:
         "mkdir -p {output}; "
         "for FILE in `ls {input.faa}/*`; do "
         "{params.gblocks_path}/Gblocks ${{FILE%.*}}.faa {params.gblocks_protein_flags} 1> {log.std} 2> {log.std}; "
-        "sleep 10; "
         "mv ${{FILE%.*}}.faa-gb {output}/; mv ${{FILE%.*}}.faa-gb.txt {output}/; "
         "done"
