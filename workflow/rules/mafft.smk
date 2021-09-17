@@ -3,7 +3,7 @@ localrules: merged_sequences
 
 checkpoint merged_sequences:
     input:
-        common_ids=busco_dir_path / "single_copy_busco_sequences.common.dir/single_copy_busco_sequences.common.ids{N}"
+        common_ids=output_dir_path / "single_copy_busco_sequences.common.dir/single_copy_busco_sequences.common.ids{N}"
     output:
         merged_ids=directory(output_dir_path / "merged_sequences/{N}")
     params:
