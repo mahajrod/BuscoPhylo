@@ -22,7 +22,7 @@ if "species_list" not in config:
 #---- necessary functions ----
 def expand_template_from_common_ids(wildcards, template):
     checkpoint_output = checkpoints.common_ids.get(**wildcards).output[0]
-    N, = glob_wildcards(os.path.join(checkpoint_output, "single_copy_busco_sequences.common.ids{N}"))
+    N = glob_wildcards(os.path.join(checkpoint_output, "single_copy_busco_sequences.common.ids{N}")).N
     return expand(str(template), N=N)
 
 def expand_template_from_merged_sequences(wildcards):
