@@ -36,8 +36,6 @@ rule mafft_dna:
         std=log_dir_path / "{N}.fna.mafft.log",
         cluster_log=cluster_log_dir_path / "{N}.fna.mafft.cluster.log",
         cluster_err=cluster_log_dir_path / "{N}.fna.mafft.cluster.err"
-    group:
-        "dna"
     benchmark:
         benchmark_dir_path / "{N}.fna.mafft.benchmark.txt"
     # conda:
@@ -67,8 +65,6 @@ rule mafft_protein:
         std=log_dir_path / "{N}.faa.mafft.log",
         cluster_log=cluster_log_dir_path / "{N}.faa.mafft.cluster.log",
         cluster_err=cluster_log_dir_path / "{N}.faa.mafft.cluster.err"
-    group:
-        "protein"
     benchmark:
         benchmark_dir_path / "{N}.faa.mafft.benchmark.txt"
     # conda:
