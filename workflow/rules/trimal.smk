@@ -7,7 +7,7 @@ rule trimal_dna:
         directory(trimal_dir_path / "fna" /"{N}")
     params:
         trimal_path=config["trimal_path"],
-        trimal_dna_flags="-t=d -p=t"
+        trimal_dna_flags="-gt 0.9 -cons 60 "
     log:
         std=log_dir_path / "{N}.fna.trimal.log",
         cluster_log=cluster_log_dir_path / "{N}.fna.trimal.cluster.log",
@@ -23,9 +23,7 @@ rule trimal_dna:
     shell:
         "mkdir -p {output}; "
         "for FILE in `ls {input.fna}/*`; do "
-        "{params.gblocks_path}/Gblocks ${{FILE%.*}}.fna {params.gblocks_dna_flags} 1> {log.std} 2> {log.std}; "
-        "sleep 10; "
-        "mv ${{FILE%.*}}.fna-gb {output}/; mv ${{FILE%.*}}.fna-gb.txt {output}/; "
+        "{params.trimal_path}/trimal -in ${{FILE%.*}}.fna -out {output}/$(basename ${{FILE%.*}}.fna) {params.trimal_dna_flags} 1> {log.std} 2> {log.std}; "
         "done"
 
 
@@ -36,7 +34,7 @@ rule trimal_protein:
         directory(trimal_dir_path / "faa" /"{N}")
     params:
         trimal_path=config["trimal_path"],
-        trimal_protein_flags="-t=p -p=t"
+        trimal_protein_flags="-gt 0.9 -cons 60 "
     log:
         std=log_dir_path / "{N}.faa.trimal.log",
         cluster_log=cluster_log_dir_path / "{N}.faa.trimal.cluster.log",
@@ -52,7 +50,5 @@ rule trimal_protein:
     shell:
         "mkdir -p {output}; "
         "for FILE in `ls {input.faa}/*`; do "
-        "{params.gblocks_path}/Gblocks ${{FILE%.*}}.faa {params.gblocks_protein_flags} 1> {log.std} 2> {log.std}; "
-        "sleep 10; "
-        "mv ${{FILE%.*}}.faa-gb {output}/; mv ${{FILE%.*}}.faa-gb.txt {output}/; "
+        "{params.trimal_path}/trimal -in ${{FILE%.*}}.faa -out {output}/$(basename ${{FILE%.*}}.faa) {params.trimal_protein_flags} 1> {log.std} 2> {log.std}; "
         "done"
