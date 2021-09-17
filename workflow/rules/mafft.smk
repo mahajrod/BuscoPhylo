@@ -1,4 +1,4 @@
-localrules: merged_sequences
+localrules: merged_sequences, mafft_dna, mafft_protein
 
 
 checkpoint merged_sequences:
