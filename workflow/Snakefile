@@ -31,17 +31,16 @@ rule all:
     input:
         # busco:
         expand(busco_dir_path / "{species}/short_summary_{species}.txt", species=config["species_list"]),
-        directory(busco_dir_path / "single_copy_busco_sequences.common.dir")
-        # busco_dir_path / "single_copy_busco_sequences.common.ids",
-        # directory(merged_sequences_dir_path),
+        busco_dir_path / "single_copy_busco_sequences.common.ids",
+        directory(merged_sequences_dir_path),
 
-        # # mafft:
-        # lambda w: expand_template_from_merged_sequences(w, mafft_dir_path / "{sample}.fna"),
-        # lambda w: expand_template_from_merged_sequences(w, mafft_dir_path / "{sample}.faa"),
-        #
-        # # gblocks:
-        # lambda w: expand_template_from_merged_sequences(w, gblocks_dir_path / "{sample}.fna-gb"),
-        # lambda w: expand_template_from_merged_sequences(w, gblocks_dir_path / "{sample}.faa-gb"),
+        # mafft:
+        lambda w: expand_template_from_merged_sequences(w, mafft_dir_path / "{sample}.fna"),
+        lambda w: expand_template_from_merged_sequences(w, mafft_dir_path / "{sample}.faa"),
+
+        # gblocks:
+        lambda w: expand_template_from_merged_sequences(w, gblocks_dir_path / "{sample}.fna-gb"),
+        lambda w: expand_template_from_merged_sequences(w, gblocks_dir_path / "{sample}.faa-gb"),
 
 #---- load rules ----
 include: "rules/busco.smk"
