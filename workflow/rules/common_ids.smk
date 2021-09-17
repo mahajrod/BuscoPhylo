@@ -29,7 +29,8 @@ checkpoint common_ids:
         directory(output_dir_path / "single_copy_busco_sequences.common.dir")
     params:
         nfiles=len(config["species_list"]),
-        prefix="single_copy_busco_sequences.common.ids"
+        prefix="single_copy_busco_sequences.common.ids",
+        split_size=50
     log:
         std=log_dir_path / "common_ids.log",
         cluster_log=cluster_log_dir_path / "common_ids.cluster.log",
@@ -44,4 +45,4 @@ checkpoint common_ids:
         "mkdir -p {output}; "
         "cat {input.id_files} | "
         "sort | uniq -c | awk '{{if($1=={params.nfiles}){{print $2}}}}' | "
-        "split -l 2 --numeric-suffixes - {output}/{params.prefix}"
+        "split -l {params.split_size} --numeric-suffixes - {output}/{params.prefix}"
