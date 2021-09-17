@@ -62,6 +62,7 @@ rule all:
         lambda w: expand_template_from_common_ids(w,mafft_dir_path / "faa" / "{N}"),
         #
         # # gblocks:
+        lambda w: expand_template_from_common_ids(w,gblocks_dir_path / "fna" / "{N}"),
         # lambda w: expand_template_from_merged_sequences(w, gblocks_dir_path / "{sample}.fna-gb"),
         # lambda w: expand_template_from_merged_sequences(w, gblocks_dir_path / "{sample}.faa-gb"),
 
