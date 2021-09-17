@@ -80,7 +80,7 @@ checkpoint finish:
         fna=mafft_dna_aggregate,
         faa=mafft_protein_aggregate
     output:
-        directory(mafft_dir_path)
+        directory(output_dir_path / "mafft_dir_path")
     shell:
         "for i in {input.fna}; do "
         "mv $i {output}/ ; "
