@@ -24,7 +24,7 @@ rule gblocks_dna:
         "mkdir -p {output}; "
         "sleep 10; "
         "for FILE in `ls {input.fna}/*`; do "
-        "{params.gblocks_path}/Gblocks ${{FILE%.*}}.fna {params.gblocks_dna_flags} || true; "
+        "{params.gblocks_path}/Gblocks ${{FILE%.*}}.fna {params.gblocks_dna_flags}; "
         "mv ${{FILE%.*}}.fna-gb {output}/; mv ${{FILE%.*}}.fna-gb.txt {output}/; "
         "done"
 
