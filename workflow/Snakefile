@@ -44,7 +44,8 @@ def aggregate(wildcards):
     split_files = []
     for N in Nlst:
         outputs_j = glob.glob(f"{checkpoints.merged_sequences.get(N=N).output}")
-        print (outputs_j)
+        S = glob_wildcards(str(outputs_j[0]) + "/merged_{sample}.fna").sample
+        print (S)
     #     outputs_j = [output.split('/')[-2] for output in outputs_j]
     #     for j in outputs_j:
     #         split_files.append(output_dir_path / "/{i}/merged_{j}.fna")
