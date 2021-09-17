@@ -51,7 +51,6 @@ rule gblocks_protein:
         mem=config["gblocks_mem_mb"]
     shell:
         "mkdir -p {output}; "
-        "sleep 10; "
         "for FILE in `ls {input.faa}/*`; do "
         "{params.gblocks_path}/Gblocks ${{FILE%.*}}.faa {params.gblocks_protein_flags} 1> {log.std} 2> {log.std}; "
         "sleep 10; "
