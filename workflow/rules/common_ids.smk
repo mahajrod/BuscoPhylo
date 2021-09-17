@@ -22,13 +22,14 @@ rule species_ids:
         "ls {input.busco_outdir}/{params.single_copy_files} | grep -P '.fna$' | sed 's/.fna//' > {output.ids} 2> {log.std}"
 
 
-rule common_ids:
+checkpoint common_ids:
     input:
         id_files=expand(busco_dir_path/ "{species}.ids", species=config["species_list"])
     output:
-        busco_dir_path / "single_copy_busco_sequences.common.ids"
+        directory(busco_dir_path / "single_copy_busco_sequences.common.dir")
     params:
-        nfiles=len(config["species_list"])
+        nfiles=len(config["species_list"]),
+        prefix=busco_dir_path / "single_copy_busco_sequences.common.ids"
     log:
         std=log_dir_path / "common_ids.log",
         cluster_log=cluster_log_dir_path / "common_ids.cluster.log",
@@ -40,5 +41,6 @@ rule common_ids:
         time=config["common_ids_time"],
         mem=config["common_ids_mem_mb"]
     shell:
-        "cat {input.id_files} |"
-        "sort | uniq -c | awk '{{if($1=={params.nfiles}){{print $2}}}}' > {output} 2> {log.std}"
+        "cat {input.id_files} | "
+        "sort | uniq -c | awk '{{if($1=={params.nfiles}){{print $2}}}}' | "
+        "split -l 2 --numeric-suffixes - {params.prefix} 2> {log.std} "
