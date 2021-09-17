@@ -9,6 +9,7 @@ cluster_log_dir: "cluster_logs"
 busco_dir: "busco"
 mafft_dir: "mafft"
 gblocks_dir: "gblocks"
+trimal_dir: "trimal"
 merged_sequences_dir: "merged_sequences"
 benchmark_dir: "benchmarks"
 
@@ -16,18 +17,21 @@ benchmark_dir: "benchmarks"
 busco_threads: 4 #TODO: adjust for cluster
 mafft_threads: 4
 gblocks_threads: 2
+trimal_threads: 2
 common_ids_threads: 1
 
 #---- Tool memory ---- #TODO: adjust memory requirements
 busco_mem_mb: 20000
 mafft_mem_mb: 20000
 gblocks_mem_mb: 10000
+trimal_mem_mb: 10000
 common_ids_mem_mb: 2000
 
 #---- Tool time ----
 busco_time: "60:00:00"
 mafft_time: "60:00:00"
 gblocks_time: "60:00:00"
+trimal_time: "60:00:00"
 common_ids_time: "00:30:00"
 
 #---- Tool paths ----
@@ -35,6 +39,7 @@ busco_path:
 busco_dataset_path:
 mafft_path:
 gblocks_path:
+trimal_path:
 
 #---- Tool variables ----
 busco_mode: "genome"

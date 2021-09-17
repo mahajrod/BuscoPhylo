@@ -16,6 +16,7 @@ busco_dir_path = output_dir_path / config["busco_dir"]
 merged_sequences_dir_path = busco_dir_path / config["merged_sequences_dir"]
 mafft_dir_path = output_dir_path / config["mafft_dir"]
 gblocks_dir_path = output_dir_path / config["gblocks_dir"]
+trimal_dir_path = output_dir_path / config["trimal_dir"]
 
 if "species_list" not in config:
     config["species_list"] = [d.name[:-6] for d in genome_dir_path.iterdir() if d.is_file()]
