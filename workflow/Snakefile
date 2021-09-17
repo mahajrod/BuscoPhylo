@@ -20,10 +20,15 @@ if "species_list" not in config:
     config["species_list"] = [d.name[:-6] for d in genome_dir_path.iterdir() if d.is_file()]
 
 #---- necessary functions ----
-def expand_template_from_merged_sequences(wildcards, template):
-    checkpoint_output = checkpoints.merged_sequences.get(**wildcards).output[0]
-    sample, = glob_wildcards(os.path.join(checkpoint_output, "merged_{sample}.fna"))
-    return expand(str(template), sample=sample)
+# def expand_template_from_merged_sequences(wildcards, template):
+#     checkpoint_output = checkpoints.merged_sequences.get(**wildcards).output[0]
+#     sample, = glob_wildcards(os.path.join(checkpoint_output, "merged_{sample}.fna"))
+#     return expand(str(template), sample=sample)
+
+def expand_template_from_common_ids(wildcards, template):
+    checkpoint_output = checkpoints.common_ids.get(**wildcards).output[0]
+    N, = glob_wildcards(os.path.join(checkpoint_output, "single_copy_busco_sequences.common.ids{N}"))
+    return expand(str(template), N=N)
 
 localrules: all
 
@@ -31,9 +36,9 @@ rule all:
     input:
         # busco:
         expand(busco_dir_path / "{species}/short_summary_{species}.txt", species=config["species_list"]),
-        directory(busco_dir_path / "single_copy_busco_sequences.common.dir")
-        # busco_dir_path / "single_copy_busco_sequences.common.ids",
-        # directory(merged_sequences_dir_path),
+        directory(busco_dir_path / "single_copy_busco_sequences.common.dir"),
+        directory(merged_sequences_dir_path),
+        lambda w: expand_template_from_common_ids(w, merged_sequences_dir_path / "{N}"),
         #
         # # mafft:
         # lambda w: expand_template_from_merged_sequences(w, mafft_dir_path / "{sample}.fna"),
