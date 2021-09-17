@@ -57,7 +57,8 @@ rule all:
         directory(output_dir_path / "single_copy_busco_sequences.common.dir"),
         lambda w: expand_template_from_common_ids(w, output_dir_path / "merged_sequences/{N}"),
         #
-        lambda w: expand_template_from_common_ids(w, output_dir_path / "mafft_tmp" / "{N}"),
+        lambda w: expand_template_from_common_ids(w, output_dir_path / "mafft_tmp" /  "fna" / "{N}"),
+        lambda w: expand_template_from_common_ids(w,output_dir_path / "mafft_tmp" / "faa" / "{N}"),
         # mafft_dna_aggregate,
         # mafft_protein_aggregate,
         # # # mafft:
