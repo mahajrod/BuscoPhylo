@@ -5,7 +5,7 @@ checkpoint merged_sequences:
     input:
         common_ids=busco_dir_path / "single_copy_busco_sequences.common.dir/single_copy_busco_sequences.common.ids{N}"
     output:
-        merged_ids=directory(merged_sequences_dir_path / "{N}")
+        merged_ids=directory(output_dir_path / "merged_sequences/{N}")
     params:
         single_copy_files=expand(busco_dir_path / "{species}" / "single_copy_busco_sequences", species=config["species_list"])
     log:
