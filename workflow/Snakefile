@@ -40,8 +40,8 @@ rule all:
         lambda w: expand_template_from_common_ids(w, output_dir_path / "merged_sequences/{N}"),
         #
         # # mafft:
-        # lambda w: expand_template_from_merged_sequences(w, mafft_dir_path / "{sample}.fna"),
-        # lambda w: expand_template_from_merged_sequences(w, mafft_dir_path / "{sample}.faa"),
+        lambda w: expand_template_from_merged_sequences(w, mafft_dir_path / "{N}/{sample}.fna"),
+        lambda w: expand_template_from_merged_sequences(w, mafft_dir_path / "{N}/{sample}.faa"),
         #
         # # gblocks:
         # lambda w: expand_template_from_merged_sequences(w, gblocks_dir_path / "{sample}.fna-gb"),

@@ -27,17 +27,17 @@ checkpoint merged_sequences:
 
 rule mafft_dna:
     input:
-        fna=merged_sequences_dir_path / "merged_{sample}.fna"
+        fna=output_dir_path / "merged_sequences/{N}/merged_{sample}.fna"
     output:
-        outfile=mafft_dir_path / "{sample}.fna"
+        outfile=mafft_dir_path / "{N}/{sample}.fna"
     params:
         mafft_path=config["mafft_path"]
     log:
-        std=log_dir_path / "{sample}.fna.mafft.log",
-        cluster_log=cluster_log_dir_path / "{sample}.fna.mafft.cluster.log",
-        cluster_err=cluster_log_dir_path / "{sample}.fna.mafft.cluster.err"
+        std=log_dir_path / "{N}.{sample}.fna.mafft.log",
+        cluster_log=cluster_log_dir_path / "{N}.{sample}.fna.mafft.cluster.log",
+        cluster_err=cluster_log_dir_path / "{N}.{sample}.fna.mafft.cluster.err"
     benchmark:
-        benchmark_dir_path / "{sample}.fna.mafft.benchmark.txt"
+        benchmark_dir_path / "{N}.{sample}.fna.mafft.benchmark.txt"
     # conda:
     #     "../../%s" % config["conda_config"]
     resources:
@@ -52,17 +52,17 @@ rule mafft_dna:
 
 rule mafft_protein:
     input:
-        faa=merged_sequences_dir_path / "merged_{sample}.faa"
+        faa=output_dir_path / "merged_sequences/{N}/merged_{sample}.faa"
     output:
-        outfile=mafft_dir_path / "{sample}.faa"
+        outfile=mafft_dir_path / "{N}/{sample}.faa"
     params:
         mafft_path=config["mafft_path"]
     log:
-        std=log_dir_path / "{sample}.faa.mafft.log",
-        cluster_log=cluster_log_dir_path / "{sample}.faa.mafft.cluster.log",
-        cluster_err=cluster_log_dir_path / "{sample}.faa.mafft.cluster.err"
+        std=log_dir_path / "{N}.{sample}.faa.mafft.log",
+        cluster_log=cluster_log_dir_path / "{N}.{sample}.faa.mafft.cluster.log",
+        cluster_err=cluster_log_dir_path / "{N}.{sample}.faa.mafft.cluster.err"
     benchmark:
-        benchmark_dir_path / "{sample}.faa.mafft.benchmark.txt"
+        benchmark_dir_path / "{N}.{sample}.faa.mafft.benchmark.txt"
     # conda:
     #     "../../%s" % config["conda_config"]
     resources:
