@@ -22,6 +22,7 @@ rule gblocks_dna:
         mem=config["gblocks_mem_mb"]
     shell:
         "mkdir -p {output}; "
+        "sleep 10; "
         "for FILE in `ls {input.fna}/*`; do "
         "{params.gblocks_path}/Gblocks ${{FILE%.*}}.fna {params.gblocks_dna_flags}; "
         "mv ${{FILE%.*}}.fna-gb {output}/; mv ${{FILE%.*}}.fna-gb.txt {output}/; "
@@ -50,6 +51,7 @@ rule gblocks_protein:
         mem=config["gblocks_mem_mb"]
     shell:
         "mkdir -p {output}; "
+        "sleep 10; "
         "for FILE in `ls {input.faa}/*`; do "
         "{params.gblocks_path}/Gblocks ${{FILE%.*}}.faa {params.gblocks_protein_flags}; "
         "mv ${{FILE%.*}}.faa-gb {output}/; mv ${{FILE%.*}}.faa-gb.txt {output}/; "
