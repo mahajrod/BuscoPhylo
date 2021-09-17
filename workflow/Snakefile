@@ -43,13 +43,25 @@ def aggregate(wildcards):
     print(outputs_i)
     split_files = []
     for N in Nlst:
-        outputs_j = glob.glob(f"{checkpoints.merged_sequences.get(**wildcards).output}/*/")
+        outputs_j = glob.glob(f"{checkpoints.merged_sequences.get(N=N).output}/*/")
         print (outputs_j)
-        outputs_j = [output.split('/')[-2] for output in outputs_j]
-        for j in outputs_j:
-            split_files.append(output_dir_path / "/{i}/merged_{j}.fna")
-    print(split_files)
+    #     outputs_j = [output.split('/')[-2] for output in outputs_j]
+    #     for j in outputs_j:
+    #         split_files.append(output_dir_path / "/{i}/merged_{j}.fna")
+    # print(split_files)
     return split_files
+
+    # outputs_i = glob.glob(f"{checkpoints.first.get().output}/*/")
+    # outputs_i = [output.split('/')[-2] for output in outputs_i]
+    # split_files = []
+    # for i in outputs_i:
+    #     outputs_j = glob.glob(f"{checkpoints.second.get(i=i).output}/*/")
+    #     outputs_j = [output.split('/')[-2] for output in outputs_j]
+    #     for j in outputs_j:
+    #         split_files.append(f"copy/{i}/{j}/test2.txt")
+    #
+    # return split_files
+
 
 localrules: all
 
