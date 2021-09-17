@@ -35,7 +35,7 @@ def expand_template_from_common_ids(wildcards, template):
 
 def aggregate(wildcards):
     outputs_i = glob.glob(checkpoints.common_ids.get(**wildcards).output[0])
-    files = os.listdir(str(outputs_i[0]))
+    files = os.listdir(str(outputs_i[0])).remove('.snakemake_timestamp')
     outputs_i = [str(outputs_i[0]) + file for file in files]
     print(outputs_i)
     split_files = []
