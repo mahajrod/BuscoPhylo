@@ -82,11 +82,11 @@ checkpoint finish:
     output:
         directory(mafft_dir_path)
     shell:
-        "mkdir -p {output}"
+        "mkdir -p {output}; "
         "for i in {input.fna}; do "
         "mv $i {output}/ ; "
         "done; "
-        "mkdir -p {output}"
+        "mkdir -p {output}; "
         "for i in {input.faa}; do "
         "mv $i {output}/ ; "
         "done; "
