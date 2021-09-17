@@ -50,7 +50,7 @@ rule gblocks_protein:
         mem=config["gblocks_mem_mb"]
     shell:
         "mkdir -p {output}; "
-        "for FILE in `ls {input.fna}/*`; do "
+        "for FILE in `ls {input.faa}/*`; do "
         "{params.gblocks_path}/Gblocks ${{FILE%.*}}.faa {params.gblocks_protein_flags} || true; "
         "mv ${{FILE%.*}}.faa-gb {output}/; mv ${{FILE%.*}}.faa-gb.txt {output}/; "
         "done"
