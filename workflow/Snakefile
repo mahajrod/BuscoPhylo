@@ -47,7 +47,7 @@ def aggregate(wildcards):
         S = glob_wildcards(str(outputs_j[0]) + "/merged_{sample}.fna").sample
         # print (S)
         for i in S:
-            split_files.append(str(output_dir_path) + "/{N}/merged_{i}.fna")
+            split_files.append(f"results/mafft/{N}/merged_{i}.fna")
     print(split_files)
     return split_files
 
