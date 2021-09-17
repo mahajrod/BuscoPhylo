@@ -43,7 +43,7 @@ def aggregate(wildcards):
     print(outputs_i)
     split_files = []
     for i in N:
-        outputs_j = glob.glob(f"{checkpoints.merged_sequences.get(N=N).output}/*/")
+        outputs_j = glob.glob(f"{checkpoints.merged_sequences.get(N=i).output}/*/")
         print (outputs_j)
         outputs_j = [output.split('/')[-2] for output in outputs_j]
         for j in outputs_j:
