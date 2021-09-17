@@ -43,4 +43,4 @@ checkpoint common_ids:
     shell:
         "cat {input.id_files} | "
         "sort | uniq -c | awk '{{if($1=={params.nfiles}){{print $2}}}}' | "
-        "split -l 2 --numeric-suffixes - {output}/{params.prefix} 2> {log.std} "
+        "split -l 2 --numeric-suffixes - {output}/{params.prefix}"
