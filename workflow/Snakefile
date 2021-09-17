@@ -36,14 +36,14 @@ def expand_template_from_merged_sequences(wildcards):
 def aggregate(wildcards):
     outputs_i = glob.glob(checkpoints.common_ids.get(**wildcards).output[0])
     Nlst = glob_wildcards(str(outputs_i[0]) + "/single_copy_busco_sequences.common.ids{N}").N
-    print(N)
+    print(Nlst)
     files = os.listdir(str(outputs_i[0]))
     files.remove('.snakemake_timestamp')
     outputs_i = [str(outputs_i[0]) + "/" + file for file in files]
     print(outputs_i)
     split_files = []
     for i in Nlst:
-        outputs_j = glob.glob("{checkpoints.merged_sequences.get(**wildcards).output}")
+        outputs_j = glob.glob("{checkpoints.merged_sequences.get(N=i).output}")
         print (outputs_j)
         outputs_j = [output.split('/')[-2] for output in outputs_j]
         for j in outputs_j:
