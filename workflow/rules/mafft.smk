@@ -51,7 +51,6 @@ rule mafft_dna:
         "for FILE in `ls {input.fna}/*`; do "
         "{params.mafft_path}/mafft --thread {threads} ${{FILE%.*}}.fna > {output.outdir}/$(basename ${{FILE%.*}}.fna) 2> {log.std}; "
         "done; "
-        "sleep 10; "
 
 
 rule mafft_protein:
@@ -79,8 +78,6 @@ rule mafft_protein:
         "mkdir -p {output.outdir}; "
         "for FILE in `ls {input.faa}/*`; do "
         "{params.mafft_path}/mafft --thread {threads} ${{FILE%.*}}.faa > {output.outdir}/$(basename ${{FILE%.*}}.faa) 2> {log.std}; "
-        "sleep 10; "
         "done; "
-        "sleep 10; "
 
 
