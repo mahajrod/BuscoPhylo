@@ -41,6 +41,7 @@ checkpoint common_ids:
         time=config["common_ids_time"],
         mem=config["common_ids_mem_mb"]
     shell:
+        "mkdir -p {output}; "
         "cat {input.id_files} | "
         "sort | uniq -c | awk '{{if($1=={params.nfiles}){{print $2}}}}' | "
         "split -l 2 --numeric-suffixes - {output}/{params.prefix}"
