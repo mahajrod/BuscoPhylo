@@ -12,6 +12,8 @@ rule gblocks_dna:
         std=log_dir_path / "{N}.fna.gblocks.log",
         cluster_log=cluster_log_dir_path / "{N}.fna.gblocks.cluster.log",
         cluster_err=cluster_log_dir_path / "{N}.fna.gblocks.cluster.err"
+    group:
+        "dna"
     benchmark:
         benchmark_dir_path / "{N}.fna.gblocks.benchmark.txt"
     # conda:
@@ -41,6 +43,8 @@ rule gblocks_protein:
         std=log_dir_path / "{N}.faa.gblocks.log",
         cluster_log=cluster_log_dir_path / "{N}.faa.gblocks.cluster.log",
         cluster_err=cluster_log_dir_path / "{N}.faa.gblocks.cluster.err"
+    group:
+        "protein"
     benchmark:
         benchmark_dir_path / "{N}.faa.gblocks.benchmark.txt"
     # conda:
