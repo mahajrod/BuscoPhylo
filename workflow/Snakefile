@@ -36,15 +36,13 @@ def expand_template_from_common_ids(wildcards, template):
 def aggregate(wildcards):
     outputs_i = glob.glob(checkpoints.common_ids.get(**wildcards).output[0])
     N = glob_wildcards(str(outputs_i[0]) + "/single_copy_busco_sequences.common.ids{N}").N
-    checkpoint_output = checkpoints.merged_sequences.get(**wildcards).output[0]
-    print(checkpoint_output)
     print(N)
     files = os.listdir(str(outputs_i[0]))
     files.remove('.snakemake_timestamp')
     outputs_i = [str(outputs_i[0]) + "/" + file for file in files]
     print(outputs_i)
     split_files = []
-    for i in outputs_i:
+    for i in N:
         outputs_j = glob.glob(f"{checkpoints.merged_sequences.get(N=N).output}/*/")
         print (outputs_j)
         outputs_j = [output.split('/')[-2] for output in outputs_j]
