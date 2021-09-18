@@ -2,9 +2,9 @@ localrules: gblocks_dna, gblocks_protein
 
 rule gblocks_dna:
     input:
-        fna=directory(mafft_dir_path / "fna" / "{N}")
+        fna=directory(mafft_dir_path / "fna_tmp" / "{N}")
     output:
-        directory(gblocks_dir_path / "fna" /"{N}")
+        directory(gblocks_dir_path / "fna_tmp" /"{N}")
     params:
         gblocks_path=config["gblocks_path"],
         gblocks_dna_flags="-t=d -p=t"
@@ -30,9 +30,9 @@ rule gblocks_dna:
 
 rule gblocks_protein:
     input:
-        faa=directory(mafft_dir_path / "faa" / "{N}")
+        faa=directory(mafft_dir_path / "faa_tmp" / "{N}")
     output:
-        directory(gblocks_dir_path / "faa" /"{N}")
+        directory(gblocks_dir_path / "faa_tmp" /"{N}")
     params:
         gblocks_path=config["gblocks_path"],
         gblocks_protein_flags="-t=p -p=t"
