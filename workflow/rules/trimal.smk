@@ -4,7 +4,7 @@ rule trimal_dna:
     input:
         fna=directory(mafft_dir_path / "fna" / "{N}")
     output:
-        directory(trimal_dir_path / "fna" /"{N}")
+        temp(directory(trimal_dir_path / "fna" /"{N}"))
     params:
         trimal_path=config["trimal_path"],
         trimal_dna_flags="-gt 0.9 -cons 60 "
@@ -31,7 +31,7 @@ rule trimal_protein:
     input:
         faa=directory(mafft_dir_path / "faa" / "{N}")
     output:
-        directory(trimal_dir_path / "faa" /"{N}")
+        temp(directory(trimal_dir_path / "faa" /"{N}"))
     params:
         trimal_path=config["trimal_path"],
         trimal_protein_flags="-gt 0.9 -cons 60 "
