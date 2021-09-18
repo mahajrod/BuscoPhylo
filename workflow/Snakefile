@@ -76,23 +76,20 @@ rule all:
 
 rule file_transfer:
     input:
-        lambda w: expand_template_from_common_ids(w, mafft_dir_path / "fna" / "{N}"),
-        lambda w: expand_template_from_common_ids(w, mafft_dir_path / "faa" / "{N}"),
-        lambda w: expand_template_from_common_ids(w, trimal_dir_path / "fna" / "{N}"),
-        lambda w: expand_template_from_common_ids(w, trimal_dir_path / "faa" / "{N}"),
+        mafft_fna_dirs=lambda w: expand_template_from_common_ids(w, mafft_dir_path / "fna" / "{N}"),
+        mafft_faa_dirs=lambda w: expand_template_from_common_ids(w, mafft_dir_path / "faa" / "{N}"),
+        trimal_fna_dirs=lambda w: expand_template_from_common_ids(w, trimal_dir_path / "fna" / "{N}"),
+        trimal_faa_dirs=lambda w: expand_template_from_common_ids(w, trimal_dir_path / "faa" / "{N}"),
     output:
         mafft_fna_dir=directory(mafft_dir_path / "fna_"),
         mafft_faa_dir=directory(mafft_dir_path / "faa_"),
         trimal_fna_dir=directory(trimal_dir_path/ "fna_"),
         trimal_faa_dir=directory(trimal_dir_path / "faa_"),
-    params:
-        mafft_dir=mafft_dir_path,
-        trimal_dir=trimal_dir_path
     shell:
-        "for i in `ls {params.mafft_dir}/fna/*`; do mv {params.mafft_dir}/fna/$i/*.fna {output.mafft_fna_dir}/; done; "
-        "for i in `ls {params.mafft_dir}/faa/*`; do mv {params.mafft_dir}/faa/$i/*.faa {output.mafft_faa_dir}/; done; "
-        "for i in `ls {params.trimal_dir}/fna/*`; do mv {params.trimal_dir}/fna/$i/*.fna {output.trimal_fna_dir}/; done; "
-        "for i in `ls {params.trimal_dir}/faa/*`; do mv {params.trimal_dir}/faa/$i/*.faa {output.trimal_faa_dir}/; done; "
+        "for i in {input.mafft_fna_dirs}; do mv {input.mafft_fna_dirs}*.fna {output.mafft_fna_dir}/; done; "
+        "for i in {input.mafft_faa_dirs}; do mv {input.mafft_faa_dirs}*.fna {output.mafft_faa_dir}/; done; "
+        "for i in {input.trimal_fna_dirs}; do mv {input.trimal_fna_dirs}*.fna {output.trimal_fna_dir}/; done; "
+        "for i in {input.trimal_faa_dirs}; do mv {input.trimal_faa_dirs}*.fna {output.trimal_faa_dir}/; done; "
 
 
 #---- load rules ----
