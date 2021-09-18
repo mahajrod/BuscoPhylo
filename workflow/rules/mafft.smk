@@ -5,7 +5,7 @@ rule mafft_dna:
     input:
         fna=output_dir_path / "merged_sequences/{N}/"
     output:
-        outdir=temp(directory(mafft_dir_path / "fna" / "{N}"))
+        outdir=temp(directory(mafft_dir_path / "fna_tmp" / "{N}"))
     params:
         mafft_path=config["mafft_path"]
     log:
@@ -33,7 +33,7 @@ rule mafft_protein:
     input:
         faa=output_dir_path / "merged_sequences/{N}/"
     output:
-        outdir=temp(directory(mafft_dir_path / "faa" / "{N}"))
+        outdir=temp(directory(mafft_dir_path / "faa_tmp" / "{N}"))
     params:
         mafft_path=config["mafft_path"]
     log:

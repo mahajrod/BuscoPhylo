@@ -2,9 +2,9 @@ localrules: trimal_dna, trimal_protein
 
 rule trimal_dna:
     input:
-        fna=directory(mafft_dir_path / "fna" / "{N}")
+        fna=directory(mafft_dir_path / "fna_tmp" / "{N}")
     output:
-        temp(directory(trimal_dir_path / "fna" /"{N}"))
+        temp(directory(trimal_dir_path / "fna_tmp" /"{N}"))
     params:
         trimal_path=config["trimal_path"],
         trimal_dna_flags="-gt 0.9 -cons 60 "
@@ -29,9 +29,9 @@ rule trimal_dna:
 
 rule trimal_protein:
     input:
-        faa=directory(mafft_dir_path / "faa" / "{N}")
+        faa=directory(mafft_dir_path / "faa_tmp" / "{N}")
     output:
-        temp(directory(trimal_dir_path / "faa" /"{N}"))
+        temp(directory(trimal_dir_path / "faa_tmp" /"{N}"))
     params:
         trimal_path=config["trimal_path"],
         trimal_protein_flags="-gt 0.9 -cons 60 "
