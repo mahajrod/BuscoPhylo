@@ -49,7 +49,7 @@ def mafft_protein_aggregate(wildcards):
             split_files.append(f"results/mafft_tmp/{N}/merged_{sample}.fna")
     return split_files
 
-localrules: all
+localrules: all, file_transfer
 
 rule all:
     input:
@@ -58,17 +58,41 @@ rule all:
         directory(output_dir_path / "single_copy_busco_sequences.common.dir"),
         lambda w: expand_template_from_common_ids(w, output_dir_path / "merged_sequences/{N}"),
 
+        directory(mafft_dir_path / "fna_"),
+        directory(mafft_dir_path / "faa_"),
+        directory(trimal_dir_path / "fna_"),
+        directory(trimal_dir_path / "faa_"),
         # mafft:
-        lambda w: expand_template_from_common_ids(w, mafft_dir_path /  "fna" / "{N}"),
-        lambda w: expand_template_from_common_ids(w, mafft_dir_path / "faa" / "{N}"),
+        # lambda w: expand_template_from_common_ids(w, mafft_dir_path /  "fna" / "{N}"),
+        # lambda w: expand_template_from_common_ids(w, mafft_dir_path / "faa" / "{N}"),
 
         # gblocks:
         # lambda w: expand_template_from_common_ids(w, gblocks_dir_path / "fna" / "{N}"),
         # lambda w: expand_template_from_common_ids(w, gblocks_dir_path / "faa" / "{N}"),
 
         # trimal:
+        # lambda w: expand_template_from_common_ids(w, trimal_dir_path / "fna" / "{N}"),
+        # lambda w: expand_template_from_common_ids(w, trimal_dir_path / "faa" / "{N}"),
+
+rule file_transfer:
+    input:
+        lambda w: expand_template_from_common_ids(w, mafft_dir_path / "fna" / "{N}"),
+        lambda w: expand_template_from_common_ids(w, mafft_dir_path / "faa" / "{N}"),
         lambda w: expand_template_from_common_ids(w, trimal_dir_path / "fna" / "{N}"),
         lambda w: expand_template_from_common_ids(w, trimal_dir_path / "faa" / "{N}"),
+    output:
+        mafft_fna_dir=directory(mafft_dir_path / "fna_"),
+        mafft_faa_dir=directory(mafft_dir_path / "faa_"),
+        trimal_fna_dir=directory(trimal_dir_path/ "fna_"),
+        trimal_faa_dir=directory(trimal_dir_path / "faa_"),
+    params:
+        mafft_dir=mafft_dir_path,
+        trimal_dir=trimal_dir_path
+    shell:
+        "for i in `ls {params.mafft_dir}/fna/*`; do mv {params.mafft_dir}/fna/$i/*.fna {output.mafft_fna_dir}/; done; "
+        "for i in `ls {params.mafft_dir}/faa/*`; do mv {params.mafft_dir}/faa/$i/*.faa {output.mafft_faa_dir}/; done; "
+        "for i in `ls {params.trimal_dir}/fna/*`; do mv {params.trimal_dir}/fna/$i/*.fna {output.trimal_fna_dir}/; done; "
+        "for i in `ls {params.trimal_dir}/faa/*`; do mv {params.trimal_dir}/faa/$i/*.faa {output.trimal_faa_dir}/; done; "
 
 
 #---- load rules ----
