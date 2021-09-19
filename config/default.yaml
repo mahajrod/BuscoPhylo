@@ -11,6 +11,7 @@ mafft_dir: "mafft"
 gblocks_dir: "gblocks"
 trimal_dir: "trimal"
 common_ids_dir: "common_ids"
+single_copy_busco_sequences_dir: "single_copy_busco_sequences.common.dir"
 merged_sequences_dir: "merged_sequences"
 benchmark_dir: "benchmarks"
 
