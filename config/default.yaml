@@ -10,6 +10,7 @@ busco_dir: "busco"
 mafft_dir: "mafft"
 gblocks_dir: "gblocks"
 trimal_dir: "trimal"
+common_ids_dir: "common_ids"
 merged_sequences_dir: "merged_sequences"
 benchmark_dir: "benchmarks"
 

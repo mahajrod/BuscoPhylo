@@ -5,7 +5,7 @@ rule species_ids:
     input:
         busco_outdir=directory(busco_dir_path / "{species}")
     output:
-        ids=busco_dir_path / "{species}.ids"
+        ids=common_ids_dir_path / "{species}.ids"
     params:
         single_copy_files="single_copy_busco_sequences/"
     log:
@@ -24,9 +24,9 @@ rule species_ids:
 
 checkpoint common_ids:
     input:
-        id_files=expand(busco_dir_path/ "{species}.ids", species=config["species_list"])
+        id_files=expand(common_ids_dir_path / "{species}.ids", species=config["species_list"])
     output:
-        directory(busco_dir_path / "single_copy_busco_sequences.common.dir")
+        directory(merged_sequences_dir_path / "single_copy_busco_sequences.common.dir")
     params:
         nfiles=len(config["species_list"]),
         prefix="single_copy_busco_sequences.common.ids",
@@ -50,7 +50,7 @@ checkpoint common_ids:
 
 checkpoint merged_sequences:
     input:
-        common_ids=busco_dir_path / "single_copy_busco_sequences.common.dir/single_copy_busco_sequences.common.ids{N}"
+        common_ids=merged_sequences_dir_path / "single_copy_busco_sequences.common.dir/common.ids{N}"
     output:
         merged_ids=directory(merged_sequences_dir_path / "{N}")
     params:

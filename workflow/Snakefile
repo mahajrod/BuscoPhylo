@@ -13,7 +13,8 @@ benchmark_dir_path = Path(config["benchmark_dir"])
 output_dir_path = Path(config["output_dir"])
 
 busco_dir_path = output_dir_path / config["busco_dir"]
-merged_sequences_dir_path = busco_dir_path / config["merged_sequences_dir"]
+common_ids_dir_path = output_dir_path / config["common_ids_dir"]
+merged_sequences_dir_path = common_ids_dir_path / config["merged_sequences"]
 mafft_dir_path = output_dir_path / config["mafft_dir"]
 gblocks_dir_path = output_dir_path / config["gblocks_dir"]
 trimal_dir_path = output_dir_path / config["trimal_dir"]
