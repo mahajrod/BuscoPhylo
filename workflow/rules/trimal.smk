@@ -1,4 +1,4 @@
-localrules: trimal_dna, trimal_protein
+# localrules: trimal_dna, trimal_protein
 
 rule trimal_dna:
     input:

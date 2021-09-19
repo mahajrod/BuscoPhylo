@@ -1,4 +1,4 @@
-localrules: mafft_dna, mafft_protein
+# localrules: mafft_dna, mafft_protein
 
 
 rule mafft_dna:
