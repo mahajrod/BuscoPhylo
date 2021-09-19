@@ -24,7 +24,7 @@ rule species_ids:
 
 checkpoint common_ids:
     input:
-        id_files=expand(common_ids_dir_path / "{species}.ids", species=config["species_list"])
+        ids=expand(common_ids_dir_path / "{species}.ids", species=config["species_list"])
     output:
         directory(single_copy_busco_sequences_dir_path)
     params:
@@ -43,7 +43,7 @@ checkpoint common_ids:
         mem=config["common_ids_mem_mb"]
     shell:
         "mkdir -p {output}; "
-        "cat {input.id_files} | "
+        "cat {input.ids} | "
         "sort | uniq -c | awk '{{if($1=={params.nfiles}){{print $2}}}}' | "
         "split -l {params.split_size} --numeric-suffixes - {output}/{params.prefix}"
 
