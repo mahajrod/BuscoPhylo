@@ -20,13 +20,19 @@ mafft_dir_path = output_dir_path / config["mafft_dir"]
 gblocks_dir_path = output_dir_path / config["gblocks_dir"]
 trimal_dir_path = output_dir_path / config["trimal_dir"]
 
+#---- results file names ----
+concat_fna_filename = config["concat_fna_filename"]
+concat_faa_filename = config["concat_faa_filename"]
+common_ids_fileprefix = config["common_ids_fileprefix"]
+
+
 if "species_list" not in config:
     config["species_list"] = [d.name[:-6] for d in genome_dir_path.iterdir() if d.is_file()]
 
 #---- necessary functions ----
 def expand_template_from_common_ids(wildcards, template):
     checkpoint_output = checkpoints.common_ids.get(**wildcards).output[0]
-    N = glob_wildcards(os.path.join(checkpoint_output, "common.ids{N}")).N
+    N = glob_wildcards(os.path.join(checkpoint_output, common_ids_fileprefix + "{N}")).N
     return expand(str(template), N=N)
 
 
@@ -52,8 +58,8 @@ rule all:
         # directory(gblocks_dir_path / "faa"),
 
         # concat fasta:
-        output_dir_path/ "concat.fna",
-        output_dir_path/ "concat.faa"
+        output_dir_path / concat_fna_filename,
+        output_dir_path / concat_faa_filename
 
 
 rule file_transfer:

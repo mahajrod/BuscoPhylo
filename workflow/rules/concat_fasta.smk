@@ -5,26 +5,27 @@ rule concat_fasta_dna:
     input:
         directory(trimal_dir_path / "fna")
     output:
-        output_dir_path / "concat.fna"
+        output_dir_path / concat_fna_filename
     log:
-        std=log_dir_path / "concat_fasta_dna.log",
-        cluster_log=cluster_log_dir_path / "concat_fasta_dna.log",
-        cluster_err=cluster_log_dir_path / "concat_fasta_dna.err"
+        std=log_dir_path / "fna.concat_fasta.log",
+        cluster_log=cluster_log_dir_path / "fna.concat_fasta.log",
+        cluster_err=cluster_log_dir_path / "fna.concat_fasta.err"
     benchmark:
-        benchmark_dir_path / "concat_fasta_dna.benchmark.txt"
+        benchmark_dir_path / "fna.concat_fasta.benchmark.txt"
     shell:
         "cat {input}/*.fna | workflow/scripts/concat_fasta.py -o {output}"
+
 
 rule concat_fasta_protein:
     input:
         directory(trimal_dir_path / "faa")
     output:
-        output_dir_path / "concat.faa"
+        output_dir_path / concat_faa_filename
     log:
-        std=log_dir_path / "concat_fasta_protein.log",
-        cluster_log=cluster_log_dir_path / "concat_fasta_protein.log",
-        cluster_err=cluster_log_dir_path / "concat_fasta_protein.err"
+        std=log_dir_path / "faa.concat_fasta.log",
+        cluster_log=cluster_log_dir_path / "faa.concat_fasta.log",
+        cluster_err=cluster_log_dir_path / "faa.concat_fasta.err"
     benchmark:
-        benchmark_dir_path / "concat_fasta_protein.benchmark.txt"
+        benchmark_dir_path / "faa.concat_fasta.benchmark.txt"
     shell:
         "cat {input}/*.faa | workflow/scripts/concat_fasta.py -o {output}"

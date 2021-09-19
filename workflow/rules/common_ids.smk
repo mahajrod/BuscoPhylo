@@ -50,17 +50,17 @@ checkpoint common_ids:
 
 checkpoint merged_sequences:
     input:
-        common_ids=single_copy_busco_sequences_dir_path / "common.ids{N}"
+        common_ids=single_copy_busco_sequences_dir_path / f"{common_ids_fileprefix}{N}"
     output:
-        merged_ids=directory(merged_sequences_dir_path / "{N}/")
+        directory(merged_sequences_dir_path / "{N}/")
     params:
         single_copy_files=expand(busco_dir_path / "{species}" / "single_copy_busco_sequences", species=config["species_list"])
     log:
-        std=log_dir_path / "{N}.merged_ids.log",
-        cluster_log=cluster_log_dir_path / "{N}.merged_ids.cluster.log",
-        cluster_err=cluster_log_dir_path / "{N}.merged_ids.cluster.err"
+        std=log_dir_path / "{N}.merged_sequences.log",
+        cluster_log=cluster_log_dir_path / "{N}.merged_sequences.cluster.log",
+        cluster_err=cluster_log_dir_path / "{N}.merged_sequences.cluster.err"
     benchmark:
-        benchmark_dir_path / "{N}.merged_ids.benchmark.txt"
+        benchmark_dir_path / "{N}.merged_sequences.benchmark.txt"
     resources:
         cpus=config["common_ids_threads"],
         time=config["common_ids_threads"],
@@ -69,4 +69,4 @@ checkpoint merged_sequences:
         "workflow/scripts/merged_sequences.py "
         "--input {input.common_ids} "
         "--single_copy_files {params.single_copy_files} "
-        "--outdir {output.merged_ids} 2> {log.std}"
+        "--outdir {output} 2> {log.std}"
