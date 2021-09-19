@@ -7,7 +7,8 @@ rule mafft_dna:
     output:
         temp(directory(mafft_dir_path / "fna_tmp" / "{N}"))
     params:
-        mafft_path=config["mafft_path"]
+        mafft_path=config["mafft_path"],
+        options=config["mafft_dna_params"]
     log:
         std=log_dir_path / "{N}.fna.mafft.log",
         cluster_log=cluster_log_dir_path / "{N}.fna.mafft.cluster.log",
@@ -25,7 +26,7 @@ rule mafft_dna:
     shell:
         "mkdir -p {output}; "
         "for FILE in `ls {input.fna_list}/*`; do "
-        "{params.mafft_path}/mafft --thread {threads} ${{FILE%.*}}.fna > {output}/$(basename ${{FILE%.*}}.fna) 2> {log.std}; "
+        "{params.mafft_path}/mafft --thread {threads} {params.options} ${{FILE%.*}}.fna > {output}/$(basename ${{FILE%.*}}.fna) 2> {log.std}; "
         "done; "
 
 
@@ -35,7 +36,8 @@ rule mafft_protein:
     output:
         temp(directory(mafft_dir_path / "faa_tmp" / "{N}"))
     params:
-        mafft_path=config["mafft_path"]
+        mafft_path=config["mafft_path"],
+        options=config["mafft_protein_params"]
     log:
         std=log_dir_path / "{N}.faa.mafft.log",
         cluster_log=cluster_log_dir_path / "{N}.faa.mafft.cluster.log",
@@ -53,7 +55,7 @@ rule mafft_protein:
     shell:
         "mkdir -p {output}; "
         "for FILE in `ls {input.faa_list}/*`; do "
-        "{params.mafft_path}/mafft --thread {threads} ${{FILE%.*}}.faa > {output}/$(basename ${{FILE%.*}}.faa) 2> {log.std}; "
+        "{params.mafft_path}/mafft --thread {threads} {params.options} ${{FILE%.*}}.faa > {output}/$(basename ${{FILE%.*}}.faa) 2> {log.std}; "
         "done; "
 
 

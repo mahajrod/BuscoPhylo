@@ -46,6 +46,12 @@ trimal_path:
 #---- Tool variables ----
 busco_mode: "genome"
 augustus_species: "human"
+mafft_dna_params: ""
+mafft_protein_params: "--anysymbol"
+gblocks_dna_params: "-t=d -p=t"
+gblocks_protein_params: "-t=p -p=t"
+trimal_dna_params: "-gt 0.9 -cons 60"
+trimal_protein_params: "-gt 0.9 -cons 60"
 split_size: 50      # job grouping
 
 #---- Results file names ----

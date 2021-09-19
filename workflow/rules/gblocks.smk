@@ -7,7 +7,7 @@ rule gblocks_dna:
         directory(gblocks_dir_path / "fna_tmp" /"{N}")
     params:
         gblocks_path=config["gblocks_path"],
-        gblocks_dna_flags="-t=d -p=t"
+        options=config["gblocks_dna_params"]
     log:
         std=log_dir_path / "{N}.fna.gblocks.log",
         cluster_log=cluster_log_dir_path / "{N}.fna.gblocks.cluster.log",
@@ -23,7 +23,7 @@ rule gblocks_dna:
     shell:
         "mkdir -p {output}; "
         "for FILE in `ls {input.fna}/*`; do "
-        "{params.gblocks_path}/Gblocks ${{FILE%.*}}.fna {params.gblocks_dna_flags} 1> {log.std} 2> {log.std}; "
+        "{params.gblocks_path}/Gblocks ${{FILE%.*}}.fna {params.options} 1> {log.std} 2> {log.std}; "
         "mv ${{FILE%.*}}.fna-gb {output}/; mv ${{FILE%.*}}.fna-gb.txt {output}/; "
         "done"
 
@@ -35,7 +35,7 @@ rule gblocks_protein:
         directory(gblocks_dir_path / "faa_tmp" /"{N}")
     params:
         gblocks_path=config["gblocks_path"],
-        gblocks_protein_flags="-t=p -p=t"
+        options=config["gblocks_protein_params"]
     log:
         std=log_dir_path / "{N}.faa.gblocks.log",
         cluster_log=cluster_log_dir_path / "{N}.faa.gblocks.cluster.log",
@@ -51,6 +51,6 @@ rule gblocks_protein:
     shell:
         "mkdir -p {output}; "
         "for FILE in `ls {input.faa}/*`; do "
-        "{params.gblocks_path}/Gblocks ${{FILE%.*}}.faa {params.gblocks_protein_flags} 1> {log.std} 2> {log.std}; "
+        "{params.gblocks_path}/Gblocks ${{FILE%.*}}.faa {params.options} 1> {log.std} 2> {log.std}; "
         "mv ${{FILE%.*}}.faa-gb {output}/; mv ${{FILE%.*}}.faa-gb.txt {output}/; "
         "done"
