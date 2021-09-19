@@ -14,7 +14,7 @@ def main():
             for sequence in SeqIO.parse(i, "fasta"):
                 sequence_map[sequence.name] += str(sequence.seq)
     else:
-        for sequence in SeqIO.parse(args.input, "fasta"):
+        for sequence in SeqIO.parse(str(args.input), "fasta"):
             sequence_map[sequence.name] += str(sequence.seq)
 
     outfile = open(args.output, "w")
