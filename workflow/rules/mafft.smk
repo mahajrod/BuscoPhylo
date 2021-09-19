@@ -23,7 +23,7 @@ rule mafft_dna:
     threads:
         config["mafft_threads"]
     shell:
-        "mkdir -p {output.outdir}; "
+        "mkdir -p {output}; "
         "for FILE in `ls {input.fna_list}/*`; do "
         "{params.mafft_path}/mafft --thread {threads} ${{FILE%.*}}.fna > {output}/$(basename ${{FILE%.*}}.fna) 2> {log.std}; "
         "done; "
@@ -51,7 +51,7 @@ rule mafft_protein:
     threads:
         config["mafft_threads"]
     shell:
-        "mkdir -p {output.outdir}; "
+        "mkdir -p {output}; "
         "for FILE in `ls {input.faa_list}/*`; do "
         "{params.mafft_path}/mafft --thread {threads} ${{FILE%.*}}.faa > {output}/$(basename ${{FILE%.*}}.faa) 2> {log.std}; "
         "done; "
