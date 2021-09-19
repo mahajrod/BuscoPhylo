@@ -50,4 +50,3 @@ augustus_species: "human"
 #---- results file names ----
 concat_fna_filename: "concat.fna"
 concat_faa_filename: "concat.faa"
-common_ids_fileprefix: "common.ids"

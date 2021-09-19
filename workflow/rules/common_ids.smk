@@ -50,7 +50,7 @@ checkpoint common_ids:
 
 checkpoint merged_sequences:
     input:
-        common_ids=single_copy_busco_sequences_dir_path / f"{common_ids_fileprefix}{N}"
+        common_ids=single_copy_busco_sequences_dir_path / "common.ids{N}"
     output:
         directory(merged_sequences_dir_path / "{N}/")
     params:
