@@ -11,7 +11,7 @@ def main():
     for idname in common_ids_file:
         idname = idname.strip()
         file_faa, file_fna = idname + ".faa", idname + ".fna"
-        merged_file_faa, merged_file_fna = "merged_" + file_faa, "merged_" + file_fna
+        merged_file_faa, merged_file_fna = idname + ".merged.faa", idname + ".merged.fna"
         out_faa, out_fna = open(outdir / merged_file_faa, 'a'), open(outdir / merged_file_fna, 'a')
         for directory in args.single_copy_files:
             dirpath = Path(directory)
