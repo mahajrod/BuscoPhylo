@@ -47,6 +47,6 @@ trimal_path:
 busco_mode: "genome"
 augustus_species: "human"
 
-#---- results file names ----
+#---- Results file names ----
 concat_fna_filename: "concat.fna"
 concat_faa_filename: "concat.faa"
