@@ -46,6 +46,7 @@ trimal_path:
 #---- Tool variables ----
 busco_mode: "genome"
 augustus_species: "human"
+split_size: 50      # job grouping
 
 #---- Results file names ----
 concat_fna_filename: "concat.fna"

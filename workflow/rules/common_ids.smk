@@ -30,7 +30,7 @@ checkpoint common_ids:
     params:
         nfiles=len(config["species_list"]),
         prefix="common.ids",
-        split_size=50
+        split_size=config["split_size"]
     log:
         std=log_dir_path / "common_ids.log",
         cluster_log=cluster_log_dir_path / "common_ids.cluster.log",
