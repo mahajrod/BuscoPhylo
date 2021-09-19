@@ -29,7 +29,7 @@ checkpoint common_ids:
         directory(common_ids_dir_path / "single_copy_busco_sequences.common.dir")
     params:
         nfiles=len(config["species_list"]),
-        prefix="single_copy_busco_sequences.common.ids",
+        prefix="common.ids",
         split_size=50
     log:
         std=log_dir_path / "common_ids.log",
