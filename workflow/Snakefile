@@ -55,8 +55,8 @@ rule all:
         # directory(gblocks_dir_path / "faa"),
 
         # concat fasta:
-        output_dir_path / config["concat_fna_filename"],
-        output_dir_path / config["concat_faa_filename"],
+        concat_aligments_dir_path / config["concat_fna_filename"],
+        concat_aligments_dir_path / config["concat_faa_filename"],
 
         # iqtree:
         directory(iqtree_dir_path)
