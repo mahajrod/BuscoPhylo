@@ -1,6 +1,6 @@
 # localrules: iqtree_dna, iqtree_protein
 
-rule iqtree_dna:
+checkpoint iqtree_dna:
     input:
         concat_aligments_dir_path / config["concat_fna_filename"]
     output:
@@ -34,7 +34,7 @@ rule iqtree_dna:
         "mv $DIR/{params.prefix}.treefile {output}; "
 
 
-rule iqtree_protein:
+checkpoint iqtree_protein:
     input:
         concat_aligments_dir_path / config["concat_faa_filename"]
     output:
