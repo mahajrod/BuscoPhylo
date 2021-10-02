@@ -1,10 +1,11 @@
 # localrules: iqtree_dna, iqtree_protein
 
-checkpoint iqtree_dna:
+rule iqtree_dna:
     input:
-        concat_aligments_dir_path / config["concat_fna_filename"]
+        concat_aligments_dir_path / concat_fna_filename
     output:
-        directory(iqtree_dir_path)
+        dir=directory(iqtree_dir_path),
+        iqtree=iqtree_dir_path / iqtree_fna_filename
     params:
         iqtree_path=config["iqtree_path"],
         prefix=config["iqtree_fna_prefix"],
@@ -22,23 +23,24 @@ checkpoint iqtree_dna:
         time=config["iqtree_time"],
         mem=config["iqtree_mem_mb"]
     shell:
-        "mkdir -p {output}; "
+        "mkdir -p {output.dir}; "
         "DIR=$(dirname {input}); "
         "{params.iqtree_path}/iqtree -s {input} -pre {params.prefix} -nt {resources.cpus} {params.options} 1> {log.std} 2>&1; "
-        "mv $DIR/{params.prefix}.bionj {output}; "
-        "mv $DIR/{params.prefix}.ckp.gz {output}; "
-        "mv $DIR/{params.prefix}.iqtree {output}; "
-        "mv $DIR/{params.prefix}.log {output}; "
-        "mv $DIR/{params.prefix}.mldist {output}; "
-        "mv $DIR/{params.prefix}.model.gz {output}; "
-        "mv $DIR/{params.prefix}.treefile {output}; "
+        "mv $DIR/{params.prefix}.bionj {output.dir}; "
+        "mv $DIR/{params.prefix}.ckp.gz {output.dir}; "
+        "mv $DIR/{params.prefix}.log {output.dir}; "
+        "mv $DIR/{params.prefix}.mldist {output.dir}; "
+        "mv $DIR/{params.prefix}.model.gz {output.dir}; "
+        "mv $DIR/{params.prefix}.treefile {output.dir}; "
+        "mv $DIR/{params.prefix}.iqtree {output.dir}; "
 
 
-checkpoint iqtree_protein:
+rule iqtree_protein:
     input:
-        concat_aligments_dir_path / config["concat_faa_filename"]
+        concat_aligments_dir_path / concat_faa_filename
     output:
-        directory(iqtree_dir_path)
+        dir=directory(iqtree_dir_path),
+        iqtree=iqtree_dir_path / iqtree_faa_filename
     params:
         iqtree_path=config["iqtree_path"],
         prefix=config["iqtree_faa_prefix"],
@@ -56,13 +58,13 @@ checkpoint iqtree_protein:
         time=config["iqtree_time"],
         mem=config["iqtree_mem_mb"]
     shell:
-        "mkdir -p {output}; "
+        "mkdir -p {output.dir}; "
         "DIR=$(dirname {input}); "
         "{params.iqtree_path}/iqtree -s {input} -pre {params.prefix} -nt {resources.cpus} {params.options} 1> {log.std} 2>&1; "
-        "mv $DIR/{params.prefix}.bionj {output}; "
-        "mv $DIR/{params.prefix}.ckp.gz {output}; "
-        "mv $DIR/{params.prefix}.iqtree {output}; "
-        "mv $DIR/{params.prefix}.log {output}; "
-        "mv $DIR/{params.prefix}.mldist {output}; "
-        "mv $DIR/{params.prefix}.model.gz {output}; "
-        "mv $DIR/{params.prefix}.treefile {output}; "
+        "mv $DIR/{params.prefix}.bionj {output.dir}; "
+        "mv $DIR/{params.prefix}.ckp.gz {output.dir}; "
+        "mv $DIR/{params.prefix}.log {output.dir}; "
+        "mv $DIR/{params.prefix}.mldist {output.dir}; "
+        "mv $DIR/{params.prefix}.model.gz {output.dir}; "
+        "mv $DIR/{params.prefix}.treefile {output.dir}; "
+        "mv $DIR/{params.prefix}.iqtree {output.dir}; "
