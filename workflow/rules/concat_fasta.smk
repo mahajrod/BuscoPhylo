@@ -5,7 +5,7 @@ rule concat_fasta_dna:
     input:
         directory(trimal_dir_path / "fna")
     output:
-        output_dir_path / concat_fna_filename
+        concat_aligments_dir_path / config["concat_fna_filename"]
     log:
         std=log_dir_path / "fna.concat_fasta.log",
         cluster_log=cluster_log_dir_path / "fna.concat_fasta.log",
@@ -20,7 +20,7 @@ rule concat_fasta_protein:
     input:
         directory(trimal_dir_path / "faa")
     output:
-        output_dir_path / concat_faa_filename
+        concat_aligments_dir_path / config["concat_faa_filename"]
     log:
         std=log_dir_path / "faa.concat_fasta.log",
         cluster_log=cluster_log_dir_path / "faa.concat_fasta.log",

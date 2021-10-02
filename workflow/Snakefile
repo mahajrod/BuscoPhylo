@@ -19,10 +19,8 @@ merged_sequences_dir_path = common_ids_dir_path / config["merged_sequences_dir"]
 mafft_dir_path = output_dir_path / config["mafft_dir"]
 gblocks_dir_path = output_dir_path / config["gblocks_dir"]
 trimal_dir_path = output_dir_path / config["trimal_dir"]
-
-#---- results file names ----
-concat_fna_filename = config["concat_fna_filename"]
-concat_faa_filename = config["concat_faa_filename"]
+concat_aligments_dir_path = output_dir_path / config["concat_aligments_dir"]
+iqtree_dir_path = output_dir_path / config["iqtree_dir"]
 
 
 if "species_list" not in config:
@@ -57,8 +55,12 @@ rule all:
         # directory(gblocks_dir_path / "faa"),
 
         # concat fasta:
-        output_dir_path / concat_fna_filename,
-        output_dir_path / concat_faa_filename
+        output_dir_path / config["concat_fna_filename"],
+        output_dir_path / config["concat_faa_filename"],
+
+        # iqtree:
+        directory(iqtree_dir_path)
+
 
 
 rule file_transfer:
@@ -92,3 +94,4 @@ include: "rules/mafft.smk"
 include: "rules/gblocks.smk"
 include: "rules/trimal.smk"
 include: "rules/concat_fasta.smk"
+include: "rules/iqtree.smk"
