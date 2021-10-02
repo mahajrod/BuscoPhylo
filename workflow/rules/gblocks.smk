@@ -1,4 +1,4 @@
-# localrules: gblocks_dna, gblocks_protein
+localrules: gblocks_dna, gblocks_protein
 
 rule gblocks_dna:
     input:
