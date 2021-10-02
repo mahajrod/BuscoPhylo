@@ -22,7 +22,7 @@ busco_threads: 4
 mafft_threads: 4
 gblocks_threads: 2
 trimal_threads: 2
-iqtree_threads: 10
+iqtree_threads: 5
 common_ids_threads: 1
 
 #---- Tool memory ----
