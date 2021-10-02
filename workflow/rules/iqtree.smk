@@ -1,4 +1,4 @@
-localrules: iqtree_dna, iqtree_protein
+# localrules: iqtree_dna, iqtree_protein
 
 rule iqtree_dna:
     input:
@@ -23,15 +23,14 @@ rule iqtree_dna:
         mem=config["iqtree_mem_mb"]
     shell:
         "mkdir -p {output}; "
-        "DIR=$(dirname {input}); "
         "{params.iqtree_path}/iqtree -s {input} -pre {params.prefix} -nt {resources.cpus} {params.options}; " #1> {log.std} 2>&1; "
-        "mv $DIR/{params.prefix}.bionj {output}; "
-        "mv $DIR/{params.prefix}.ckp.gz {output}; "
-        "mv $DIR/{params.prefix}.log {output}; "
-        "mv $DIR/{params.prefix}.mldist {output}; "
-        "mv $DIR/{params.prefix}.model.gz {output}; "
-        "mv $DIR/{params.prefix}.treefile {output}; "
-        "mv $DIR/{params.prefix}.iqtree {output}; "
+        "mv {params.prefix}.bionj {output}; "
+        "mv {params.prefix}.ckp.gz {output}; "
+        "mv {params.prefix}.log {output}; "
+        "mv {params.prefix}.mldist {output}; "
+        "mv {params.prefix}.model.gz {output}; "
+        "mv {params.prefix}.treefile {output}; "
+        "mv {params.prefix}.iqtree {output}; "
 
 
 rule iqtree_protein:
@@ -57,12 +56,11 @@ rule iqtree_protein:
         mem=config["iqtree_mem_mb"]
     shell:
         "mkdir -p {output}; "
-        "DIR=$(dirname {input}); "
         "{params.iqtree_path}/iqtree -s {input} -pre {params.prefix} -nt {resources.cpus} {params.options}; " #1> {log.std} 2>&1; "
-        "mv $DIR/{params.prefix}.bionj {output}; "
-        "mv $DIR/{params.prefix}.ckp.gz {output}; "
-        "mv $DIR/{params.prefix}.log {output}; "
-        "mv $DIR/{params.prefix}.mldist {output}; "
-        "mv $DIR/{params.prefix}.model.gz {output}; "
-        "mv $DIR/{params.prefix}.treefile {output}; "
-        "mv $DIR/{params.prefix}.iqtree {output}; "
+        "mv {params.prefix}.bionj {output}; "
+        "mv {params.prefix}.ckp.gz {output}; "
+        "mv {params.prefix}.log {output}; "
+        "mv {params.prefix}.mldist {output}; "
+        "mv {params.prefix}.model.gz {output}; "
+        "mv {params.prefix}.treefile {output}; "
+        "mv {params.prefix}.iqtree {output}; "
