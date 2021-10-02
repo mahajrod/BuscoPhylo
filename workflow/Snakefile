@@ -63,7 +63,7 @@ rule all:
         concat_aligments_dir_path / config["concat_faa_filename"],
 
         # iqtree:
-        directory(iqtree_dir_path / "fna"),
+        # directory(iqtree_dir_path / "fna"),
         directory(iqtree_dir_path / "faa"),
 
 
