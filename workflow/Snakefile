@@ -25,8 +25,7 @@ iqtree_dir_path = output_dir_path / config["iqtree_dir"]
 #---- result files ----
 concat_fna_filename = config["concat_fna_filename"]
 concat_faa_filename = config["concat_faa_filename"]
-iqtree_fna_filename = config["iqtree_fna_prefix"] + ".iqtree"
-iqtree_faa_filename = config["iqtree_faa_prefix"] + ".iqtree"
+
 
 if "species_list" not in config:
     config["species_list"] = [d.name[:-6] for d in genome_dir_path.iterdir() if d.is_file()]
@@ -64,10 +63,8 @@ rule all:
         concat_aligments_dir_path / config["concat_faa_filename"],
 
         # iqtree:
-        directory(iqtree_dir_path),
-        iqtree_dir_path/ iqtree_fna_filename,
-        iqtree_dir_path/ iqtree_faa_filename
-
+        directory(iqtree_dir_path / "fna"),
+        directory(iqtree_dir_path / "faa"),
 
 
 rule file_transfer:
