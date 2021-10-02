@@ -23,7 +23,7 @@ rule gblocks_dna:
     shell:
         "mkdir -p {output}; "
         "for FILE in `ls {input.fna}/*`; do "
-        "{params.gblocks_path}/Gblocks ${{FILE%.*}}.fna {params.options} 1> {log.std} 2> {log.std}; "
+        "{params.gblocks_path}/Gblocks ${{FILE%.*}}.fna {params.options} 1> {log.std} 2>&1; "
         "mv ${{FILE%.*}}.fna-gb {output}/; mv ${{FILE%.*}}.fna-gb.txt {output}/; "
         "done"
 
@@ -51,6 +51,6 @@ rule gblocks_protein:
     shell:
         "mkdir -p {output}; "
         "for FILE in `ls {input.faa}/*`; do "
-        "{params.gblocks_path}/Gblocks ${{FILE%.*}}.faa {params.options} 1> {log.std} 2> {log.std}; "
+        "{params.gblocks_path}/Gblocks ${{FILE%.*}}.faa {params.options} 1> {log.std} 2>&1; "
         "mv ${{FILE%.*}}.faa-gb {output}/; mv ${{FILE%.*}}.faa-gb.txt {output}/; "
         "done"

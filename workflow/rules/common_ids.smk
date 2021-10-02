@@ -45,7 +45,7 @@ checkpoint common_ids:
         "mkdir -p {output}; "
         "cat {input.ids} | "
         "sort | uniq -c | awk '{{if($1=={params.nfiles}){{print $2}}}}' | "
-        "split -l {params.split_size} --numeric-suffixes - {output}/{params.prefix}"
+        "split -l {params.split_size} --numeric-suffixes - {output}/{params.prefix} 1> {log.std} 2>&1"
 
 
 checkpoint merged_sequences:
@@ -69,4 +69,4 @@ checkpoint merged_sequences:
         "workflow/scripts/merged_sequences.py "
         "--input {input.common_ids} "
         "--single_copy_files {params.single_copy_files} "
-        "--outdir {output} 2> {log.std}"
+        "--outdir {output} 1> {log.std} 2>&1"

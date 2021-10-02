@@ -13,7 +13,7 @@ rule concat_fasta_dna:
     benchmark:
         benchmark_dir_path / "fna.concat_fasta.benchmark.txt"
     shell:
-        "cat {input}/*.fna | workflow/scripts/concat_fasta.py -o {output}"
+        "cat {input}/*.fna | workflow/scripts/concat_fasta.py -o {output} 1> {log.std} 2>&1"
 
 
 rule concat_fasta_protein:
@@ -28,4 +28,4 @@ rule concat_fasta_protein:
     benchmark:
         benchmark_dir_path / "faa.concat_fasta.benchmark.txt"
     shell:
-        "cat {input}/*.faa | workflow/scripts/concat_fasta.py -o {output}"
+        "cat {input}/*.faa | workflow/scripts/concat_fasta.py -o {output} 1> {log.std} 2>&1"
