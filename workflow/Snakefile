@@ -58,25 +58,20 @@ rule all:
         directory(iqtree_dir_path / "faa"),
 
 
-rule mafft_file_transfer:
+rule files_transfer:
     input:
         mafft_fna_dirs=lambda w: expand_template_from_common_ids(w, mafft_dir_path / "fna_tmp" / "{N}"),
-        mafft_faa_dirs=lambda w: expand_template_from_common_ids(w, mafft_dir_path / "faa_tmp" / "{N}")
+        mafft_faa_dirs=lambda w: expand_template_from_common_ids(w, mafft_dir_path / "faa_tmp" / "{N}"),
+        trimal_fna_dirs=lambda w: expand_template_from_common_ids(w, trimal_dir_path / "fna_tmp" / "{N}"),
+        trimal_faa_dirs=lambda w: expand_template_from_common_ids(w, trimal_dir_path / "faa_tmp" / "{N}"),
     output:
         mafft_fna_dir=directory(mafft_dir_path / "fna"),
-        mafft_faa_dir=directory(mafft_dir_path / "faa")
+        mafft_faa_dir=directory(mafft_dir_path / "faa"),
+        trimal_fna_dir=directory(trimal_dir_path/ "fna"),
+        trimal_faa_dir=directory(trimal_dir_path / "faa"),
     shell:
         "mkdir -p {output.mafft_fna_dir}; for i in {input.mafft_fna_dirs}; do mv $i/*.fna {output.mafft_fna_dir}/; done; "
         "mkdir -p {output.mafft_faa_dir}; for i in {input.mafft_faa_dirs}; do mv $i/*.faa {output.mafft_faa_dir}/; done; "
-
-rule trimal_file_transfer:
-    input:
-        trimal_fna_dirs=lambda w: expand_template_from_common_ids(w, trimal_dir_path / "fna_tmp" / "{N}"),
-        trimal_faa_dirs=lambda w: expand_template_from_common_ids(w, trimal_dir_path / "faa_tmp" / "{N}")
-    output:
-        trimal_fna_dir=directory(trimal_dir_path/ "fna"),
-        trimal_faa_dir=directory(trimal_dir_path / "faa")
-    shell:
         "mkdir -p {output.trimal_fna_dir}; for i in {input.trimal_fna_dirs}; do mv $i/*.fna {output.trimal_fna_dir}/; done; "
         "mkdir -p {output.trimal_faa_dir}; for i in {input.trimal_faa_dirs}; do mv $i/*.faa {output.trimal_faa_dir}/; done; "
 
