@@ -1,8 +1,8 @@
-# localrules: iqtree_dna, iqtree_protein
+localrules: iqtree_dna, iqtree_protein
 
 rule iqtree_dna:
     input:
-        concat_aligments_dir_path / concat_fna_filename
+        concat_aligments_dir_path / config["concat_fna_filename"]
     output:
         directory(iqtree_dir_path / "fna")
     params:
@@ -23,7 +23,7 @@ rule iqtree_dna:
         mem=config["iqtree_mem_mb"]
     shell:
         "mkdir -p {output}; "
-        "{params.iqtree_path}/iqtree -s {input} -pre {params.prefix} -nt {resources.cpus} {params.options}; " #1> {log.std} 2>&1; "
+        "{params.iqtree_path}/iqtree -s {input} -pre {params.prefix} -nt {resources.cpus} {params.options} 1> {log.std} 2>&1; "
         "mv {params.prefix}.bionj {output}; "
         "mv {params.prefix}.ckp.gz {output}; "
         "mv {params.prefix}.log {output}; "
@@ -35,7 +35,7 @@ rule iqtree_dna:
 
 rule iqtree_protein:
     input:
-        concat_aligments_dir_path / concat_faa_filename
+        concat_aligments_dir_path / config["concat_faa_filename"]
     output:
         directory(iqtree_dir_path / "faa")
     params:
@@ -56,7 +56,7 @@ rule iqtree_protein:
         mem=config["iqtree_mem_mb"]
     shell:
         "mkdir -p {output}; "
-        "{params.iqtree_path}/iqtree -s {input} -pre {params.prefix} -nt {resources.cpus} {params.options}; " #1> {log.std} 2>&1; "
+        "{params.iqtree_path}/iqtree -s {input} -pre {params.prefix} -nt {resources.cpus} {params.options} 1> {log.std} 2>&1; "
         "mv {params.prefix}.bionj {output}; "
         "mv {params.prefix}.ckp.gz {output}; "
         "mv {params.prefix}.log {output}; "
