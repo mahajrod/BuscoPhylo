@@ -32,7 +32,7 @@ def expand_template_from_common_ids(wildcards, template):
     return expand(str(template), N=N)
 
 
-localrules: all, file_transfer
+localrules: all, files_transfer
 
 rule all:
     input:
