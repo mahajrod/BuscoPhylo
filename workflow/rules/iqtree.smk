@@ -1,4 +1,5 @@
-localrules: iqtree_dna, iqtree_protein
+# localrules: iqtree_dna, iqtree_protein
+
 
 rule iqtree_dna:
     input:
