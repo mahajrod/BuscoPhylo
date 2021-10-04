@@ -7,9 +7,7 @@ rule concat_fasta_dna:
     output:
         concat_aligments_dir_path / config["concat_fna_filename"]
     log:
-        std=log_dir_path / "fna.concat_fasta.log",
-        cluster_log=cluster_log_dir_path / "fna.concat_fasta.log",
-        cluster_err=cluster_log_dir_path / "fna.concat_fasta.err"
+        std=log_dir_path / "fna.concat_fasta.log"
     benchmark:
         benchmark_dir_path / "fna.concat_fasta.benchmark.txt"
     shell:
@@ -22,9 +20,7 @@ rule concat_fasta_protein:
     output:
         concat_aligments_dir_path / config["concat_faa_filename"]
     log:
-        std=log_dir_path / "faa.concat_fasta.log",
-        cluster_log=cluster_log_dir_path / "faa.concat_fasta.log",
-        cluster_err=cluster_log_dir_path / "faa.concat_fasta.err"
+        std=log_dir_path / "faa.concat_fasta.log"
     benchmark:
         benchmark_dir_path / "faa.concat_fasta.benchmark.txt"
     shell:
