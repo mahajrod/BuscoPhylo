@@ -11,6 +11,7 @@ def main():
         outfile.write("\n")
         for line in blockfile:
             outfile.write(line)
+        outfile.write("\n")
 
 
 if __name__ == "__main__":
