@@ -63,7 +63,8 @@ rule all:
         directory(iqtree_dir_path / "faa"),
 
         # mrbayes:
-        directory(mrbayes_dir_path / "fna")
+        directory(mrbayes_dir_path / "fna"),
+        directory(mrbayes_dir_path / "faa")
 
 
 rule files_transfer:
