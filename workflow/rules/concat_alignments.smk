@@ -33,13 +33,14 @@ rule concat_nexus_dna:
     output:
         concat_aligments_dir_path / "concat.aln.fna.nexus"
     params:
-        type="DNA"
+        type="DNA",
+        block="../../%s" % {config["mrbayes_block"]}
     log:
         std=log_dir_path / "fna.concat_nexus_dna.log"
     benchmark:
         benchmark_dir_path / "fna.concat_nexus_dna.benchmark.txt"
     shell:
-        "workflow/scripts/fasta_to_nexus.py -i {input} -t {params.type} -o {output} 1> {log.std} 2>&1"
+        "workflow/scripts/fasta_to_nexus.py -i {input} -t {params.type} -b {params.block} -o {output} 1> {log.std} 2>&1"
 
 
 rule concat_nexus_protein:
@@ -48,10 +49,11 @@ rule concat_nexus_protein:
     output:
         concat_aligments_dir_path / "concat.aln.faa.nexus"
     params:
-        type="protein"
+        type="protein",
+        block="../../%s" % {config["mrbayes_block"]}
     log:
         std=log_dir_path / "faa.concat_nexus_protein.log"
     benchmark:
         benchmark_dir_path / "faa.concat_nexus_protein.benchmark.txt"
     shell:
-        "workflow/scripts/fasta_to_nexus.py -i {input} -t {params.type} -o {output} 1> {log.std} 2>&1"
+        "workflow/scripts/fasta_to_nexus.py -i {input} -t {params.type} -b {params.block} -o {output} 1> {log.std} 2>&1"
