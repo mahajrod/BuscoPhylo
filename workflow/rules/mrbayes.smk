@@ -23,5 +23,5 @@ rule mrbayes_dna:
         mem=config["mrbayes_mem_mb"]
     shell:
         "mkdir -p {output}; "
-        "{params.mrbayes_path}/mb {input} {params.options} 1> {log.std} 2>&1; " #mpirun -np {resources.cpus} 
+        "mpirun -np {resources.cpus} {params.mrbayes_path}/mb {input} {params.options} 1> {log.std} 2>&1; "
         "mv {input}.* {output}/; "
