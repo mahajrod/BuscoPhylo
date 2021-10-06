@@ -34,7 +34,7 @@ rule concat_nexus_dna:
         concat_aligments_dir_path / "concat.aln.fna.nexus"
     params:
         type="DNA",
-        block="../../%s" % {config["mrbayes_block"]}
+        block=config["mrbayes_block"]
     log:
         std=log_dir_path / "fna.concat_nexus_dna.log"
     benchmark:
@@ -50,7 +50,7 @@ rule concat_nexus_protein:
         concat_aligments_dir_path / "concat.aln.faa.nexus"
     params:
         type="protein",
-        block="../../%s" % {config["mrbayes_block"]}
+        block=config["mrbayes_block"]
     log:
         std=log_dir_path / "faa.concat_nexus_protein.log"
     benchmark:
