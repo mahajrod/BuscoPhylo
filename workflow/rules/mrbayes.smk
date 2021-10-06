@@ -3,12 +3,11 @@
 
 rule mrbayes_dna:
     input:
-        concat_aligments_dir_path / config["concat_fna_filename"]
+        concat_aligments_dir_path / "concat.aln.fna.nexus"
     output:
         directory(mrbayes_dir_path / "fna")
     params:
         mrbayes_path=config["mrbayes_path"],
-        prefix=config["mrbayes_fna_prefix"],
         options=config["mrbayes_dna_params"]
     log:
         std=log_dir_path / "fna.mrbayes.log",
@@ -24,11 +23,5 @@ rule mrbayes_dna:
         mem=config["mrbayes_mem_mb"]
     shell:
         "mkdir -p {output}; "
-        "{params.mrbayes_path}/mrbayes -s {input} -pre {params.prefix} -nt {resources.cpus} {params.options} 1> {log.std} 2>&1; "
-        "mv {params.prefix}.bionj {output}; "
-        "mv {params.prefix}.ckp.gz {output}; "
-        "mv {params.prefix}.log {output}; "
-        "mv {params.prefix}.mldist {output}; "
-        "mv {params.prefix}.model.gz {output}; "
-        "mv {params.prefix}.treefile {output}; "
-        "mv {params.prefix}.mrbayes {output}; "
+        "mpirun -np {resources.cpus} {params.mrbayes_path}/mb {input} {params.options} 1> {log.std} 2>&1; "
+        "mv {input}.* {output}; "

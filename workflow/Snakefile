@@ -20,6 +20,7 @@ mafft_dir_path = output_dir_path / config["mafft_dir"]
 trimal_dir_path = output_dir_path / config["trimal_dir"]
 concat_aligments_dir_path = output_dir_path / config["concat_aligments_dir"]
 iqtree_dir_path = output_dir_path / config["iqtree_dir"]
+mrbayes_dir_path = output_dir_path / config["mrbayes_dir"]
 
 
 if "species_list" not in config:
@@ -61,6 +62,9 @@ rule all:
         directory(iqtree_dir_path / "fna"),
         directory(iqtree_dir_path / "faa"),
 
+        # mrbayes:
+        directory(mrbayes_dir_path / "fna")
+
 
 rule files_transfer:
     input:
@@ -87,3 +91,4 @@ include: "rules/mafft.smk"
 include: "rules/trimal.smk"
 include: "rules/concat_alignments.smk"
 include: "rules/iqtree.smk"
+include: "rules/mrbayes.smk"
