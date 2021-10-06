@@ -10,11 +10,11 @@ rule mrbayes_dna:
         mrbayes_path=config["mrbayes_path"],
         options=config["mrbayes_dna_params"]
     log:
-        std=log_dir_path / "fna.mrbayes.log",
-        cluster_log=cluster_log_dir_path / "fna.mrbayes.cluster.log",
-        cluster_err=cluster_log_dir_path / "fna.mrbayes.cluster.err"
+        std=log_dir_path / "fna.mrbayes_dna.log",
+        cluster_log=cluster_log_dir_path / "fna.mrbayes_dna.cluster.log",
+        cluster_err=cluster_log_dir_path / "fna.mrbayes_dna.cluster.err"
     benchmark:
-        benchmark_dir_path / "fna.mrbayes.benchmark.txt"
+        benchmark_dir_path / "fna.mrbayes_dna.benchmark.txt"
     # conda:
     #     "../../%s" % config["conda_config"]
     resources:
@@ -23,5 +23,5 @@ rule mrbayes_dna:
         mem=config["mrbayes_mem_mb"]
     shell:
         "mkdir -p {output}; "
-        "mpirun -np {resources.cpus} {params.mrbayes_path}/mb {input} {params.options}" #1> {log.std} 2>&1; 
+        "{params.mrbayes_path}/mb {input} {params.options} 1> {log.std} 2>&1; " #mpirun -np {resources.cpus} 
         "mv {input}.* {output}/; "
