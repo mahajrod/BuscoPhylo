@@ -23,7 +23,7 @@ rule mrbayes_dna:
         mem=config["mrbayes_mem_mb"]
     shell:
         "mkdir -p {output}; "
-        "mpirun -np {resources.cpus} {params.mrbayes_path}/mb {input} {params.options} 1> {log.std} 2>&1; "
+        "mpirun -np {resources.cpus} {params.mrbayes_path}/mb-mpi {input} {params.options} 1> {log.std} 2>&1; "
         "mv {input}.* {output}/; "
 
 
@@ -49,5 +49,5 @@ rule mrbayes_protein:
         mem=config["mrbayes_mem_mb"]
     shell:
         "mkdir -p {output}; "
-        "mpirun -np {resources.cpus} {params.mrbayes_path}/mb {input} {params.options} 1> {log.std} 2>&1; "
+        "mpirun -np {resources.cpus} {params.mrbayes_path}/mb-mpi {input} {params.options} 1> {log.std} 2>&1; "
         "mv {input}.* {output}/; "
