@@ -1,4 +1,5 @@
 begin mrbayes;
     Lset nst=6 rates=invgamma ngammacat=6;
     mcmcp ngen=500 relburnin=yes burninfrac=0.25  printfreq=100  samplefreq=100 nruns=4 nchains=4 savebrlens=yes;
+    mcmc;
     end;
