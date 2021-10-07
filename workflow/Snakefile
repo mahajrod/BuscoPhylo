@@ -64,12 +64,12 @@ mrbayes_output_files = [
     ]
 
 if config["phylogenetic_method"] == "all":
-    pipeline_output.append(iqtree_output_files)
-    pipeline_output.append(mrbayes_output_files)
+    output_files.append(iqtree_output_files)
+    output_files.append(mrbayes_output_files)
 elif config["phylogenetic_method"] == "iqtree":
-    pipeline_output.append(iqtree_output_files)
+    output_files.append(iqtree_output_files)
 elif config["phylogenetic_method"] == "mrbayes":
-    pipeline_output.append(mrbayes_output_files)
+    output_files.append(mrbayes_output_files)
 else:
     pass
 
