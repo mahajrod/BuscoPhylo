@@ -1,4 +1,4 @@
-localrules: mrbayes_dna, mrbayes_protein
+# localrules: mrbayes_dna, mrbayes_protein
 
 
 rule mrbayes_dna:
