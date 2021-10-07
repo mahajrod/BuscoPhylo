@@ -22,10 +22,6 @@ concat_aligments_dir_path = output_dir_path / config["concat_aligments_dir"]
 iqtree_dir_path = output_dir_path / config["iqtree_dir"]
 mrbayes_dir_path = output_dir_path / config["mrbayes_dir"]
 
-
-if "species_list" not in config:
-    config["species_list"] = [d.name[:-6] for d in genome_dir_path.iterdir() if d.is_file()]
-
 #---- necessary functions ----
 def expand_template_from_common_ids(wildcards, template):
     checkpoint_output = checkpoints.common_ids.get(**wildcards).output[0]
@@ -33,38 +29,56 @@ def expand_template_from_common_ids(wildcards, template):
     return expand(str(template), N=N)
 
 
+if "species_list" not in config:
+    config["species_list"] = [d.name[:-6] for d in genome_dir_path.iterdir() if d.is_file()]
+
+#---- the "all" rule ----
+# By default, all steps are run
+
+output_files = [
+    # busco:
+    expand(busco_dir_path / "{species}/short_summary_{species}.txt",species=config["species_list"]),
+    directory(single_copy_busco_sequences_dir_path),
+    lambda w: expand_template_from_common_ids(w,merged_sequences_dir_path / "{N}"),
+
+    # mafft:
+    directory(mafft_dir_path / "fna"),
+    directory(mafft_dir_path / "faa"),
+
+    # trimal:
+    directory(trimal_dir_path / "fna"),
+    directory(trimal_dir_path / "faa"),
+]
+
+iqtree_output_files = [
+        concat_aligments_dir_path / config["concat_fna_filename"],
+        concat_aligments_dir_path / config["concat_faa_filename"],
+        directory(iqtree_dir_path / "fna"),
+        directory(iqtree_dir_path / "faa")
+    ]
+mrbayes_output_files = [
+        concat_aligments_dir_path / "concat.aln.fna.nexus",
+        concat_aligments_dir_path / "concat.aln.faa.nexus",
+        directory(mrbayes_dir_path / "fna"),
+        directory(mrbayes_dir_path / "faa")
+    ]
+
+if config["phylogenetic_method"] == "all":
+    pipeline_output.append(iqtree_output_files)
+    pipeline_output.append(mrbayes_output_files)
+elif config["phylogenetic_method"] == "iqtree":
+    pipeline_output.append(iqtree_output_files)
+elif config["phylogenetic_method"] == "mrbayes":
+    pipeline_output.append(mrbayes_output_files)
+else:
+    pass
+
+
 localrules: all, files_transfer
 
 rule all:
     input:
-        # busco:
-        expand(busco_dir_path / "{species}/short_summary_{species}.txt", species=config["species_list"]),
-        directory(single_copy_busco_sequences_dir_path),
-        lambda w: expand_template_from_common_ids(w, merged_sequences_dir_path / "{N}"),
-
-        # mafft:
-        directory(mafft_dir_path / "fna"),
-        directory(mafft_dir_path / "faa"),
-
-        # trimal:
-        directory(trimal_dir_path / "fna"),
-        directory(trimal_dir_path / "faa"),
-
-        # concat fasta:
-        concat_aligments_dir_path / config["concat_fna_filename"],
-        concat_aligments_dir_path / config["concat_faa_filename"],
-
-        # concat nexus:
-        concat_aligments_dir_path / "concat.aln.fna.nexus",
-        concat_aligments_dir_path / "concat.aln.faa.nexus",
-
-        # iqtree:
-        directory(iqtree_dir_path / "fna"),
-        directory(iqtree_dir_path / "faa"),
-
-        # mrbayes:
-        directory(mrbayes_dir_path / "fna"),
-        directory(mrbayes_dir_path / "faa")
+        output_files
 
 
 rule files_transfer:
