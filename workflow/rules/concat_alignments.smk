@@ -7,7 +7,9 @@ rule concat_fasta_dna:
     output:
         concat_aligments_dir_path / fasta_dna_filename
     log:
-        std=log_dir_path / "concat_fasta_dna.log"
+        std=log_dir_path / "concat_fasta_dna.log",
+        cluster_log=cluster_log_dir_path / "concat_fasta_dna.cluster.log",
+        cluster_err=cluster_log_dir_path / "concat_fasta_dna.cluster.err"
     benchmark:
         benchmark_dir_path / "concat_fasta_dna.benchmark.txt"
     shell:
@@ -20,7 +22,9 @@ rule concat_fasta_protein:
     output:
         concat_aligments_dir_path / fasta_protein_filename
     log:
-        std=log_dir_path / "concat_fasta_protein.log"
+        std=log_dir_path / "concat_fasta_protein.log",
+        cluster_log=cluster_log_dir_path / "concat_fasta_protein.cluster.log",
+        cluster_err=cluster_log_dir_path / "concat_fasta_protein.cluster.err"
     benchmark:
         benchmark_dir_path / "concat_fasta_protein.benchmark.txt"
     shell:
@@ -36,7 +40,9 @@ rule concat_nexus_dna:
         type="DNA",
         block=config["mrbayes_block"]
     log:
-        std=log_dir_path / "concat_nexus_dna.log"
+        std=log_dir_path / "concat_nexus_dna.log",
+        cluster_log=cluster_log_dir_path / "concat_nexus_dna.cluster.log",
+        cluster_err=cluster_log_dir_path / "concat_nexus_dna.cluster.err"
     benchmark:
         benchmark_dir_path / "concat_nexus_dna.benchmark.txt"
     shell:
@@ -52,7 +58,9 @@ rule concat_nexus_protein:
         type="protein",
         block=config["mrbayes_block"]
     log:
-        std=log_dir_path / "concat_nexus_protein.log"
+        std=log_dir_path / "concat_nexus_protein.log",
+        cluster_log=cluster_log_dir_path / "concat_nexus_protein.cluster.log",
+        cluster_err=cluster_log_dir_path / "concat_nexus_protein.cluster.err"
     benchmark:
         benchmark_dir_path / "concat_nexus_protein.benchmark.txt"
     shell:
