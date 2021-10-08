@@ -3,19 +3,19 @@
 
 rule iqtree_dna:
     input:
-        concat_aligments_dir_path / config["concat_fna_filename"]
+        concat_aligments_dir_path / fasta_dna_filename
     output:
         directory(iqtree_dir_path / "fna")
     params:
         iqtree_path=config["iqtree_path"],
-        prefix=config["iqtree_fna_prefix"],
-        options=config["iqtree_dna_params"]
+        options=config["iqtree_dna_params"],
+        prefix=fasta_dna_filename
     log:
-        std=log_dir_path / "fna.iqtree.log",
-        cluster_log=cluster_log_dir_path / "fna.iqtree.cluster.log",
-        cluster_err=cluster_log_dir_path / "fna.iqtree.cluster.err"
+        std=log_dir_path / "iqtree_dna.log",
+        cluster_log=cluster_log_dir_path / "iqtree_dna.cluster.log",
+        cluster_err=cluster_log_dir_path / "iqtree_dna.cluster.err"
     benchmark:
-        benchmark_dir_path / "fna.iqtree.benchmark.txt"
+        benchmark_dir_path / "iqtree_dna.benchmark.txt"
     # conda:
     #     "../../%s" % config["conda_config"]
     resources:
@@ -36,19 +36,19 @@ rule iqtree_dna:
 
 rule iqtree_protein:
     input:
-        concat_aligments_dir_path / config["concat_faa_filename"]
+        concat_aligments_dir_path / fasta_protein_filename
     output:
         directory(iqtree_dir_path / "faa")
     params:
         iqtree_path=config["iqtree_path"],
-        prefix=config["iqtree_faa_prefix"],
-        options=config["iqtree_protein_params"]
+        options=config["iqtree_protein_params"],
+        prefix=fasta_protein_filename
     log:
-        std=log_dir_path / "faa.iqtree.log",
-        cluster_log=cluster_log_dir_path / "faa.iqtree.cluster.log",
-        cluster_err=cluster_log_dir_path / "faa.iqtree.cluster.err"
+        std=log_dir_path / "iqtree_protein.log",
+        cluster_log=cluster_log_dir_path / "iqtree_protein.cluster.log",
+        cluster_err=cluster_log_dir_path / "iqtree_protein.cluster.err"
     benchmark:
-        benchmark_dir_path / "faa.iqtree.benchmark.txt"
+        benchmark_dir_path / "iqtree_protein.benchmark.txt"
     # conda:
     #     "../../%s" % config["conda_config"]
     resources:

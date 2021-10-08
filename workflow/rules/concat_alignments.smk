@@ -5,11 +5,11 @@ rule concat_fasta_dna:
     input:
         directory(trimal_dir_path / "fna")
     output:
-        concat_aligments_dir_path / config["concat_fna_filename"]
+        concat_aligments_dir_path / fasta_dna_filename
     log:
-        std=log_dir_path / "fna.concat_fasta_dna.log"
+        std=log_dir_path / "concat_fasta_dna.log"
     benchmark:
-        benchmark_dir_path / "fna.concat_fasta_dna.benchmark.txt"
+        benchmark_dir_path / "concat_fasta_dna.benchmark.txt"
     shell:
         "cat {input}/*.fna | workflow/scripts/concat_fasta.py -o {output} 1> {log.std} 2>&1"
 
@@ -18,42 +18,42 @@ rule concat_fasta_protein:
     input:
         directory(trimal_dir_path / "faa")
     output:
-        concat_aligments_dir_path / config["concat_faa_filename"]
+        concat_aligments_dir_path / fasta_protein_filename
     log:
-        std=log_dir_path / "faa.concat_fasta_protein.log"
+        std=log_dir_path / "concat_fasta_protein.log"
     benchmark:
-        benchmark_dir_path / "faa.concat_fasta_protein.benchmark.txt"
+        benchmark_dir_path / "concat_fasta_protein.benchmark.txt"
     shell:
         "cat {input}/*.faa | workflow/scripts/concat_fasta.py -o {output} 1> {log.std} 2>&1"
 
 
 rule concat_nexus_dna:
     input:
-        concat_aligments_dir_path / config["concat_fna_filename"]
+        concat_aligments_dir_path / fasta_dna_filename
     output:
-        concat_aligments_dir_path / "concat.aln.fna.nexus"
+        concat_aligments_dir_path / nexus_dna_filename
     params:
         type="DNA",
         block=config["mrbayes_block"]
     log:
-        std=log_dir_path / "fna.concat_nexus_dna.log"
+        std=log_dir_path / "concat_nexus_dna.log"
     benchmark:
-        benchmark_dir_path / "fna.concat_nexus_dna.benchmark.txt"
+        benchmark_dir_path / "concat_nexus_dna.benchmark.txt"
     shell:
         "workflow/scripts/fasta_to_nexus.py -i {input} -t {params.type} -b {params.block} -o {output} 1> {log.std} 2>&1"
 
 
 rule concat_nexus_protein:
     input:
-        concat_aligments_dir_path / config["concat_faa_filename"]
+        concat_aligments_dir_path / fasta_protein_filename
     output:
-        concat_aligments_dir_path / "concat.aln.faa.nexus"
+        concat_aligments_dir_path / nexus_protein_filename
     params:
         type="protein",
         block=config["mrbayes_block"]
     log:
-        std=log_dir_path / "faa.concat_nexus_protein.log"
+        std=log_dir_path / "concat_nexus_protein.log"
     benchmark:
-        benchmark_dir_path / "faa.concat_nexus_protein.benchmark.txt"
+        benchmark_dir_path / "concat_nexus_protein.benchmark.txt"
     shell:
         "workflow/scripts/fasta_to_nexus.py -i {input} -t {params.type} -b {params.block} -o {output} 1> {log.std} 2>&1"

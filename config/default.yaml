@@ -2,6 +2,12 @@
 conda_config: "workflow/envs/conda.yaml"
 mrbayes_block: "workflow/envs/mrbayes.block"
 
+#---- Global variable ----
+phylogenetic_method: "all"
+
+#---- Result file names ----
+alignment_file_prefix: "alignment.phylo"
+
 #---- Directory structure config ----
 genome_dir: "genomes"
 output_dir: "results"
@@ -62,9 +68,3 @@ iqtree_dna_params: ""
 mrbayes_dna_params: ""
 mrbayes_protein_params: ""
 split_size: 50      # job grouping
-
-#---- Results file names ----
-concat_fna_filename: "concat.aln.fna"
-concat_faa_filename: "concat.aln.faa"
-iqtree_fna_prefix: "iqtree.concat.aln.fna"
-iqtree_faa_prefix: "iqtree.concat.aln.faa"

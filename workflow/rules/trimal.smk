@@ -9,11 +9,11 @@ rule trimal_dna:
         trimal_path=config["trimal_path"],
         options=config["trimal_dna_params"]
     log:
-        std=log_dir_path / "{N}.fna.trimal.log",
-        cluster_log=cluster_log_dir_path / "{N}.fna.trimal.cluster.log",
-        cluster_err=cluster_log_dir_path / "{N}.fna.trimal.cluster.err"
+        std=log_dir_path / "{N}.trimal_dna.log",
+        cluster_log=cluster_log_dir_path / "{N}.trimal_dna.cluster.log",
+        cluster_err=cluster_log_dir_path / "{N}.trimal_dna.cluster.err"
     benchmark:
-        benchmark_dir_path / "{N}.fna.trimal.benchmark.txt"
+        benchmark_dir_path / "{N}.trimal_dna.benchmark.txt"
     # conda:
     #     "../../%s" % config["conda_config"]
     resources:
@@ -39,11 +39,11 @@ rule trimal_protein:
         trimal_path=config["trimal_path"],
         options=config["trimal_protein_params"]
     log:
-        std=log_dir_path / "{N}.faa.trimal.log",
-        cluster_log=cluster_log_dir_path / "{N}.faa.trimal.cluster.log",
-        cluster_err=cluster_log_dir_path / "{N}.faa.trimal.cluster.err"
+        std=log_dir_path / "{N}.trimal_protein.log",
+        cluster_log=cluster_log_dir_path / "{N}.trimal_protein.cluster.log",
+        cluster_err=cluster_log_dir_path / "{N}.trimal_protein.cluster.err"
     benchmark:
-        benchmark_dir_path / "{N}.faa.trimal.benchmark.txt"
+        benchmark_dir_path / "{N}.trimal_protein.benchmark.txt"
     # conda:
     #     "../../%s" % config["conda_config"]
     resources:
