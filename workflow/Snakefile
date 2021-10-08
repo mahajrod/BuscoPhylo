@@ -45,7 +45,7 @@ def expand_template_from_common_ids(wildcards, template):
 #
 # By default, all steps are run
 #
-all_output_files = [
+output_files = [
     # busco:
     expand(busco_dir_path / "{species}/short_summary_{species}.txt",species=config["species_list"]),
     directory(single_copy_busco_sequences_dir_path),
@@ -90,7 +90,7 @@ localrules: all, files_transfer
 
 rule all:
     input:
-        all_output_files
+        output_files
 
 
 rule files_transfer:
