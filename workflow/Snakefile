@@ -48,6 +48,8 @@ def expand_template_from_common_ids(wildcards, template):
 output_files = [
     # busco:
     expand(busco_dir_path / "{species}/short_summary_{species}.txt",species=config["species_list"]),
+
+    # common ids and merged sequences:
     directory(single_copy_busco_sequences_dir_path),
     lambda w: expand_template_from_common_ids(w,merged_sequences_dir_path / "{N}"),
 
