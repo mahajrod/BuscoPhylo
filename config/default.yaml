@@ -28,16 +28,16 @@ benchmark_dir: "benchmarks"
 busco_threads: 4
 mafft_threads: 4
 trimal_threads: 4
-iqtree_threads: 10
-mrbayes_threads: 10
+iqtree_threads: 15
+mrbayes_threads: 15
 common_ids_threads: 1
 
 #---- Tool memory ----
 busco_mem_mb: 20000
 mafft_mem_mb: 15000
 trimal_mem_mb: 15000
-iqtree_mem_mb: 10000
-mrbayes_mem_mb: 10000
+iqtree_mem_mb: 50000
+mrbayes_mem_mb: 50000
 common_ids_mem_mb: 5000
 
 #---- Tool time ----
