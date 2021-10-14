@@ -68,22 +68,38 @@ output_files = [
     concat_aligments_dir_path / nexus_protein_filename
 ]
 
-iqtree_output_files = [
-        directory(iqtree_dir_path / "fna"),
-        directory(iqtree_dir_path / "faa")
-    ]
-mrbayes_output_files = [
-        directory(mrbayes_dir_path / "fna"),
-        directory(mrbayes_dir_path / "faa")
-    ]
+phylogenetic_methods_dict = {
+    "iqtree_dna" : directory(iqtree_dir_path / "fna"),
+    "iqtree_protein": directory(iqtree_dir_path / "faa"),
+    "mrbayes_dna" : directory(mrbayes_dir_path / "fna"),
+    "mrbayes_protein" : directory(mrbayes_dir_path / "faa")
+}
 
-if config["phylogenetic_method"] == "all":
-    output_files.append(iqtree_output_files)
-    output_files.append(mrbayes_output_files)
+if config["phylogenetic_method"] == "all":   # by default
+    if config["alignment_type"] == "all":   # by default
+        output_files.extend(list(phylogenetic_methods_dict.values()))
+    elif config["alignment_type"] == "dna":
+        output_files.append(phylogenetic_methods_dict["iqtree_dna"])
+        output_files.append(phylogenetic_methods_dict["mrbayes_dna"])
+    elif config["alignment_type"] == "protein":
+        output_files.append(phylogenetic_methods_dict["iqtree_protein"])
+        output_files.append(phylogenetic_methods_dict["mrbayes_protein"])
 elif config["phylogenetic_method"] == "iqtree":
-    output_files.append(iqtree_output_files)
+    if config["alignment_type"] == "all":
+        output_files.append(phylogenetic_methods_dict["iqtree_dna"])
+        output_files.append(phylogenetic_methods_dict["iqtree_protein"])
+    elif config["alignment_type"] == "dna":
+        output_files.append(phylogenetic_methods_dict["iqtree_dna"])
+    elif config["alignment_type"] == "protein":
+        output_files.append(phylogenetic_methods_dict["iqtree_protein"])
 elif config["phylogenetic_method"] == "mrbayes":
-    output_files.append(mrbayes_output_files)
+    if config["alignment_type"] == "all":
+        output_files.append(phylogenetic_methods_dict["mrbayes_dna"])
+        output_files.append(phylogenetic_methods_dict["mrbayes_protein"])
+    elif config["alignment_type"] == "dna":
+        output_files.append(phylogenetic_methods_dict["mrbayes_dna"])
+    elif config["alignment_type"] == "protein":
+        output_files.append(phylogenetic_methods_dict["mrbayes_protein"])
 else:
     pass
 

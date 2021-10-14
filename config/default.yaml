@@ -4,6 +4,7 @@ mrbayes_block: "workflow/envs/mrbayes.block"
 
 #---- Global variable ----
 phylogenetic_method: "all"
+alignment_type: "all"
 
 #---- Result file names ----
 alignment_file_prefix: "alignment.phylo"
