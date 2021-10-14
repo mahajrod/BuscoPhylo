@@ -67,4 +67,4 @@ iqtree_protein_params: ""
 iqtree_dna_params: ""
 mrbayes_dna_params: ""
 mrbayes_protein_params: ""
-split_size: 50      # job grouping
+split_size: 80      # job grouping
