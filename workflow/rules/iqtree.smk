@@ -62,6 +62,6 @@ rule iqtree_protein:
         "mv {params.prefix}.ckp.gz {output}; "
         "mv {params.prefix}.log {output}; "
         "mv {params.prefix}.mldist {output}; "
-        "mv {params.prefix}.model.gz {output}; "
+        # "mv {params.prefix}.model.gz {output}; "
         "mv {params.prefix}.treefile {output}; "
         "mv {params.prefix}.iqtree {output}; "
