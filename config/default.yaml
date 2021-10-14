@@ -65,7 +65,7 @@ mafft_protein_params: "--anysymbol"
 trimal_dna_params: "-automated1"
 trimal_protein_params: "-automated1"
 iqtree_protein_params: ""
-iqtree_dna_params: "-m GTR+G"
+iqtree_dna_params: ""
 mrbayes_dna_params: ""
 mrbayes_protein_params: ""
 split_size: 80      # job grouping
