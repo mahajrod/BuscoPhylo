@@ -25,13 +25,7 @@ rule iqtree_dna:
     shell:
         "mkdir -p {output}; "
         "{params.iqtree_path}/iqtree -s {input} -pre {params.prefix} -nt {resources.cpus} {params.options} 1> {log.std} 2>&1; "
-        "mv {params.prefix}.bionj {output}; "
-        "mv {params.prefix}.ckp.gz {output}; "
-        "mv {params.prefix}.log {output}; "
-        "mv {params.prefix}.mldist {output}; "
-        # "mv {params.prefix}.model.gz {output}; "
-        "mv {params.prefix}.treefile {output}; "
-        "mv {params.prefix}.iqtree {output}; "
+        "mv {params.prefix}.* {output}"
 
 
 rule iqtree_protein:
@@ -58,10 +52,4 @@ rule iqtree_protein:
     shell:
         "mkdir -p {output}; "
         "{params.iqtree_path}/iqtree -s {input} -pre {params.prefix} -nt {resources.cpus} {params.options} 1> {log.std} 2>&1; "
-        "mv {params.prefix}.bionj {output}; "
-        "mv {params.prefix}.ckp.gz {output}; "
-        "mv {params.prefix}.log {output}; "
-        "mv {params.prefix}.mldist {output}; "
-        # "mv {params.prefix}.model.gz {output}; "
-        "mv {params.prefix}.treefile {output}; "
-        "mv {params.prefix}.iqtree {output}; "
+        "mv {params.prefix}.* {output}"
