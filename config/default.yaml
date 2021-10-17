@@ -1,5 +1,13 @@
 #---- Configuration files ----
 conda_config: "workflow/envs/conda.yaml"
+mrbayes_block: "workflow/envs/mrbayes.block"
+
+#---- Global variable ----
+phylogenetic_method: "all"
+alignment_type: "all"
+
+#---- Result file names ----
+alignment_file_prefix: "alignment.phylo"
 
 #---- Directory structure config ----
 genome_dir: "genomes"
@@ -8,26 +16,56 @@ log_dir: "logs"
 cluster_log_dir: "cluster_logs"
 busco_dir: "busco"
 mafft_dir: "mafft"
+trimal_dir: "trimal"
+iqtree_dir: "iqtree"
+mrbayes_dir: "mrbayes"
+common_ids_dir: "common_ids"
+single_copy_busco_sequences_dir: "single_copy_busco_sequences.common.dir"
+merged_sequences_dir: "merged_sequences"
+concat_aligments_dir: "concat_aligments"
 benchmark_dir: "benchmarks"
 
 #---- Tool threads ----
-busco_threads: 4 #TODO: adjust for cluster
+busco_threads: 4
 mafft_threads: 4
+trimal_threads: 4
+iqtree_threads: 15
+mrbayes_threads: 15
 common_ids_threads: 1
 
-#---- Tool memory ---- #TODO: adjust memory requirements
+#---- Tool memory ----
 busco_mem_mb: 20000
-mafft_mem_mb: 20000
-common_ids_mem_mb: 2000
+mafft_mem_mb: 15000
+trimal_mem_mb: 15000
+iqtree_mem_mb: 50000
+mrbayes_mem_mb: 50000
+common_ids_mem_mb: 5000
 
 #---- Tool time ----
-busco_time: "60:00:00"
+busco_time: "100:00:00"
 mafft_time: "60:00:00"
+trimal_time: "60:00:00"
+iqtree_time: "200:00:00"
+mrbayes_time: "200:00:00"
 common_ids_time: "00:30:00"
 
-#---- Tool variables ----
+#---- Tool paths ----
 busco_path:
-busco_mode: "genome"
-augustus_species: "human"
 busco_dataset_path:
 mafft_path:
+trimal_path:
+iqtree_path:
+mrbayes_path:
+
+#---- Tool variables ----
+busco_mode: "genome"
+augustus_species: "human"
+mafft_dna_params: ""
+mafft_protein_params: "--anysymbol"
+trimal_dna_params: "-automated1"
+trimal_protein_params: "-automated1"
+iqtree_protein_params: ""
+iqtree_dna_params: "-m GTR+G"
+mrbayes_dna_params: ""
+mrbayes_protein_params: ""
+split_size: 80      # job grouping

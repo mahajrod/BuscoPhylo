@@ -1,11 +1,11 @@
-localrules: common_ids, species_ids
-ruleorder: species_ids > common_ids
+localrules: common_ids, species_ids, merged_sequences
+
 
 rule species_ids:
     input:
         busco_outdir=directory(busco_dir_path / "{species}")
     output:
-        ids=busco_dir_path / "{species}.ids"
+        ids=common_ids_dir_path / "{species}.ids"
     params:
         single_copy_files="single_copy_busco_sequences/"
     log:
@@ -22,13 +22,15 @@ rule species_ids:
         "ls {input.busco_outdir}/{params.single_copy_files} | grep -P '.fna$' | sed 's/.fna//' > {output.ids} 2> {log.std}"
 
 
-rule common_ids:
+checkpoint common_ids:
     input:
-        id_files=expand(busco_dir_path/ "{species}.ids", species=config["species_list"])
+        ids=expand(common_ids_dir_path / "{species}.ids", species=config["species_list"])
     output:
-        busco_dir_path / "single_copy_busco_sequences.common.ids"
+        directory(single_copy_busco_sequences_dir_path)
     params:
-        nfiles=len(config["species_list"])
+        nfiles=len(config["species_list"]),
+        prefix="common.ids",
+        split_size=config["split_size"]
     log:
         std=log_dir_path / "common_ids.log",
         cluster_log=cluster_log_dir_path / "common_ids.cluster.log",
@@ -40,5 +42,31 @@ rule common_ids:
         time=config["common_ids_time"],
         mem=config["common_ids_mem_mb"]
     shell:
-        "cat {input.id_files} |"
-        "sort | uniq -c | awk '{{if($1=={params.nfiles}){{print $2}}}}' > {output} 2> {log.std}"
+        "mkdir -p {output}; "
+        "cat {input.ids} | "
+        "sort | uniq -c | awk '{{if($1=={params.nfiles}){{print $2}}}}' | "
+        "split -l {params.split_size} --numeric-suffixes - {output}/{params.prefix} 1> {log.std} 2>&1"
+
+
+checkpoint merged_sequences:
+    input:
+        common_ids=single_copy_busco_sequences_dir_path / "common.ids{N}"
+    output:
+        directory(merged_sequences_dir_path / "{N}/")
+    params:
+        single_copy_files=expand(busco_dir_path / "{species}" / "single_copy_busco_sequences", species=config["species_list"])
+    log:
+        std=log_dir_path / "{N}.merged_sequences.log",
+        cluster_log=cluster_log_dir_path / "{N}.merged_sequences.cluster.log",
+        cluster_err=cluster_log_dir_path / "{N}.merged_sequences.cluster.err"
+    benchmark:
+        benchmark_dir_path / "{N}.merged_sequences.benchmark.txt"
+    resources:
+        cpus=config["common_ids_threads"],
+        time=config["common_ids_threads"],
+        mem=config["common_ids_threads"]
+    shell:
+        "workflow/scripts/merged_sequences.py "
+        "--input {input.common_ids} "
+        "--single_copy_files {params.single_copy_files} "
+        "--outdir {output} 1> {log.std} 2>&1"

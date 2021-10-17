@@ -1,44 +1,20 @@
-import os
-localrules: merged_sequences
+# localrules: mafft_dna, mafft_protein
 
 
-checkpoint merged_sequences:
+rule mafft_dna:
     input:
-        common_ids=busco_dir_path / "single_copy_busco_sequences.common.ids"
+        fna_list=merged_sequences_dir_path / "{N}/"
     output:
-        merged_ids=directory(busco_dir_path / "merged_sequences")
+        temp(directory(mafft_dir_path / "fna_tmp" / "{N}"))
     params:
-        single_copy_files=expand(busco_dir_path / "{species}" / "single_copy_busco_sequences", species=config["species_list"])
+        mafft_path=config["mafft_path"],
+        options=config["mafft_dna_params"]
     log:
-        std=log_dir_path / "merged_ids.log",
-        cluster_log=cluster_log_dir_path / "merged_ids.cluster.log",
-        cluster_err=cluster_log_dir_path / "merged_ids.cluster.err"
+        std=log_dir_path / "{N}.fna.mafft.log",
+        cluster_log=cluster_log_dir_path / "{N}.fna.mafft.cluster.log",
+        cluster_err=cluster_log_dir_path / "{N}.fna.mafft.cluster.err"
     benchmark:
-        benchmark_dir_path / "merged_ids.benchmark.txt"
-    resources:
-        cpus=config["common_ids_threads"],
-        time=config["common_ids_threads"],
-        mem=config["common_ids_threads"]
-    shell:
-        "workflow/scripts/merged_sequences.py "
-        "--input {input.common_ids} "
-        "--single_copy_files {params.single_copy_files} "
-        "--outdir {output.merged_ids} 2> {log.std}"
-
-
-rule mafft:
-    input:
-        fna=busco_dir_path / "merged_sequences" / "merged_{sample}.{extension}"
-    output:
-        outfile=mafft_dir_path / "{sample}.{extension}"
-    params:
-        mafft_path=config["mafft_path"]
-    log:
-        std=log_dir_path / "{sample}.{extension}.mafft.log",
-        cluster_log=cluster_log_dir_path / "{sample}.{extension}.mafft.cluster.log",
-        cluster_err=cluster_log_dir_path / "{sample}.{extension}.mafft.cluster.err"
-    benchmark:
-        benchmark_dir_path / "{sample}.{extension}.mafft.benchmark.txt"
+        benchmark_dir_path / "{N}.fna.mafft.benchmark.txt"
     # conda:
     #     "../../%s" % config["conda_config"]
     resources:
@@ -48,4 +24,38 @@ rule mafft:
     threads:
         config["mafft_threads"]
     shell:
-        "{params.mafft_path}/mafft --thread {threads} {input.fna} > {output.outfile} 2> {log.std}"
+        "mkdir -p {output}; "
+        "for FILE in `ls {input.fna_list}/*`; do "
+        "{params.mafft_path}/mafft --thread {threads} {params.options} ${{FILE%.*}}.fna > {output}/$(basename ${{FILE%.*}}.fna) 2> {log.std}; "
+        "done; "
+
+
+rule mafft_protein:
+    input:
+        faa_list=merged_sequences_dir_path / "{N}/"
+    output:
+        temp(directory(mafft_dir_path / "faa_tmp" / "{N}"))
+    params:
+        mafft_path=config["mafft_path"],
+        options=config["mafft_protein_params"]
+    log:
+        std=log_dir_path / "{N}.faa.mafft.log",
+        cluster_log=cluster_log_dir_path / "{N}.faa.mafft.cluster.log",
+        cluster_err=cluster_log_dir_path / "{N}.faa.mafft.cluster.err"
+    benchmark:
+        benchmark_dir_path / "{N}.faa.mafft.benchmark.txt"
+    # conda:
+    #     "../../%s" % config["conda_config"]
+    resources:
+        cpus=config["mafft_threads"],
+        time=config["mafft_time"],
+        mem=config["mafft_mem_mb"]
+    threads:
+        config["mafft_threads"]
+    shell:
+        "mkdir -p {output}; "
+        "for FILE in `ls {input.faa_list}/*`; do "
+        "{params.mafft_path}/mafft --thread {threads} {params.options} ${{FILE%.*}}.faa > {output}/$(basename ${{FILE%.*}}.faa) 2> {log.std}; "
+        "done; "
+
+
