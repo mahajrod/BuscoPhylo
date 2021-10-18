@@ -75,33 +75,14 @@ phylogenetic_methods_dict = {
     "mrbayes_protein" : directory(mrbayes_dir_path / "faa")
 }
 
-if config["phylogenetic_method"] == "all":   # by default
-    if config["alignment_type"] == "all":   # by default
-        output_files.extend(list(phylogenetic_methods_dict.values()))
-    elif config["alignment_type"] == "dna":
-        output_files.append(phylogenetic_methods_dict["iqtree_dna"])
-        output_files.append(phylogenetic_methods_dict["mrbayes_dna"])
-    elif config["alignment_type"] == "protein":
-        output_files.append(phylogenetic_methods_dict["iqtree_protein"])
-        output_files.append(phylogenetic_methods_dict["mrbayes_protein"])
-elif config["phylogenetic_method"] == "iqtree":
-    if config["alignment_type"] == "all":
-        output_files.append(phylogenetic_methods_dict["iqtree_dna"])
-        output_files.append(phylogenetic_methods_dict["iqtree_protein"])
-    elif config["alignment_type"] == "dna":
-        output_files.append(phylogenetic_methods_dict["iqtree_dna"])
-    elif config["alignment_type"] == "protein":
-        output_files.append(phylogenetic_methods_dict["iqtree_protein"])
-elif config["phylogenetic_method"] == "mrbayes":
-    if config["alignment_type"] == "all":
-        output_files.append(phylogenetic_methods_dict["mrbayes_dna"])
-        output_files.append(phylogenetic_methods_dict["mrbayes_protein"])
-    elif config["alignment_type"] == "dna":
-        output_files.append(phylogenetic_methods_dict["mrbayes_dna"])
-    elif config["alignment_type"] == "protein":
-        output_files.append(phylogenetic_methods_dict["mrbayes_protein"])
-else:
-    pass
+if len(config["iqtree_dna_method"]) > 0:  # to disable, change the config value to an empty string ""
+    output_files.append(phylogenetic_methods_dict["iqtree_dna"])
+if len(config["iqtree_protein_method"]) > 0:
+    output_files.append(phylogenetic_methods_dict["iqtree_protein"])
+if len(config["mrbayes_dna_method"]) > 0:
+    output_files.append(phylogenetic_methods_dict["mrbayes_dna"])
+if len(config["mrbayes_protein_method"]) > 0:
+    output_files.append(phylogenetic_methods_dict["mrbayes_protein"])
 
 
 localrules: all, files_transfer

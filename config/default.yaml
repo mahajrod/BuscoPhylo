@@ -2,9 +2,11 @@
 conda_config: "workflow/envs/conda.yaml"
 mrbayes_block: "workflow/envs/mrbayes.block"
 
-#---- Global variable ----
-phylogenetic_method: "all"
-alignment_type: "all"
+#---- Global variable ---- # to disable, change the config value to an empty string ""
+iqtree_dna_method: "yes"
+iqtree_protein_method: "yes"
+mrbayes_dna_method: "yes"
+mrbayes_protein_method: "yes"
 
 #---- Result file names ----
 alignment_file_prefix: "alignment.phylo"
