@@ -10,16 +10,16 @@ The pipeline automatically creates the directory structure from the config file.
 |-results
     |- busco
     |- ids
-	|    |- common_ids
-	|    |- single_copy_busco_sequences.common.dir
-	|    |- merged_sequences  
-	|- alignment
-	|    |- mafft
-	|    |- trimal
+    |   |- common_ids
+    |   |- single_copy_busco_sequences.common.dir
+    |   |- merged_sequences  
+    |- alignment
+    |   |- mafft
+    |   |- trimal
     |- concat_alignments
-	|- phylogeny
-	|    |- iqtree
-	|    |- mrbayes
+    |- phylogeny
+    |   |- iqtree
+    |   |- mrbayes
 ```
 
 ### Usage example
