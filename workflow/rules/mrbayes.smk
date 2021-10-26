@@ -3,7 +3,7 @@ localrules: mrbayes_dna, mrbayes_protein
 
 rule mrbayes_dna:
     input:
-        concat_aligments_dir_path / nexus_dna_filename
+        concat_alignments_dir_path / nexus_dna_filename
     output:
         directory(mrbayes_dir_path / "fna")
     params:
@@ -29,7 +29,7 @@ rule mrbayes_dna:
 
 rule mrbayes_protein:
     input:
-        concat_aligments_dir_path / nexus_protein_filename
+        concat_alignments_dir_path / nexus_protein_filename
     output:
         directory(mrbayes_dir_path / "faa")
     params:

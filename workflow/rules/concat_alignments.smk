@@ -5,7 +5,7 @@ rule concat_fasta_dna:
     input:
         directory(trimal_dir_path / "fna")
     output:
-        concat_aligments_dir_path / fasta_dna_filename
+        concat_alignments_dir_path / fasta_dna_filename
     log:
         std=log_dir_path / "concat_fasta_dna.log",
         cluster_log=cluster_log_dir_path / "concat_fasta_dna.cluster.log",
@@ -33,9 +33,9 @@ rule concat_fasta_protein:
 
 rule concat_nexus_dna:
     input:
-        concat_aligments_dir_path / fasta_dna_filename
+        concat_alignments_dir_path / fasta_dna_filename
     output:
-        concat_aligments_dir_path / nexus_dna_filename
+        concat_alignments_dir_path / nexus_dna_filename
     params:
         type="DNA",
         block=config["mrbayes_block"]
@@ -51,9 +51,9 @@ rule concat_nexus_dna:
 
 rule concat_nexus_protein:
     input:
-        concat_aligments_dir_path / fasta_protein_filename
+        concat_alignments_dir_path / fasta_protein_filename
     output:
-        concat_aligments_dir_path / nexus_protein_filename
+        concat_alignments_dir_path / nexus_protein_filename
     params:
         type="protein",
         block=config["mrbayes_block"]
