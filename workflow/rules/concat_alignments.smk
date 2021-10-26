@@ -20,7 +20,7 @@ rule concat_fasta_protein:
     input:
         directory(trimal_dir_path / "faa")
     output:
-        concat_aligments_dir_path / fasta_protein_filename
+        concat_alignments_dir_path / fasta_protein_filename
     log:
         std=log_dir_path / "concat_fasta_protein.log",
         cluster_log=cluster_log_dir_path / "concat_fasta_protein.cluster.log",
