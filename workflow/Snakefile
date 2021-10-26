@@ -75,13 +75,13 @@ phylogenetic_methods_dict = {
     "mrbayes_protein" : directory(mrbayes_dir_path / "faa")
 }
 
-if config["iqtree_dna_method"] not in ["", "-", "not", "false"]:
+if config["iqtree_dna_method"] not in ["", "-", "no", "not", "false"]:
     output_files.append(phylogenetic_methods_dict["iqtree_dna"])
-if config["iqtree_protein_method"] not in ["", "-", "not", "false"]:
+if config["iqtree_protein_method"] not in ["", "-", "no", "not", "false"]:
     output_files.append(phylogenetic_methods_dict["iqtree_protein"])
-if config["mrbayes_dna_method"] not in ["", "-", "not", "false"]:
+if config["mrbayes_dna_method"] not in ["", "-", "no", "not", "false"]:
     output_files.append(phylogenetic_methods_dict["mrbayes_dna"])
-if config["mrbayes_protein_method"] not in ["", "-", "not", "false"]:
+if config["mrbayes_protein_method"] not in ["", "-", "no", "not", "false"]:
     output_files.append(phylogenetic_methods_dict["mrbayes_protein"])
 
 
