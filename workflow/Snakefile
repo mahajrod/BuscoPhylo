@@ -18,7 +18,7 @@ single_copy_busco_sequences_dir_path = output_dir_path / config["single_copy_bus
 merged_sequences_dir_path = output_dir_path / config["merged_sequences_dir"]
 mafft_dir_path = output_dir_path / config["mafft_dir"]
 trimal_dir_path = output_dir_path / config["trimal_dir"]
-concat_alignments_dir_path = output_dir_path / config["concat_aligments_dir"]
+concat_alignments_dir_path = output_dir_path / config["concat_alignments_dir"]
 iqtree_dir_path = output_dir_path / config["iqtree_dir"]
 mrbayes_dir_path = output_dir_path / config["mrbayes_dir"]
 
