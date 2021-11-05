@@ -14,11 +14,11 @@ output_dir_path = Path(config["output_dir"])
 
 busco_dir_path = output_dir_path / config["busco_dir"]
 common_ids_dir_path = output_dir_path / config["common_ids_dir"]
-single_copy_busco_sequences_dir_path = common_ids_dir_path / config["single_copy_busco_sequences_dir"]
-merged_sequences_dir_path = common_ids_dir_path / config["merged_sequences_dir"]
+single_copy_busco_sequences_dir_path = output_dir_path / config["single_copy_busco_sequences_dir"]
+merged_sequences_dir_path = output_dir_path / config["merged_sequences_dir"]
 mafft_dir_path = output_dir_path / config["mafft_dir"]
 trimal_dir_path = output_dir_path / config["trimal_dir"]
-concat_aligments_dir_path = output_dir_path / config["concat_aligments_dir"]
+concat_alignments_dir_path = output_dir_path / config["concat_alignments_dir"]
 iqtree_dir_path = output_dir_path / config["iqtree_dir"]
 mrbayes_dir_path = output_dir_path / config["mrbayes_dir"]
 
@@ -30,7 +30,7 @@ nexus_dna_filename = f"{fasta_dna_filename}.nex"
 nexus_protein_filename = f"{fasta_protein_filename}.nex"
 
 if "species_list" not in config:
-    config["species_list"] = [d.name[:-6] for d in genome_dir_path.iterdir() if d.is_file()]
+    config["species_list"] = [f.name[:-6] for f in genome_dir_path.iterdir() if f.is_file()]
 
 #---- necessary functions ----
 def expand_template_from_common_ids(wildcards, template):
@@ -62,10 +62,10 @@ output_files = [
     directory(trimal_dir_path / "faa"),
 
     # concat alignments:
-    concat_aligments_dir_path / fasta_dna_filename,
-    concat_aligments_dir_path / fasta_protein_filename,
-    concat_aligments_dir_path / nexus_dna_filename,
-    concat_aligments_dir_path / nexus_protein_filename
+    concat_alignments_dir_path / fasta_dna_filename,
+    concat_alignments_dir_path / fasta_protein_filename,
+    concat_alignments_dir_path / nexus_dna_filename,
+    concat_alignments_dir_path / nexus_protein_filename
 ]
 
 phylogenetic_methods_dict = {
@@ -75,33 +75,14 @@ phylogenetic_methods_dict = {
     "mrbayes_protein" : directory(mrbayes_dir_path / "faa")
 }
 
-if config["phylogenetic_method"] == "all":   # by default
-    if config["alignment_type"] == "all":   # by default
-        output_files.extend(list(phylogenetic_methods_dict.values()))
-    elif config["alignment_type"] == "dna":
-        output_files.append(phylogenetic_methods_dict["iqtree_dna"])
-        output_files.append(phylogenetic_methods_dict["mrbayes_dna"])
-    elif config["alignment_type"] == "protein":
-        output_files.append(phylogenetic_methods_dict["iqtree_protein"])
-        output_files.append(phylogenetic_methods_dict["mrbayes_protein"])
-elif config["phylogenetic_method"] == "iqtree":
-    if config["alignment_type"] == "all":
-        output_files.append(phylogenetic_methods_dict["iqtree_dna"])
-        output_files.append(phylogenetic_methods_dict["iqtree_protein"])
-    elif config["alignment_type"] == "dna":
-        output_files.append(phylogenetic_methods_dict["iqtree_dna"])
-    elif config["alignment_type"] == "protein":
-        output_files.append(phylogenetic_methods_dict["iqtree_protein"])
-elif config["phylogenetic_method"] == "mrbayes":
-    if config["alignment_type"] == "all":
-        output_files.append(phylogenetic_methods_dict["mrbayes_dna"])
-        output_files.append(phylogenetic_methods_dict["mrbayes_protein"])
-    elif config["alignment_type"] == "dna":
-        output_files.append(phylogenetic_methods_dict["mrbayes_dna"])
-    elif config["alignment_type"] == "protein":
-        output_files.append(phylogenetic_methods_dict["mrbayes_protein"])
-else:
-    pass
+if config["iqtree_dna_method"] not in ["", "-", "no", "not", "false"]:
+    output_files.append(phylogenetic_methods_dict["iqtree_dna"])
+if config["iqtree_protein_method"] not in ["", "-", "no", "not", "false"]:
+    output_files.append(phylogenetic_methods_dict["iqtree_protein"])
+if config["mrbayes_dna_method"] not in ["", "-", "no", "not", "false"]:
+    output_files.append(phylogenetic_methods_dict["mrbayes_dna"])
+if config["mrbayes_protein_method"] not in ["", "-", "no", "not", "false"]:
+    output_files.append(phylogenetic_methods_dict["mrbayes_protein"])
 
 
 localrules: all, files_transfer

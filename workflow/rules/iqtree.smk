@@ -3,7 +3,7 @@
 
 rule iqtree_dna:
     input:
-        concat_aligments_dir_path / fasta_dna_filename
+        concat_alignments_dir_path / fasta_dna_filename
     output:
         directory(iqtree_dir_path / "fna")
     params:
@@ -30,7 +30,7 @@ rule iqtree_dna:
 
 rule iqtree_protein:
     input:
-        concat_aligments_dir_path / fasta_protein_filename
+        concat_alignments_dir_path / fasta_protein_filename
     output:
         directory(iqtree_dir_path / "faa")
     params:
