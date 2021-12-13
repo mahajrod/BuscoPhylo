@@ -60,11 +60,9 @@ elif config['busco_version'] == 5:
             # "-c {threads} -l {params.busco_dataset_path} -o {params.output_prefix} 1>../../../{log.std} 2>&1; "
             # "mv short_summary.* short_summary_{params.output_prefix}.txt; "
             # " mv run_/* ./; rm -r run_/ tmp/"
-            "busco -m {params.mode} -i {input.fasta} -c {threads} -l {params.busco_dataset_path} -o {params.output_prefix} "
-            "--download_path {output.busco_outdir} 1> {log.std} 2>&1; "
-            " mv {output.busco_outdir}/run_/* {output.busco_outdir}/ 1> {log.std} 2>&1; "
-            "rm -r {output.busco_outdir}/run_/ {output.busco_outdir}/tmp/ 1> {log.std} 2>&1; "
-            "mv {output.busco_outdir}/short_summary* {output.busco_outdir}/short_summary_{params.output_prefix}.txt 1> {log.std} 2>&1; "
-
+            "mkdir -p {output.busco_outdir}; cd {output.busco_outdir}; "
+            "busco -m {params.mode} -i {input.fasta} -c {threads} -l {params.busco_dataset_path} -o {params.output_prefix} 1> {log.std} 2>&1; "
+            "mv {params.output_prefix}/run*/* {params.output_prefix}/ 1> {log.std} 2>&1; "
+            "mv {params.output_prefix}/short_summary* {params.output_prefix}/short_summary_{params.output_prefix}.txt 1> {log.std} 2>&1; "
 else:
     print("Specify the version of BUSCO in 'busco_version' parameter!")
