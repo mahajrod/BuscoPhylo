@@ -13,7 +13,7 @@ mrbayes_protein_method: "yes"
 alignment_file_prefix: "alignment.phylo"
 
 #---- Directory structure config ----
-genome_dir: "genomes"
+genome_dir: "genomes" # use an absolute path
 output_dir: "results"
 log_dir: "logs"
 cluster_log_dir: "cluster_logs"
