@@ -29,7 +29,7 @@ nexus_dna_filename = f"{fasta_dna_filename}.nex"
 nexus_protein_filename = f"{fasta_protein_filename}.nex"
 
 if "species_list" not in config:
-    config["species_list"] = [f.name[:-6] for f in genome_dir_path.iterdir() if f.is_file()]
+    config["species_list"] = [f.name[:-6] for f in genome_dir_path.iterdir() if f.is_file() and f.suffix == ".fasta"]
 
 #---- necessary functions ----
 def expand_template_from_common_ids(wildcards, template):
