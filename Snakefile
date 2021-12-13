@@ -1,5 +1,4 @@
 from pathlib import Path
-import glob
 import os
 
 #---- setup config ----
@@ -111,10 +110,10 @@ rule files_transfer:
 
 
 #---- load rules ----
-include: "rules/busco.smk"
-include: "rules/common_ids.smk"
-include: "rules/mafft.smk"
-include: "rules/trimal.smk"
-include: "rules/concat_alignments.smk"
-include: "rules/iqtree.smk"
-include: "rules/mrbayes.smk"
+include: "workflow/rules/busco.smk"
+include: "workflow/rules/common_ids.smk"
+include: "workflow/rules/mafft.smk"
+include: "workflow/rules/trimal.smk"
+include: "workflow/rules/concat_alignments.smk"
+include: "workflow/rules/iqtree.smk"
+include: "workflow/rules/mrbayes.smk"
