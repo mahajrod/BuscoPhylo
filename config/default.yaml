@@ -3,6 +3,7 @@ conda_config: "workflow/envs/conda.yaml"
 mrbayes_block: "workflow/envs/mrbayes.block"
 
 #---- Global variable ---- # to disable, change the config value to an empty string "" or "-", "not", "false"
+busco_version: 3
 iqtree_dna_method: "yes"
 iqtree_protein_method: "yes"
 mrbayes_dna_method: "yes"

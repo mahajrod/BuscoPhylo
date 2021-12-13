@@ -5,11 +5,5 @@ channels:
   - conda-forge
 dependencies:
   - python>=3.8
-  - blast
-  - hmmer
-  - busco=3
-  - mafft
-  #- augustus
-  #- scipy
-  #- xmltodict
-  #- ete3
+  - busco=5.2.2
+  - mafft>=7.4
