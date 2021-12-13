@@ -15,8 +15,8 @@ rule mafft_dna:
         cluster_err=cluster_log_dir_path / "{N}.fna.mafft.cluster.err"
     benchmark:
         benchmark_dir_path / "{N}.fna.mafft.benchmark.txt"
-    # conda:
-    #     "../../%s" % config["conda_config"]
+    conda:
+        config["conda_config"]
     resources:
         cpus=config["mafft_threads"],
         time=config["mafft_time"],
@@ -44,8 +44,8 @@ rule mafft_protein:
         cluster_err=cluster_log_dir_path / "{N}.faa.mafft.cluster.err"
     benchmark:
         benchmark_dir_path / "{N}.faa.mafft.benchmark.txt"
-    # conda:
-    #     "../../%s" % config["conda_config"]
+    conda:
+        config["conda_config"]
     resources:
         cpus=config["mafft_threads"],
         time=config["mafft_time"],

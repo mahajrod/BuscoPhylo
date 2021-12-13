@@ -14,8 +14,6 @@ rule trimal_dna:
         cluster_err=cluster_log_dir_path / "{N}.trimal_dna.cluster.err"
     benchmark:
         benchmark_dir_path / "{N}.trimal_dna.benchmark.txt"
-    # conda:
-    #     "../../%s" % config["conda_config"]
     resources:
         cpus=config["trimal_threads"],
         time=config["trimal_time"],
@@ -44,8 +42,6 @@ rule trimal_protein:
         cluster_err=cluster_log_dir_path / "{N}.trimal_protein.cluster.err"
     benchmark:
         benchmark_dir_path / "{N}.trimal_protein.benchmark.txt"
-    # conda:
-    #     "../../%s" % config["conda_config"]
     resources:
         cpus=config["trimal_threads"],
         time=config["trimal_time"],
