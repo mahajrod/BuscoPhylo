@@ -29,7 +29,7 @@ concat_alignments_dir: "concat_alignments"
 benchmark_dir: "benchmarks"
 
 #---- Tool threads ----
-busco_threads: 4
+busco_threads: 8
 mafft_threads: 4
 trimal_threads: 4
 iqtree_threads: 15
