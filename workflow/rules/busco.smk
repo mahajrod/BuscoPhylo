@@ -56,12 +56,12 @@ elif config['busco_version'] == 5:
         shell:
             "mkdir -p {output.busco_outdir}; cd {output.busco_outdir}; "
             "busco -m {params.mode} -i {input.fasta} -c {threads} -l {params.busco_dataset_path} -o {params.output_prefix} 1>../../../{log.std} 2>&1; "
-            "rm -r busco_downloads/; "
-            "mv {params.output_prefix}/* ./; rm -r {params.output_prefix}/; "
-            "mv run_/* ./; rm -r run_/; "
-            "mv short_summary.txt short_summary_{params.output_prefix}.txt; "
-            "mv full_table.tsv full_table_{params.output_prefix}.tsv; "
-            "mv missing_busco_list.tsv missing_busco_list_{params.output_prefix}.tsv; "
-            "ln -s busco_sequences/single_copy_busco_sequences single_copy_busco_sequences; "
+            "rm -r busco_downloads/ 1>../../../{log.std} 2>&1; "
+            "mv {params.output_prefix}/* ./; rm -r {params.output_prefix}/ 1>../../../{log.std} 2>&1; "
+            "mv run_/* ./; rm -r run_/ 1>../../../{log.std} 2>&1; "
+            "mv full_table.tsv full_table_{params.output_prefix}.tsv 1>../../../{log.std} 2>&1; "
+            "mv missing_busco_list.tsv missing_busco_list_{params.output_prefix}.tsv 1>../../../{log.std} 2>&1; "
+            "mv short_summary.txt short_summary_{params.output_prefix}.txt 1>../../../{log.std} 2>&1; "
+            "mv busco_sequences/* ./ 1>../../../{log.std} 2>&1; "
 else:
     print("Specify the version of BUSCO in 'busco_version' parameter!")
