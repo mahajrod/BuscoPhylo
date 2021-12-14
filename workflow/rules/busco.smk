@@ -54,13 +54,14 @@ elif config['busco_version'] == 5:
         threads:
             config["busco_threads"]
         shell:
-            # "mkdir -p {output.busco_outdir}; cd {output.busco_outdir}; busco -m {params.mode} -i {input.fasta} "
-            # "-c {threads} -l {params.busco_dataset_path} -o {params.output_prefix} 1>../../../{log.std} 2>&1; "
-            # "mv short_summary.* short_summary_{params.output_prefix}.txt; "
-            # " mv run_/* ./; rm -r run_/ tmp/"
             "mkdir -p {output.busco_outdir}; cd {output.busco_outdir}; "
             "busco -m {params.mode} -i {input.fasta} -c {threads} -l {params.busco_dataset_path} -o {params.output_prefix} 1>../../../{log.std} 2>&1; "
-            # "mv {params.output_prefix}/run*/* {params.output_prefix}/; "
-            # "mv {params.output_prefix}/short_summary* {params.output_prefix}/short_summary_{params.output_prefix}.txt; "
+            "rm -r busco_downloads/; "
+            "mv {params.output_prefix}/* ./; rm -r {params.output_prefix}/; "
+            "mv run_/* ./; rm -r run_/; "
+            "mv short_summary.txt short_summary_{params.output_prefix}.txt; "
+            "mv full_table.tsv full_table_{params.output_prefix}.tsv; "
+            "mv missing_busco_list.tsv missing_busco_list_{params.output_prefix}.tsv; "
+            "ln -s busco_sequences/single_copy_busco_sequences single_copy_busco_sequences; "
 else:
     print("Specify the version of BUSCO in 'busco_version' parameter!")
