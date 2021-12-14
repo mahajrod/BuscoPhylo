@@ -38,8 +38,7 @@ elif config['busco_version'] == 5:
         params:
             mode=config["busco_mode"],
             busco_dataset_path=config["busco_dataset_path"],
-            output_prefix="{species}",
-            outdir=directory(busco_dir_path)
+            output_prefix="{species}"
         log:
             std=log_dir_path / "{species}.busco.log",
             cluster_log=cluster_log_dir_path / "{species}.busco.cluster.log",
@@ -59,7 +58,7 @@ elif config['busco_version'] == 5:
             # "-c {threads} -l {params.busco_dataset_path} -o {params.output_prefix} 1>../../../{log.std} 2>&1; "
             # "mv short_summary.* short_summary_{params.output_prefix}.txt; "
             # " mv run_/* ./; rm -r run_/ tmp/"
-            "cd {params.outdir}/; "
+            "mkdir -p {output.busco_outdir}; cd {output.busco_outdir}; "
             "busco -m {params.mode} -i {input.fasta} -c {threads} -l {params.busco_dataset_path} -o {params.output_prefix} 1>../../../{log.std} 2>&1; "
             # "mv {params.output_prefix}/run*/* {params.output_prefix}/; "
             # "mv {params.output_prefix}/short_summary* {params.output_prefix}/short_summary_{params.output_prefix}.txt; "
