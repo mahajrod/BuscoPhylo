@@ -1,3 +1,5 @@
+localrules: get_fna_sequences
+
 if config['busco_version'] == 3:
     rule busco3:
         input:
