@@ -3,11 +3,11 @@ localrules: common_ids, species_ids, merged_sequences
 
 rule species_ids:
     input:
-        busco_outdir=directory(busco_dir_path / "{species}")
+        busco_outdir=directory(busco_dir_path / "{species}/single_copy_busco_sequences")
     output:
         ids=common_ids_dir_path / "{species}.ids"
-    params:
-        single_copy_files="single_copy_busco_sequences/"
+    # params:
+    #     single_copy_files="single_copy_busco_sequences/"
     log:
         std=log_dir_path / "{species}.species_ids.log",
         cluster_log=cluster_log_dir_path / "{species}.species_ids.cluster.log",
@@ -19,7 +19,7 @@ rule species_ids:
         time=config["common_ids_time"],
         mem=config["common_ids_mem_mb"]
     shell:
-        "ls {input.busco_outdir}/{params.single_copy_files} | grep -P '.fna$' | sed 's/.fna//' > {output.ids} 2> {log.std}"
+        "ls {input.busco_outdir} | grep -P '.fna$' | sed 's/.fna//' > {output.ids} 2> {log.std}" #/{params.single_copy_files}
 
 
 checkpoint common_ids:
