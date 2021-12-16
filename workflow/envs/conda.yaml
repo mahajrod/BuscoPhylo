@@ -7,3 +7,4 @@ dependencies:
   - python>=3.8
   - busco=5.2.2
   - mafft>=7.4
+  - samtools>=1.14

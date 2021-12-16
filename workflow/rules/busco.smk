@@ -34,6 +34,7 @@ elif config['busco_version'] == 5:
             fasta=genome_dir_path / "{species}.fasta"
         output:
             busco_outdir=directory(busco_dir_path / "{species}"),
+            single_copy_files_dir = directory(busco_dir_path / "{species}/single_copy_busco_sequences"),
             summary=busco_dir_path / "{species}/short_summary_{species}.txt"
         params:
             mode=config["busco_mode"],
@@ -56,12 +57,41 @@ elif config['busco_version'] == 5:
         shell:
             "mkdir -p {output.busco_outdir}; cd {output.busco_outdir}; "
             "busco -m {params.mode} -i {input.fasta} -c {threads} -l {params.busco_dataset_path} -o {params.output_prefix} 1>../../../{log.std} 2>&1; "
-            # "rm -r busco_downloads/ 1>../../../{log.std} 2>&1; "
             "mv {params.output_prefix}/* ./; rm -r {params.output_prefix}/ 1>../../../{log.std} 2>&1; "
             "mv run*/* ./; rm -r run* 1>../../../{log.std} 2>&1; "
             "mv full_table.tsv full_table_{params.output_prefix}.tsv 1>../../../{log.std} 2>&1; "
             "mv missing_busco_list.tsv missing_busco_list_{params.output_prefix}.tsv 1>../../../{log.std} 2>&1; "
             "mv short_summary.txt short_summary_{params.output_prefix}.txt 1>../../../{log.std} 2>&1; "
             "mv busco_sequences/* ./ 1>../../../{log.std} 2>&1; "
+
+
+    def get_faa_files(wildcards):
+        files_list = glob.glob(busco_dir_path / "{wildcards.species}/single_copy_busco_sequences/*.faa")
+        return files_list
+
+
+    rule get_fna_sequences:
+        input:
+            single_copy_files_dir = expand(busco_dir_path / "{species}/single_copy_busco_sequences/{id}.faa", species=config["species_list"], id=lambda w: get_faa_files(w)),
+            fasta=genome_dir_path / "{species}.fasta"
+        output:
+            busco_dir_path / "{species}/single_copy_busco_sequences/{id}.fna"
+        log:
+            std=log_dir_path / "get_fna_sequences/{species}.{id}.log",
+            cluster_log=cluster_log_dir_path / "get_fna_sequences/{species}.{id}.cluster.log",
+            cluster_err=cluster_log_dir_path / "get_fna_sequences/{species}.{id}.cluster.err"
+        benchmark:
+            benchmark_dir_path / "get_fna_sequences/{species}.{id}.benchmark.txt"
+        conda:
+            config["conda_config"]
+        resources:
+            cpus=config["common_ids_threads"],
+            time=config["common_ids_time"],
+            mem=config["common_ids_mem_mb"],
+        threads:
+            config["common_ids_threads"]
+        shell:
+            "HEADER=$(head -n 1 {input.single_copy_files_dir} | sed 's/^.//'); " # without '>'
+            "samtools faidx {input.fasta} $HEADER > {output} 2> {log.std} "
 else:
     print("Specify the version of BUSCO in 'busco_version' parameter!")
