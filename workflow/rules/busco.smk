@@ -1,5 +1,3 @@
-localrules: get_fna_sequences
-
 if config['busco_version'] == 3:
     rule busco3:
         input:
@@ -90,9 +88,9 @@ elif config['busco_version'] == 5:
         shell:
             "mkdir -p {output}; "
             "for FILE in `ls {input.single_copy_files_dir}`; do "
-            "HEADER=$(head -n 1 $FILE | sed 's/^.//'); " # without '>'
+            "HEADER=$(head -n 1 {input.single_copy_files_dir}/$FILE | sed 's/^.//'); " # without '>'
             "samtools faidx {input.fasta} $HEADER > {output}/${{FILE%.*}}.fna 2> {log.std}; "
-            "mv $FILE {output}/; "
+            "mv {input.single_copy_files_dir}/$FILE {output}/; "
             "done"
 else:
     print("Specify the version of BUSCO in 'busco_version' parameter!")
