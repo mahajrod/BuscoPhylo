@@ -34,7 +34,7 @@ elif config['busco_version'] == 5:
             fasta=genome_dir_path / "{species}.fasta"
         output:
             busco_outdir=directory(busco_dir_path / "{species}"),
-            single_copy_files_dir = temp(directory(busco_dir_path / "{species}/busco_sequences/single_copy_busco_sequences")),
+            single_copy_files_dir = directory(busco_dir_path / "{species}/busco_sequences/single_copy_busco_sequences"),
             summary=busco_dir_path / "{species}/short_summary_{species}.txt"
         params:
             mode=config["busco_mode"],
