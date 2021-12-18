@@ -42,11 +42,11 @@ elif config['busco_version'] == 5:
             busco_dataset_path=config["busco_dataset_path"],
             output_prefix="{species}"
         log:
-            std=log_dir_path / "busco/{species}.log",
-            cluster_log=cluster_log_dir_path / "busco/{species}.cluster.log",
-            cluster_err=cluster_log_dir_path / "busco/{species}.cluster.err"
+            std=log_dir_path / "busco.{species}.log",
+            cluster_log=cluster_log_dir_path / "busco.{species}.cluster.log",
+            cluster_err=cluster_log_dir_path / "busco.{species}.cluster.err"
         benchmark:
-            benchmark_dir_path / "busco/{species}.benchmark.txt"
+            benchmark_dir_path / "busco.{species}.benchmark.txt"
         conda:
             config["conda_config"]
         resources:
@@ -72,11 +72,11 @@ elif config['busco_version'] == 5:
         output:
             directory(busco_dir_path / "{species}/single_copy_busco_sequences")
         log:
-            std=log_dir_path / "get_fna_sequences/{species}.log",
-            cluster_log=cluster_log_dir_path / "get_fna_sequences/{species}.cluster.log",
-            cluster_err=cluster_log_dir_path / "get_fna_sequences/{species}.cluster.err"
+            std=log_dir_path / "get_fna_sequences.{species}.log",
+            cluster_log=cluster_log_dir_path / "get_fna_sequences.{species}.cluster.log",
+            cluster_err=cluster_log_dir_path / "get_fna_sequences.{species}.cluster.err"
         benchmark:
-            benchmark_dir_path / "get_fna_sequences/{species}.benchmark.txt"
+            benchmark_dir_path / "get_fna_sequences.{species}.benchmark.txt"
         conda:
             config["conda_config"]
         resources:
