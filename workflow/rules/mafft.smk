@@ -10,11 +10,11 @@ rule mafft_dna:
         mafft_path=config["mafft_path"],
         options=config["mafft_dna_params"]
     log:
-        std=log_dir_path / "{N}.fna.mafft.log",
-        cluster_log=cluster_log_dir_path / "{N}.fna.mafft.cluster.log",
-        cluster_err=cluster_log_dir_path / "{N}.fna.mafft.cluster.err"
+        std=log_dir_path / "mafft_dna/{N}.log",
+        cluster_log=cluster_log_dir_path / "mafft_dna/{N}.cluster.log",
+        cluster_err=cluster_log_dir_path / "mafft_dna/{N}.cluster.err"
     benchmark:
-        benchmark_dir_path / "{N}.fna.mafft.benchmark.txt"
+        benchmark_dir_path / "mafft_dna/{N}.benchmark.txt"
     conda:
         config["conda_config"]
     resources:
@@ -39,11 +39,11 @@ rule mafft_protein:
         mafft_path=config["mafft_path"],
         options=config["mafft_protein_params"]
     log:
-        std=log_dir_path / "{N}.faa.mafft.log",
-        cluster_log=cluster_log_dir_path / "{N}.faa.mafft.cluster.log",
-        cluster_err=cluster_log_dir_path / "{N}.faa.mafft.cluster.err"
+        std=log_dir_path / "mafft_protein/{N}.log",
+        cluster_log=cluster_log_dir_path / "mafft_protein/{N}.cluster.log",
+        cluster_err=cluster_log_dir_path / "mafft_protein/{N}.cluster.err"
     benchmark:
-        benchmark_dir_path / "{N}.faa.mafft.benchmark.txt"
+        benchmark_dir_path / "mafft_protein/{N}.benchmark.txt"
     conda:
         config["conda_config"]
     resources:

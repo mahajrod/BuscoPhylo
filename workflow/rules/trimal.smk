@@ -9,11 +9,11 @@ rule trimal_dna:
         trimal_path=config["trimal_path"],
         options=config["trimal_dna_params"]
     log:
-        std=log_dir_path / "{N}.trimal_dna.log",
-        cluster_log=cluster_log_dir_path / "{N}.trimal_dna.cluster.log",
-        cluster_err=cluster_log_dir_path / "{N}.trimal_dna.cluster.err"
+        std=log_dir_path / "trimal_dna/{N}.log",
+        cluster_log=cluster_log_dir_path / "trimal_dna/{N}.cluster.log",
+        cluster_err=cluster_log_dir_path / "trimal_dna/{N}.cluster.err"
     benchmark:
-        benchmark_dir_path / "{N}.trimal_dna.benchmark.txt"
+        benchmark_dir_path / "trimal_dna/{N}.benchmark.txt"
     resources:
         cpus=config["trimal_threads"],
         time=config["trimal_time"],
@@ -37,11 +37,11 @@ rule trimal_protein:
         trimal_path=config["trimal_path"],
         options=config["trimal_protein_params"]
     log:
-        std=log_dir_path / "{N}.trimal_protein.log",
-        cluster_log=cluster_log_dir_path / "{N}.trimal_protein.cluster.log",
-        cluster_err=cluster_log_dir_path / "{N}.trimal_protein.cluster.err"
+        std=log_dir_path / "trimal_protein/{N}.log",
+        cluster_log=cluster_log_dir_path / "trimal_protein/{N}.cluster.log",
+        cluster_err=cluster_log_dir_path / "trimal_protein/{N}.cluster.err"
     benchmark:
-        benchmark_dir_path / "{N}.trimal_protein.benchmark.txt"
+        benchmark_dir_path / "trimal_protein/{N}.benchmark.txt"
     resources:
         cpus=config["trimal_threads"],
         time=config["trimal_time"],
