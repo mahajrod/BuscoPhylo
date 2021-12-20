@@ -7,11 +7,11 @@ rule species_ids:
     output:
         ids=common_ids_dir_path / "{species}.ids"
     log:
-        std=log_dir_path / "species_ids/{species}.log",
-        cluster_log=cluster_log_dir_path / "species_ids/{species}.cluster.log",
-        cluster_err=cluster_log_dir_path / "species_ids/{species}.cluster.err"
+        std=log_dir_path / "species_ids.{species}.log",
+        cluster_log=cluster_log_dir_path / "species_ids.{species}.cluster.log",
+        cluster_err=cluster_log_dir_path / "species_ids.{species}.cluster.err"
     benchmark:
-        benchmark_dir_path / "species_ids/{species}.benchmark.txt"
+        benchmark_dir_path / "species_ids.{species}.benchmark.txt"
     resources:
         cpus=config["common_ids_threads"],
         time=config["common_ids_time"],
@@ -54,11 +54,11 @@ checkpoint merged_sequences:
     params:
         single_copy_files=expand(busco_dir_path / "{species}" / "single_copy_busco_sequences", species=config["species_list"])
     log:
-        std=log_dir_path / "merged_sequences/{N}.log",
-        cluster_log=cluster_log_dir_path / "merged_sequences/{N}.cluster.log",
-        cluster_err=cluster_log_dir_path / "merged_sequences/{N}.cluster.err"
+        std=log_dir_path / "merged_sequences.{N}.log",
+        cluster_log=cluster_log_dir_path / "merged_sequences.{N}.cluster.log",
+        cluster_err=cluster_log_dir_path / "merged_sequences.{N}.cluster.err"
     benchmark:
-        benchmark_dir_path / "merged_sequences/{N}.benchmark.txt"
+        benchmark_dir_path / "merged_sequences.{N}.benchmark.txt"
     resources:
         cpus=config["common_ids_threads"],
         time=config["common_ids_threads"],
