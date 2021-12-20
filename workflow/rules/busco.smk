@@ -59,6 +59,7 @@ elif config['busco_version'] == 5:
             "mkdir -p {output.busco_outdir}; cd {output.busco_outdir}; "
             "busco -m {params.mode} -i {input.fasta} -c {threads} -l {params.busco_dataset_path} -o {params.output_prefix} 1>../../../{log.std} 2>&1; "
             "mv {params.output_prefix}/* ./ 1>../../../mv.log 2>&1; rm -r {params.output_prefix}/  1>../../../rm.log 2>&1; "
+            "rm -r busco_sequences 1>../../../rm.log 2>&1; "
             "mv run*/* ./ 1>../../../mv2.log 2>&1; rm -r run*  1>../../../rm2.log 2>&1; "
             "mv full_table.tsv full_table_{params.output_prefix}.tsv  1>../../../mv3.log 2>&1; "
             "mv missing_busco_list.tsv missing_busco_list_{params.output_prefix}.tsv 1>../../../mv4.log 2>&1; "
