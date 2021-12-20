@@ -38,7 +38,7 @@ snakemake --snakefile Snakemake --profile profile/slurm/ --configfile config/def
 * [IQ-TREE](http://www.iqtree.org/)
 * [MrBayes](https://nbisweden.github.io/MrBayes/index.html)
 
-Now you can select the BUSCO version (v3.0.2 or v5.2.2). To do this, specify the value of `busco_version` 3 or 5 in the config file.
+You can select the BUSCO version (v3.0.2 or v5.2.2). To do this, specify the value of `busco_version` 3 or 5 in the config file.
 
 `BUSCO v3.0.2`, `TrimAl`, `IQ-TREE` and `MrBayes` paths should be in config file or specified at startup.
 `BUSCO v5.2.2` and `MAFFT` are installed using a conda.
