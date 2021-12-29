@@ -50,7 +50,7 @@ mafft_time: "60:00:00"
 trimal_time: "60:00:00"
 iqtree_time: "200:00:00"
 mrbayes_time: "200:00:00"
-common_ids_time: "00:30:00"
+common_ids_time: "03:00:00"
 
 #---- Tool paths ----
 busco_path:
