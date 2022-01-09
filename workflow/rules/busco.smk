@@ -94,7 +94,7 @@ elif config['busco_version'] == 5:
             "mkdir -p {output.single_copy_files_new_dir}; "
             "awk '$2 == \"CDS\" {{print $1\"\t\"$3\"\t\"$2\"\t\"$4\"\t\"$5\"\t\"$6\"\t\"$7\"\t\"$8\"\t\"$9}}' {input.metaeuk_gff} >> {output.metaeuk_CDs_gff}; "
             "gffread -w {output.gffread_multifasta} -g {input.fasta} {output.metaeuk_CDs_gff} 1> {log.std} 2>&1;"
-            "awk -v SINGLE_COPY_DIR=\"{output.single_copy_files_new_dir}/\" -F \"|\" '/^>/ {{close(F); ID=$1; gsub(\"^>\", \"\", ID); F=SINGLE_COPY_DIR\"/\"ID\".fasta\"}} {{print >> F}}' {output.gffread_multifasta}; "
+            "awk -v SINGLE_COPY_DIR=\"{output.single_copy_files_new_dir}/\" -F \"|\" '/^>/ {{close(F); ID=$1; gsub(\"^>\", \"\", ID); F=SINGLE_COPY_DIR\"/\"ID\".fna\"}} {{print >> F}}' {output.gffread_multifasta}; "
             "for FAA in `ls {input.single_copy_files_dir}`; do "
             "mv {input.single_copy_files_dir}/$FAA {output.single_copy_files_new_dir}/; "
             "done"
