@@ -13,11 +13,11 @@ if config['busco_version'] == 3:
             busco_dataset_path=config["busco_dataset_path"],
             output_prefix="{species}"
         log:
-            std=log_dir_path / "busco/{species}.log",
-            cluster_log=cluster_log_dir_path / "busco/{species}.cluster.log",
-            cluster_err=cluster_log_dir_path / "busco/{species}.cluster.err"
+            std=log_dir_path / "busco.{species}.log",
+            cluster_log=cluster_log_dir_path / "busco.{species}.cluster.log",
+            cluster_err=cluster_log_dir_path / "busco.{species}.cluster.err"
         benchmark:
-            benchmark_dir_path / "busco/{species}.benchmark.txt"
+            benchmark_dir_path / "busco.{species}.benchmark.txt"
         resources:
             cpus=config["busco_threads"],
             time=config["busco_time"],
@@ -43,11 +43,11 @@ elif config['busco_version'] == 5:
             busco_dataset_path=config["busco_dataset_path"],
             output_prefix="{species}"
         log:
-            std=log_dir_path / "busco/{species}.log",
-            cluster_log=cluster_log_dir_path / "busco/{species}.cluster.log",
-            cluster_err=cluster_log_dir_path / "busco/{species}.cluster.err"
+            std=log_dir_path / "busco.{species}.log",
+            cluster_log=cluster_log_dir_path / "busco.{species}.cluster.log",
+            cluster_err=cluster_log_dir_path / "busco.{species}.cluster.err"
         benchmark:
-            benchmark_dir_path / "busco/{species}.benchmark.txt"
+            benchmark_dir_path / "busco.{species}.benchmark.txt"
         conda:
             config["conda_config"]
         resources:
@@ -77,11 +77,11 @@ elif config['busco_version'] == 5:
             metaeuk_CDs_gff=busco_dir_path / "{species}/metaeuk_output/rerun_results/{species}.CDs.gff",
             gffread_multifasta=busco_dir_path / "{species}/metaeuk_output/rerun_results/{species}.CDs.fasta"
         log:
-            std=log_dir_path / "get_fna_sequences_from_metaeuk_gff/{species}.log",
-            cluster_log=cluster_log_dir_path / "get_fna_sequences_from_metaeuk_gff/{species}.cluster.log",
-            cluster_err=cluster_log_dir_path / "get_fna_sequences_from_metaeuk_gff/{species}.cluster.err"
+            std=log_dir_path / "get_fna_sequences_from_metaeuk_gff.{species}.log",
+            cluster_log=cluster_log_dir_path / "get_fna_sequences_from_metaeuk_gff.{species}.cluster.log",
+            cluster_err=cluster_log_dir_path / "get_fna_sequences_from_metaeuk_gff.{species}.cluster.err"
         benchmark:
-            benchmark_dir_path / "get_fna_sequences_from_metaeuk_gff/{species}.benchmark.txt"
+            benchmark_dir_path / "get_fna_sequences_from_metaeuk_gff.{species}.benchmark.txt"
         conda:
             config["conda_config"]
         resources:
