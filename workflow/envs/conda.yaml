@@ -8,3 +8,4 @@ dependencies:
   - busco=5.2.2
   - mafft>=7.4
   - samtools>=1.10
+  - gffread>=0.12.7
