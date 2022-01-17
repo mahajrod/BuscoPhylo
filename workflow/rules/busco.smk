@@ -70,8 +70,8 @@ elif config['busco_version'] == 5:
     rule get_CDs_sequences_from_metaeuk_output:
         input:
             single_copy_busco_sequences=directory(busco_dir_path / "{species}/busco_sequences/single_copy_busco_sequences"),
-            metaeuk_rerun_results=directory(busco_dir_path / "{species}/busco_sequences/metaeuk_output/rerun_results"),
-            metaeuk_initial_results=directory(busco_dir_path / "{species}/busco_sequences/metaeuk_output/initial_results")
+            metaeuk_rerun_results=directory(busco_dir_path / "{species}/metaeuk_output/rerun_results"),
+            metaeuk_initial_results=directory(busco_dir_path / "{species}/metaeuk_output/initial_results")
         output:
             single_copy_CDs_sequences=directory(busco_dir_path / "{species}/single_copy_busco_sequences")
         log:
