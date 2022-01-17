@@ -33,7 +33,7 @@ def split_fasta_to_directory(fasta, outdir, single_copy_ids, ext):
 
 
 def main():
-    # set paths
+    # set PATHs
     initial_codon_fasta = list(Path(args.initial_results).glob("*.codon.fas"))[0]
     initial_protein_fasta = list(Path(args.initial_results).glob("*a.fas"))[0] # *.fasta.fas or *.fa.fas
     rerun_codon_fasta = list(Path(args.rerun_results).glob("*.codon.fas"))[0]
@@ -41,7 +41,7 @@ def main():
     single_copy_ids = [id.stem for id in list(Path(args.single_copy_busco_sequences).glob("*.faa"))]
     outdir = Path(args.outdir)
     outdir.mkdir()
-    # write fasta files with single copy CDs sequences to output directory
+    # write FASTA files with single copy CDs sequences to output directory
     split_fasta_to_directory(initial_codon_fasta, outdir, single_copy_ids, "fna")
     split_fasta_to_directory(initial_protein_fasta, outdir, single_copy_ids, "faa")
     split_fasta_to_directory(rerun_codon_fasta, outdir, single_copy_ids, "fna")

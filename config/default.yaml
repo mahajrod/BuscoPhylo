@@ -1,6 +1,6 @@
 #---- Configuration files ----
 conda_config: "../envs/conda.yaml"
-mrbayes_block: "../envs/mrbayes.block"
+mrbayes_block: "workflow/envs/mrbayes.block"
 
 #---- Global variable ---- # to disable, change the config value to an empty string "" or "-", "not", "false"
 busco_version: 3 # 3 or 5
