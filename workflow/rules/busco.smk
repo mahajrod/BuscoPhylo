@@ -36,8 +36,8 @@ elif config['busco_version'] == 5:
         output:
             busco_outdir=directory(busco_dir_path / "{species}"),
             single_copy_busco_sequences=directory(busco_dir_path / "{species}/busco_sequences/single_copy_busco_sequences"),
-            metaeuk_rerun_results=directory(busco_dir_path / "{species}/busco_sequences/metaeuk_output/rerun_results"),
-            metaeuk_initial_results=directory(busco_dir_path / "{species}/busco_sequences/metaeuk_output/initial_results"),
+            metaeuk_rerun_results=directory(busco_dir_path / "{species}/metaeuk_output/rerun_results"),
+            metaeuk_initial_results=directory(busco_dir_path / "{species}/metaeuk_output/initial_results"),
             summary=busco_dir_path / "{species}/short_summary_{species}.txt"
         params:
             mode=config["busco_mode"],
@@ -61,8 +61,7 @@ elif config['busco_version'] == 5:
             "mkdir -p {output.busco_outdir}; cd {output.busco_outdir}; "
             "busco -m {params.mode} -i {input.fasta} -c {threads} -l {params.busco_dataset_path} -o {params.output_prefix} 1>../../../{log.std} 2>&1; "
             "mv {params.output_prefix}/* ./; rm -r {params.output_prefix}/; "
-            "rm -r busco_sequences/; rm -r busco_downloads/; "
-            "mv run*/* ./; rm -r run*; "
+            "rm -r busco_downloads/; mv run*/* ./; rm -r run*; "
             "mv full_table.tsv full_table_{params.output_prefix}.tsv; "
             "mv missing_busco_list.tsv missing_busco_list_{params.output_prefix}.tsv; "
             "mv short_summary.txt short_summary_{params.output_prefix}.txt; "
