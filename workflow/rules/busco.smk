@@ -35,9 +35,9 @@ elif config['busco_version'] == 5:
             fasta=genome_dir_path / "{species}.fasta"
         output:
             busco_outdir=directory(busco_dir_path / "{species}"),
-            single_copy_busco_sequences=directory(busco_dir_path / "{species}/busco_sequences/single_copy_busco_sequences"),
-            metaeuk_rerun_results=directory(busco_dir_path / "{species}/metaeuk_output/rerun_results"),
-            metaeuk_initial_results=directory(busco_dir_path / "{species}/metaeuk_output/initial_results"),
+            single_copy_busco_sequences=directory(busco_dir_path / "{species}/busco_sequences/single_copy_busco_sequences/"),
+            metaeuk_rerun_results=directory(busco_dir_path / "{species}/metaeuk_output/rerun_results/"),
+            metaeuk_initial_results=directory(busco_dir_path / "{species}/metaeuk_output/initial_results/"),
             summary=busco_dir_path / "{species}/short_summary_{species}.txt"
         params:
             mode=config["busco_mode"],
