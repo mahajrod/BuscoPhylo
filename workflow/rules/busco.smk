@@ -35,8 +35,9 @@ elif config['busco_version'] == 5:
             fasta=genome_dir_path / "{species}.fasta"
         output:
             busco_outdir=directory(busco_dir_path / "{species}"),
-            single_copy_files_dir=temp(directory(busco_dir_path / "{species}/busco_sequences/single_copy_busco_sequences")),
-            metaeuk_gff=busco_dir_path / "{species}/metaeuk_output/rerun_results/{species}.fasta.gff",
+            single_copy_busco_sequences=directory(busco_dir_path / "{species}/busco_sequences/single_copy_busco_sequences"),
+            metaeuk_rerun_results=directory(busco_dir_path / "{species}/busco_sequences/metaeuk_output/rerun_results"),
+            metaeuk_initial_results=directory(busco_dir_path / "{species}/busco_sequences/metaeuk_output/initial_results"),
             summary=busco_dir_path / "{species}/short_summary_{species}.txt"
         params:
             mode=config["busco_mode"],
@@ -67,21 +68,19 @@ elif config['busco_version'] == 5:
             "mv short_summary.txt short_summary_{params.output_prefix}.txt; "
 
 
-    rule get_fna_sequences_from_metaeuk_gff:
+    rule get_CDs_sequences_from_metaeuk_output:
         input:
-            single_copy_files_dir = temp(directory(busco_dir_path / "{species}/busco_sequences/single_copy_busco_sequences")),
-            metaeuk_gff=busco_dir_path / "{species}/metaeuk_output/rerun_results/{species}.fasta.gff",
-            fasta=genome_dir_path / "{species}.fasta"
+            single_copy_busco_sequences=directory(busco_dir_path / "{species}/busco_sequences/single_copy_busco_sequences"),
+            metaeuk_rerun_results=directory(busco_dir_path / "{species}/busco_sequences/metaeuk_output/rerun_results"),
+            metaeuk_initial_results=directory(busco_dir_path / "{species}/busco_sequences/metaeuk_output/initial_results")
         output:
-            single_copy_files_new_dir=directory(busco_dir_path / "{species}/single_copy_busco_sequences"),
-            metaeuk_CDs_gff=busco_dir_path / "{species}/metaeuk_output/rerun_results/{species}.CDs.gff",
-            gffread_multifasta=busco_dir_path / "{species}/metaeuk_output/rerun_results/{species}.CDs.fasta"
+            single_copy_CDs_sequences=directory(busco_dir_path / "{species}/single_copy_busco_sequences")
         log:
-            std=log_dir_path / "get_fna_sequences_from_metaeuk_gff.{species}.log",
-            cluster_log=cluster_log_dir_path / "get_fna_sequences_from_metaeuk_gff.{species}.cluster.log",
-            cluster_err=cluster_log_dir_path / "get_fna_sequences_from_metaeuk_gff.{species}.cluster.err"
+            std=log_dir_path / "get_CDs_sequences_from_metaeuk_output.{species}.log",
+            cluster_log=cluster_log_dir_path / "get_CDs_sequences_from_metaeuk_output.{species}.cluster.log",
+            cluster_err=cluster_log_dir_path / "get_CDs_sequences_from_metaeuk_output.{species}.cluster.err"
         benchmark:
-            benchmark_dir_path / "get_fna_sequences_from_metaeuk_gff.{species}.benchmark.txt"
+            benchmark_dir_path / "get_CDs_sequences_from_metaeuk_output.{species}.benchmark.txt"
         conda:
             config["conda_config"]
         resources:
@@ -91,12 +90,10 @@ elif config['busco_version'] == 5:
         threads:
             config["common_ids_threads"]
         shell:
-            "mkdir -p {output.single_copy_files_new_dir}; "
-            "awk '$2 == \"CDS\" {{print $1\"\t\"$3\"\t\"$2\"\t\"$4\"\t\"$5\"\t\"$6\"\t\"$7\"\t\"$8\"\t\"$9}}' {input.metaeuk_gff} >> {output.metaeuk_CDs_gff}; "
-            "gffread -w {output.gffread_multifasta} -g {input.fasta} {output.metaeuk_CDs_gff} 1> {log.std} 2>&1;"
-            "awk -v SINGLE_COPY_DIR=\"{output.single_copy_files_new_dir}/\" -F \"|\" '/^>/ {{close(F); ID=$1; gsub(\"^>\", \"\", ID); F=SINGLE_COPY_DIR\"/\"ID\".fna\"}} {{print >> F}}' {output.gffread_multifasta}; "
-            "for FAA in `ls {input.single_copy_files_dir}`; do "
-            "mv {input.single_copy_files_dir}/$FAA {output.single_copy_files_new_dir}/; "
-            "done"
+            "workflow/scripts/CDs_from_MetaEuk.py "
+            "--initial_results {input.metaeuk_initial_results} "
+            "--rerun_results {input.metaeuk_rerun_results} "
+            "--single_copy_busco_sequences {input.single_copy_busco_sequences} "
+            "--outdir {output.single_copy_CDs_sequences} > {log.std} 2>&1 "
 else:
     print("Specify the version of BUSCO in 'busco_version' parameter! Use '3' or '5'")
