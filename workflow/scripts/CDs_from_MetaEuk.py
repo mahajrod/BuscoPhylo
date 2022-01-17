@@ -21,6 +21,7 @@ def split_fasta_to_directory(fasta, outdir, single_copy_ids, ext):
                 id = get_id(line)
                 if id not in single_copy_ids:
                     single_copy_file_flag = False
+                    opened_file_flag = False
                     continue
                 else:
                     single_copy_file_flag = True
