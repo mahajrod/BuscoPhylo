@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 
 from pathlib import Path
-from glob import glob
 import argparse
 
 def get_id(header):
