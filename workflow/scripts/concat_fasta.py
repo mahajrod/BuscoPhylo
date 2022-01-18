@@ -7,41 +7,19 @@ import argparse
 
 
 def main():
-    data = defaultdict(str)
-    header = None
-    for i in args.input:
-        with open(i, 'r') as f:
-            for line in f:
-                line = line.rstrip()
-                if line.startswith('>'):
-                    header = line[1:]
-                else:
-                    data[header] += line
-            l = []
-            for _, value in data.items():
-                l.append(len(value))
-            l = set(l)
-            if len(l) > 1:
-                print(l, i)
+    sequence_map = defaultdict(str)
+    if args.input is not stdin:
+        for i in args.input:
+            for sequence in SeqIO.parse(i, "fasta"):
+                sequence_map[sequence.name] += str(sequence.seq)
+    else:
+        for sequence in SeqIO.parse(args.input, "fasta"):
+            sequence_map[sequence.name] += str(sequence.seq)
 
     outfile = open(args.output, "w")
-    for key, value in data.items():
+    for key, value in sequence_map.items():
         outfile.write(f">{key}\n{value}\n")
     outfile.close()
-
-    # sequence_map = defaultdict(str)
-    # if args.input is not stdin:
-    #     for i in args.input:
-    #         for sequence in SeqIO.parse(i, "fasta"):
-    #             sequence_map[sequence.name] += str(sequence.seq)
-    # else:
-    #     for sequence in SeqIO.parse(args.input, "fasta"):
-    #         sequence_map[sequence.name] += str(sequence.seq)
-    #
-    # outfile = open(args.output, "w")
-    # for key, value in sequence_map.items():
-    #     outfile.write(f">{key}\n{value}\n")
-    # outfile.close()
 
 
 if __name__ == "__main__":

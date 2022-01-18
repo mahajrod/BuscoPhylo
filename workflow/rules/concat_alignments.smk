@@ -17,7 +17,7 @@ rule concat_fasta_dna:
         time=config["mafft_time"],
         mem=config["mafft_mem_mb"]
     shell:
-        "seqkit concat {input}/*.fna --line-width 0 > {output} 2> {log.std}"
+        "workflow/scripts/concat_fasta.py -o {output} -i {input}/*.fna 1> {log.std} 2>&1" # cat {input}/*.fna |
 
 
 rule concat_fasta_protein:
@@ -36,7 +36,7 @@ rule concat_fasta_protein:
         time=config["mafft_time"],
         mem=config["mafft_mem_mb"]
     shell:
-        "seqkit concat {input}/*.faa --line-width 0 > {output} 2> {log.std}"
+        "workflow/scripts/concat_fasta.py -o {output} -i {input}/*.faa 1> {log.std} 2>&1" # cat {input}/*.fna |
 
 
 rule concat_nexus_dna:
