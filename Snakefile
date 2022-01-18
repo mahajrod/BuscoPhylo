@@ -39,6 +39,7 @@ if "species_list" not in config:
 def expand_template_from_common_ids(wildcards, template):
     checkpoint_output = checkpoints.common_ids.get(**wildcards).output[0]
     N = glob_wildcards(os.path.join(checkpoint_output, "{N}")).N
+    N = list({n.split('/')[0] for n in N})
     print(N)
     return expand(str(template), N=N)
 
