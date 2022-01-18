@@ -12,6 +12,8 @@ rule concat_fasta_dna:
         cluster_err=cluster_log_dir_path / "concat_fasta_dna.cluster.err"
     benchmark:
         benchmark_dir_path / "concat_fasta_dna.benchmark.txt"
+    conda:
+        "../../%s" % config["conda_config"]
     resources:
         cpus=config["mafft_threads"],
         time=config["mafft_time"],
@@ -31,6 +33,8 @@ rule concat_fasta_protein:
         cluster_err=cluster_log_dir_path / "concat_fasta_protein.cluster.err"
     benchmark:
         benchmark_dir_path / "concat_fasta_protein.benchmark.txt"
+    conda:
+        "../../%s" % config["conda_config"]
     resources:
         cpus=config["mafft_threads"],
         time=config["mafft_time"],
@@ -53,6 +57,8 @@ rule concat_nexus_dna:
         cluster_err=cluster_log_dir_path / "concat_nexus_dna.cluster.err"
     benchmark:
         benchmark_dir_path / "concat_nexus_dna.benchmark.txt"
+    conda:
+        "../../%s" % config["conda_config"]
     resources:
         cpus=config["mafft_threads"],
         time=config["mafft_time"],
@@ -75,6 +81,8 @@ rule concat_nexus_protein:
         cluster_err=cluster_log_dir_path / "concat_nexus_protein.cluster.err"
     benchmark:
         benchmark_dir_path / "concat_nexus_protein.benchmark.txt"
+    conda:
+        "../../%s" % config["conda_config"]
     resources:
         cpus=config["mafft_threads"],
         time=config["mafft_time"],

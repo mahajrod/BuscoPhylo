@@ -1,6 +1,3 @@
-localrules: mrbayes_dna, mrbayes_protein
-
-
 rule mrbayes_dna:
     input:
         concat_alignments_dir_path / nexus_dna_filename

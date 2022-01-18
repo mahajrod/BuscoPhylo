@@ -16,7 +16,7 @@ rule mafft_dna:
     benchmark:
         benchmark_dir_path / "mafft_dna.{N}.benchmark.txt"
     conda:
-        config["conda_config"]
+        "../../%s" % config["conda_config"]
     resources:
         cpus=config["mafft_threads"],
         time=config["mafft_time"],
@@ -45,7 +45,7 @@ rule mafft_protein:
     benchmark:
         benchmark_dir_path / "mafft_protein.{N}.benchmark.txt"
     conda:
-        config["conda_config"]
+        "../../%s" % config["conda_config"]
     resources:
         cpus=config["mafft_threads"],
         time=config["mafft_time"],

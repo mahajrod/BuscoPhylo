@@ -50,7 +50,7 @@ elif config['busco_version'] == 5:
         benchmark:
             benchmark_dir_path / "busco.{species}.benchmark.txt"
         conda:
-            config["conda_config"]
+            "../../%s" % config["conda_config"]
         resources:
             cpus=config["busco_threads"],
             time=config["busco_time"],
@@ -81,7 +81,7 @@ elif config['busco_version'] == 5:
         benchmark:
             benchmark_dir_path / "get_CDs_sequences_from_metaeuk_output.{species}.benchmark.txt"
         conda:
-            config["conda_config"]
+            "../../%s" % config["conda_config"]
         resources:
             cpus=config["common_ids_threads"],
             time=config["common_ids_time"],
