@@ -32,9 +32,13 @@ if "species_list" not in config:
     config["species_list"] = [f.name[:-6] for f in genome_dir_path.iterdir() if f.is_file() and f.suffix == ".fasta"]
 
 #---- necessary functions ----
+# def expand_template_from_common_ids(wildcards, template):
+#     checkpoint_output = checkpoints.common_ids.get(**wildcards).output[0]
+#     N = glob_wildcards(os.path.join(checkpoint_output, "common.ids{N}")).N
+#     return expand(str(template), N=N)
 def expand_template_from_common_ids(wildcards, template):
     checkpoint_output = checkpoints.common_ids.get(**wildcards).output[0]
-    N = glob_wildcards(os.path.join(checkpoint_output, "common.ids{N}")).N
+    N = glob_wildcards(os.path.join(checkpoint_output, "{N}")).N
     return expand(str(template), N=N)
 
 
@@ -49,8 +53,10 @@ output_files = [
     expand(busco_dir_path / "{species}/short_summary_{species}.txt",species=config["species_list"]),
 
     # common ids and merged sequences:
-    directory(single_copy_busco_sequences_dir_path),
-    lambda w: expand_template_from_common_ids(w,merged_sequences_dir_path / "{N}"),
+    # directory(single_copy_busco_sequences_dir_path),
+    # lambda w: expand_template_from_common_ids(w,merged_sequences_dir_path / "{N}"),
+    directory(merged_sequences_dir_path),
+    lambda w: expand_template_from_common_ids(w, merged_sequences_dir_path / "{N}"),
 
     # mafft:
     directory(mafft_dir_path / "fna"),
