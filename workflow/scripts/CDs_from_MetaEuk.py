@@ -12,11 +12,9 @@ def get_id(header):
 def split_fasta_to_directory(fasta, outdir, single_copy_ids, ext):
     opened_file_flag = False
     single_copy_file_flag = True
-    c = 0
     with open(fasta, "r") as infile:
         for line in infile:
             if line[0] == ">":
-                c += 1
                 if opened_file_flag:
                     outfile.close()
                 opened_file_flag = True
@@ -32,7 +30,6 @@ def split_fasta_to_directory(fasta, outdir, single_copy_ids, ext):
             if single_copy_file_flag:
                 outfile.write(line)
         outfile.close()
-    print("CDs: ", c)
 
 
 def main():
@@ -50,6 +47,8 @@ def main():
     split_fasta_to_directory(initial_protein_fasta, outdir, single_copy_ids, "faa")
     split_fasta_to_directory(rerun_codon_fasta, outdir, single_copy_ids, "fna")
     split_fasta_to_directory(rerun_protein_fasta, outdir, single_copy_ids, "faa")
+    single_copy_CDs = [cd.stem for cd in list(outdir.glob("*.faa"))]
+    print(len("Single copy CDs: ", single_copy_CDs))
 
 
 if __name__ == "__main__":
