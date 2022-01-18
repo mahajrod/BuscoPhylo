@@ -12,9 +12,11 @@ def get_id(header):
 def split_fasta_to_directory(fasta, outdir, single_copy_ids, ext):
     opened_file_flag = False
     single_copy_file_flag = True
+    c = 0
     with open(fasta, "r") as infile:
         for line in infile:
             if line[0] == ">":
+                c += 1
                 if opened_file_flag:
                     outfile.close()
                 opened_file_flag = True
@@ -30,6 +32,7 @@ def split_fasta_to_directory(fasta, outdir, single_copy_ids, ext):
             if single_copy_file_flag:
                 outfile.write(line)
         outfile.close()
+    print("CDs: ", c)
 
 
 def main():
@@ -39,6 +42,7 @@ def main():
     rerun_codon_fasta = list(Path(args.rerun_results).glob("*.codon.fas"))[0]
     rerun_protein_fasta = list(Path(args.rerun_results).glob("*a.fas"))[0] # *.fasta.fas or *.fa.fas
     single_copy_ids = [id.stem for id in list(Path(args.single_copy_busco_sequences).glob("*.faa"))]
+    print("Single copy IDs: ", len(single_copy_ids))
     outdir = Path(args.outdir)
     outdir.mkdir()
     # write FASTA files with single copy CDs sequences to output directory
