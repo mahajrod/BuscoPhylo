@@ -14,7 +14,7 @@ def main():
             for sequence in SeqIO.parse(i, "fasta"):
                 sequence_map[sequence.name] += str(sequence.seq).upper()
                 if seq_length != len(str(sequence.seq)) and seq_length is not None:
-                    print("!!!!!!!!!!!!!!!!!!!!!!!!!", sequence.name, i)
+                    print(i, sequence)
                 seq_length = len(str(sequence.seq))
     else:
         for sequence in SeqIO.parse(args.input, "fasta"):
@@ -22,13 +22,10 @@ def main():
             if seq_length != len(str(sequence.seq)) and seq_length is not None:
                 print("!!!!!!!!!!!!!!!!!!!!!!!!!", sequence.name)
             seq_length = len(str(sequence.seq))
-    # for k, v in sequence_map.items():
-    #     print(k, len(v), sep="\t")
 
     outfile = open(args.output, "w")
-    for key in sequence_map.keys():
-        outfile.write('>' + key + '\n')
-        outfile.write(sequence_map[key] + '\n')
+    for key, value in sequence_map.items():
+        outfile.write(f">{key}\n{value}\n")
     outfile.close()
 
 
