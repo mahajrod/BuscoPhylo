@@ -23,9 +23,9 @@ def main():
                 print("!!!!!!!!!!!!!!!!!!!!!!!!!", sequence.name)
             seq_length = len(str(sequence.seq))
 
-    outfile = open(args.output, "a")
+    outfile = open(args.output, "w")
     for key, value in sequence_map.items():
-        outfile.write(f">{key}\n{value}")
+        outfile.write(f">{key}\n{value}\n")
     outfile.close()
 
 
