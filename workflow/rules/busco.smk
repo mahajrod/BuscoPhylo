@@ -102,7 +102,7 @@ elif config['busco_version'] == 5:
                 fasta=genome_dir_path / "{species}.fasta"
             output:
                 busco_outdir=directory(busco_dir_path / "{species}"),
-                single_copy_busco_sequences=directory(busco_dir_path / "{species}/busco_sequences/single_copy_busco_sequences"),
+                single_copy_busco_sequences=directory(busco_dir_path / "{species}/single_copy_busco_sequences"),
                 augustus_gff=directory(busco_dir_path / "{species}/augustus_output/gff"),
                 summary=busco_dir_path / "{species}/short_summary_{species}.txt"
             params:
@@ -133,6 +133,7 @@ elif config['busco_version'] == 5:
                 "mv full_table.tsv full_table_{params.output_prefix}.tsv; "
                 "mv missing_busco_list.tsv missing_busco_list_{params.output_prefix}.tsv; "
                 "mv short_summary.txt short_summary_{params.output_prefix}.txt; "
+                "mv busco_sequences/single_copy_busco_sequences . "
     else:
         print("Specify the tool name in 'gene_prediction_tool' parameter! Use 'metaeuk' or 'augustus'")
 else:
