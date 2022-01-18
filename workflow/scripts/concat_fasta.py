@@ -20,7 +20,8 @@ def main():
             l = []
             for _, value in data.items():
                 l.append(len(value))
-            if len(set(l)) > 1:
+            l = set(l)
+            if len(l) > 1:
                 print(l, i)
 
     outfile = open(args.output, "w")
