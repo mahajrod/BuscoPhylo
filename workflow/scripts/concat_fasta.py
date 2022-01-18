@@ -14,12 +14,12 @@ def main():
             for line in f:
                 line = line.rstrip()
                 if line.startswith('>'):
-                    header = line
+                    header = line[1:]
                     data[header] = []
                 else:
                     data[header].append(line)
             for name in data:
-                data[name] = ''.join(data[name])
+                data[name] += ''.join(data[name])
 
     outfile = open(args.output, "w")
     for key, value in data.items():
