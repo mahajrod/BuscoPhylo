@@ -13,7 +13,7 @@ rule concat_fasta_dna:
     benchmark:
         benchmark_dir_path / "concat_fasta_dna.benchmark.txt"
     shell:
-        "seqkit {input}/*.fna > {output} 2> {log.std}"
+        "/home/tomarovsky/tools/seqkit {input}/*.fna > {output} 2> {log.std}"
 
 
 rule concat_fasta_protein:
@@ -28,7 +28,7 @@ rule concat_fasta_protein:
     benchmark:
         benchmark_dir_path / "concat_fasta_protein.benchmark.txt"
     shell:
-        "seqkit {input}/*.faa > {output} 2> {log.std}"
+        "/home/tomarovsky/tools/seqkit {input}/*.faa > {output} 2> {log.std}"
 
 
 rule concat_nexus_dna:
