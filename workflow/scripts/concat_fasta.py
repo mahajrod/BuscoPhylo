@@ -7,7 +7,7 @@ import argparse
 
 
 def main():
-    data = {}
+    data = defaultdict(str)
     header = None
     for i in args.input:
         with open(i, 'r') as f:
@@ -15,11 +15,10 @@ def main():
                 line = line.rstrip()
                 if line.startswith('>'):
                     header = line[1:]
-                    data[header] = []
                 else:
-                    data[header].append(line)
-            for name in data:
-                data[name] += ''.join(data[name])
+                    data[header] += line
+            # for name in data:
+            #     data[name] = ''.join(data[name])
 
     outfile = open(args.output, "w")
     for key, value in data.items():
