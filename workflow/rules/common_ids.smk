@@ -5,12 +5,18 @@ checkpoint common_ids:
         expand(busco_dir_path / "{species}/single_copy_busco_sequences", species=config["species_list"])
     output:
         directory(merged_sequences_dir_path)
+    log:
+        std=log_dir_path / "common_ids.log",
+        cluster_log=cluster_log_dir_path / "common_ids.cluster.log",
+        cluster_err=cluster_log_dir_path / "common_ids.cluster.err"
+    benchmark:
+        benchmark_dir_path / "common_ids.benchmark.txt"
     resources:
         cpus=config["common_ids_threads"],
         time=config["common_ids_time"],
         mem=config["common_ids_mem_mb"]
     shell:
-        "workflow/scripts/merged_sequences.py --input {input} --outdir {output}"
+        "workflow/scripts/merged_sequences.py --input {input} --outdir {output} > {log.std} 2>&1"
 #
 #
 #
