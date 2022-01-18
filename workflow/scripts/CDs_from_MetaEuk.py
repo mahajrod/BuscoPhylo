@@ -49,6 +49,7 @@ def main():
     split_fasta_to_directory(rerun_protein_fasta, outdir, single_copy_ids, "faa")
     single_copy_CDs = [cd.stem for cd in list(outdir.glob("*.faa"))]
     print("Single copy CDs: ", len(single_copy_CDs))
+    print("???: ", list(set(single_copy_ids) - set(single_copy_CDs)))
 
 
 if __name__ == "__main__":
