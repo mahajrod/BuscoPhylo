@@ -12,10 +12,12 @@ def main():
     if args.input is not stdin:
         for i in args.input:
             for sequence in SeqIO.parse(i, "fasta"):
-                sequence_map[sequence.name] += str(sequence.seq)
+                sequence_map[sequence.name] += str(sequence.seq).upper()
     else:
         for sequence in SeqIO.parse(args.input, "fasta"):
-            sequence_map[sequence.name] += str(sequence.seq)
+            sequence_map[sequence.name] += str(sequence.seq).upper()
+    for k, v in sequence_map.values():
+        print(k, len(v), sep="\t")
 
     outfile = open(args.output, "w")
     for key in sequence_map.keys():
