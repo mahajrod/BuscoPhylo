@@ -12,6 +12,10 @@ rule concat_fasta_dna:
         cluster_err=cluster_log_dir_path / "concat_fasta_dna.cluster.err"
     benchmark:
         benchmark_dir_path / "concat_fasta_dna.benchmark.txt"
+    resources:
+        cpus=config["mafft_threads"],
+        time=config["mafft_time"],
+        mem=config["mafft_mem_mb"]
     shell:
         "seqkit concat {input}/*.fna --line-width 0 > {output} 2> {log.std}"
 
@@ -27,6 +31,10 @@ rule concat_fasta_protein:
         cluster_err=cluster_log_dir_path / "concat_fasta_protein.cluster.err"
     benchmark:
         benchmark_dir_path / "concat_fasta_protein.benchmark.txt"
+    resources:
+        cpus=config["mafft_threads"],
+        time=config["mafft_time"],
+        mem=config["mafft_mem_mb"]
     shell:
         "seqkit concat {input}/*.faa --line-width 0 > {output} 2> {log.std}"
 
@@ -45,6 +53,10 @@ rule concat_nexus_dna:
         cluster_err=cluster_log_dir_path / "concat_nexus_dna.cluster.err"
     benchmark:
         benchmark_dir_path / "concat_nexus_dna.benchmark.txt"
+    resources:
+        cpus=config["mafft_threads"],
+        time=config["mafft_time"],
+        mem=config["mafft_mem_mb"]
     shell:
         "workflow/scripts/fasta_to_nexus.py -i {input} -t {params.type} -b {params.block} -o {output} 1> {log.std} 2>&1"
 
@@ -63,5 +75,9 @@ rule concat_nexus_protein:
         cluster_err=cluster_log_dir_path / "concat_nexus_protein.cluster.err"
     benchmark:
         benchmark_dir_path / "concat_nexus_protein.benchmark.txt"
+    resources:
+        cpus=config["mafft_threads"],
+        time=config["mafft_time"],
+        mem=config["mafft_mem_mb"]
     shell:
         "workflow/scripts/fasta_to_nexus.py -i {input} -t {params.type} -b {params.block} -o {output} 1> {log.std} 2>&1"
