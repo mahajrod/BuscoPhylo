@@ -18,8 +18,8 @@ def main():
                     data[header] = []
                 else:
                     data[header].append(line)
-    for name in data:
-        data[name] = ''.join(data[name])
+        for name in data:
+            data[name] = ''.join(data[name])
 
     outfile = open(args.output, "w")
     for key, value in data.items():
