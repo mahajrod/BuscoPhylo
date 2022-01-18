@@ -21,7 +21,7 @@ def main():
             for key, value in data.items():
                 l.add(len(value))
             if len(l) > 1:
-                print(i)
+                print(l, i)
 
     outfile = open(args.output, "w")
     for key, value in data.items():
