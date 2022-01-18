@@ -8,9 +8,9 @@ import argparse
 
 def main():
     sequence_map = defaultdict(str)
-    seq_length = None
     if args.input is not stdin:
         for i in args.input:
+            seq_length = None
             for sequence in SeqIO.parse(i, "fasta"):
                 sequence_map[sequence.name] += str(sequence.seq)
                 if seq_length != len(str(sequence.seq)) and seq_length is not None:
