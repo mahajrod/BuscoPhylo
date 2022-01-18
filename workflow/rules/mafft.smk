@@ -2,7 +2,7 @@ rule mafft_dna:
     input:
         fna_list=merged_sequences_dir_path / "{N}/"
     output:
-        temp(directory(mafft_dir_path / "fna_tmp" / "{N}"))
+        temp(directory(mafft_dir_path / "fna_tmp" / "{N}/"))
     params:
         mafft_path=config["mafft_path"],
         options=config["mafft_dna_params"]
@@ -31,7 +31,7 @@ rule mafft_protein:
     input:
         faa_list=merged_sequences_dir_path / "{N}/"
     output:
-        temp(directory(mafft_dir_path / "faa_tmp" / "{N}"))
+        temp(directory(mafft_dir_path / "faa_tmp" / "{N}/"))
     params:
         mafft_path=config["mafft_path"],
         options=config["mafft_protein_params"]
