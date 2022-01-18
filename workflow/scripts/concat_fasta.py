@@ -13,14 +13,15 @@ def main():
         for i in args.input:
             for sequence in SeqIO.parse(i, "fasta"):
                 if seq_length != len(str(sequence.seq)) and seq_length is not None:
-                    print(i)
+                    print("!!!!!!!!!!!!!!!!!!!!!!!!!", i)
                 sequence_map[sequence.name] += str(sequence.seq).upper()
                 seq_length = len(str(sequence.seq))
+                print(seq_length)
     else:
         for sequence in SeqIO.parse(args.input, "fasta"):
             sequence_map[sequence.name] += str(sequence.seq).upper()
-    for k, v in sequence_map.items():
-        print(k, len(v), sep="\t")
+    # for k, v in sequence_map.items():
+    #     print(k, len(v), sep="\t")
 
     outfile = open(args.output, "w")
     for key in sequence_map.keys():
