@@ -5,6 +5,7 @@ channels:
   - conda-forge
 dependencies:
   - python>=3.8
+  - biopython>=1.70
   - busco=5.2.2
   - mafft>=7.4
   - samtools>=1.10
