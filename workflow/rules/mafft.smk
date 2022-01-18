@@ -1,6 +1,3 @@
-# localrules: mafft_dna, mafft_protein
-
-
 rule mafft_dna:
     input:
         fna_list=merged_sequences_dir_path / "{N}/"

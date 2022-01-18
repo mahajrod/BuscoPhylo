@@ -1,6 +1,3 @@
-# localrules: iqtree_dna, iqtree_protein
-
-
 rule iqtree_dna:
     input:
         concat_alignments_dir_path / fasta_dna_filename

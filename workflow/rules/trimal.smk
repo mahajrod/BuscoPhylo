@@ -1,5 +1,3 @@
-# localrules: trimal_dna, trimal_protein
-
 rule trimal_dna:
     input:
         fna_list=directory(mafft_dir_path / "fna_tmp" / "{N}")
