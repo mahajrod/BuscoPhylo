@@ -1,4 +1,4 @@
-#---- Bioconda config ----
+#---- Сonda config ----
 name: buscophylo
 channels:
   - bioconda
