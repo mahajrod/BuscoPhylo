@@ -1,4 +1,4 @@
-localrules: concat_fasta_dna, concat_fasta_protein, concat_nexus_dna, concat_nexus_protein
+# localrules: concat_fasta_dna, concat_fasta_protein, concat_nexus_dna, concat_nexus_protein
 
 
 rule concat_fasta_dna:
