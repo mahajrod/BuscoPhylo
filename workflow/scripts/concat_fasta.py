@@ -16,7 +16,7 @@ def main():
     else:
         for sequence in SeqIO.parse(args.input, "fasta"):
             sequence_map[sequence.name] += str(sequence.seq).upper()
-    for k, v in sequence_map:
+    for k, v in sequence_map.items():
         print(k, len(v), sep="\t")
 
     outfile = open(args.output, "w")
