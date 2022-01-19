@@ -12,8 +12,8 @@ benchmark_dir_path = Path(config["benchmark_dir"])
 output_dir_path = Path(config["output_dir"])
 
 busco_dir_path = output_dir_path / config["busco_dir"]
+species_ids_dir_path = output_dir_path / config["species_ids_dir"]
 common_ids_dir_path = output_dir_path / config["common_ids_dir"]
-single_copy_busco_sequences_dir_path = output_dir_path / config["single_copy_busco_sequences_dir"]
 merged_sequences_dir_path = output_dir_path / config["merged_sequences_dir"]
 mafft_dir_path = output_dir_path / config["mafft_dir"]
 trimal_dir_path = output_dir_path / config["trimal_dir"]
