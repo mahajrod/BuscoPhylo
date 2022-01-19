@@ -53,12 +53,12 @@ output_files = [
     lambda w: expand_template_from_common_ids(w,merged_sequences_dir_path / "{N}"),
 
     # mafft:
-    directory(mafft_dir_path / "fna"),
-    directory(mafft_dir_path / "faa"),
+    mafft_dir_path / "fna",
+    mafft_dir_path / "faa",
 
     # trimal:
-    directory(trimal_dir_path / "fna"),
-    directory(trimal_dir_path / "faa"),
+    trimal_dir_path / "fna",
+    trimal_dir_path / "faa",
 
     # concat alignments:
     concat_alignments_dir_path / fasta_dna_filename,
@@ -68,10 +68,10 @@ output_files = [
 ]
 
 phylogenetic_methods_dict = {
-    "iqtree_dna" : directory(iqtree_dir_path / "fna"),
-    "iqtree_protein": directory(iqtree_dir_path / "faa"),
-    "mrbayes_dna" : directory(mrbayes_dir_path / "fna"),
-    "mrbayes_protein" : directory(mrbayes_dir_path / "faa")
+    "iqtree_dna" : iqtree_dir_path / "fna",
+    "iqtree_protein": iqtree_dir_path / "faa",
+    "mrbayes_dna" : mrbayes_dir_path / "fna",
+    "mrbayes_protein" : mrbayes_dir_path / "faa"
 }
 
 if config["iqtree_dna_method"] not in ["", "-", "no", "not", "false"]:

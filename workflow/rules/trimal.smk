@@ -1,6 +1,6 @@
 rule trimal_dna:
     input:
-        fna_list=directory(mafft_dir_path / "fna_tmp" / "{N}")
+        mafft_dir_path / "fna_tmp" / "{N}"
     output:
         temp(directory(trimal_dir_path / "fna_tmp" /"{N}"))
     params:
@@ -17,7 +17,7 @@ rule trimal_dna:
         time=config["trimal_time"],
         mem=config["trimal_mem_mb"]
     shell:
-        "mkdir -p {output}; for FILE in `ls {input.fna_list}/*.fna`; do "
+        "mkdir -p {output}; for FILE in `ls {input}/*.fna`; do "
         "{params.trimal_path}/trimal -in $FILE -out {output}/$(basename $FILE) {params.options} > {log.std} 2>&1; "
         "{params.trimal_path}/trimal -in {output}/$(basename $FILE) -out {output}/$(basename $FILE) -nogaps > {log.std} 2>&1; "
         "done"
@@ -25,7 +25,7 @@ rule trimal_dna:
 
 rule trimal_protein:
     input:
-        faa_list=directory(mafft_dir_path / "faa_tmp" / "{N}")
+        mafft_dir_path / "faa_tmp" / "{N}"
     output:
         temp(directory(trimal_dir_path / "faa_tmp" /"{N}"))
     params:
@@ -42,7 +42,7 @@ rule trimal_protein:
         time=config["trimal_time"],
         mem=config["trimal_mem_mb"]
     shell:
-        "mkdir -p {output}; for FILE in `ls {input.faa_list}/*`; do "
+        "mkdir -p {output}; for FILE in `ls {input}/*`; do "
         "{params.trimal_path}/trimal -in $FILE -out {output}/$(basename $FILE) {params.options} > {log.std} 2>&1; "
         "{params.trimal_path}/trimal -in {output}/$(basename $FILE) -out {output}/$(basename $FILE) -nogaps > {log.std} 2>&1; "
         "done"

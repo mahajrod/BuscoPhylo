@@ -1,6 +1,6 @@
 rule concat_fasta_dna:
     input:
-        directory(trimal_dir_path / "fna")
+        trimal_dir_path / "fna"
     output:
         concat_alignments_dir_path / fasta_dna_filename
     log:
@@ -16,12 +16,12 @@ rule concat_fasta_dna:
         time=config["mafft_time"],
         mem=config["mafft_mem_mb"]
     shell:
-        "workflow/scripts/concat_fasta.py -o {output} -i {input}/*.fna 1> {log.std} 2>&1" # cat {input}/*.fna |
+        "workflow/scripts/concat_fasta.py -o {output} -i {input}/*.fna 1> {log.std} 2>&1"
 
 
 rule concat_fasta_protein:
     input:
-        directory(trimal_dir_path / "faa")
+        trimal_dir_path / "faa"
     output:
         concat_alignments_dir_path / fasta_protein_filename
     log:
@@ -37,7 +37,7 @@ rule concat_fasta_protein:
         time=config["mafft_time"],
         mem=config["mafft_mem_mb"]
     shell:
-        "workflow/scripts/concat_fasta.py -o {output} -i {input}/*.faa 1> {log.std} 2>&1" # cat {input}/*.fna |
+        "workflow/scripts/concat_fasta.py -o {output} -i {input}/*.faa 1> {log.std} 2>&1"
 
 
 rule concat_nexus_dna:

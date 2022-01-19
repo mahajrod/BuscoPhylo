@@ -3,7 +3,7 @@ localrules: common_ids, species_ids, merged_sequences
 
 rule species_ids: # get files with IDs for each species
     input:
-        directory(busco_dir_path / "{species}/single_copy_busco_sequences")
+        busco_dir_path / "{species}/single_copy_busco_sequences"
     output:
         temp(species_ids_dir_path / "{species}.ids")
     log:
