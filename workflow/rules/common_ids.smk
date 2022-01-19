@@ -13,9 +13,9 @@ rule species_ids: # get files with IDs for each species
     benchmark:
         benchmark_dir_path / "species_ids.{species}.benchmark.txt"
     resources:
-        cpus=config["common_ids_threads"],
-        time=config["common_ids_time"],
-        mem=config["common_ids_mem_mb"]
+        cpus=config["species_ids_threads"],
+        time=config["species_ids_time"],
+        mem=config["species_ids_mem_mb"]
     shell:
         "ls {input} | grep -P '.fna$' | sed 's/.fna//' > {output} 2> {log.std}"
 
@@ -57,9 +57,9 @@ checkpoint merged_sequences: # get merged sequences by common IDs
     benchmark:
         benchmark_dir_path / "merged_sequences.{N}.benchmark.txt"
     resources:
-        cpus=config["common_ids_threads"],
-        time=config["common_ids_threads"],
-        mem=config["common_ids_threads"]
+        cpus=config["merged_sequences_threads"],
+        time=config["merged_sequences_time"],
+        mem=config["merged_sequences_mem_mb"]
     shell:
         "workflow/scripts/merged_sequences.py "
         "--common_ids {input} "
