@@ -1,7 +1,7 @@
 if config['busco_version'] == 3:
     rule busco3:
         input:
-            fasta=genome_dir_path / "{species}.fasta"
+            genome_dir_path / "{species}.fasta"
         output:
             busco_outdir=directory(busco_dir_path / "{species}"),
             single_copy_files_dir = directory(busco_dir_path / "{species}/single_copy_busco_sequences"),
@@ -26,14 +26,14 @@ if config['busco_version'] == 3:
             config["busco_threads"]
         shell:
             "mkdir -p {output.busco_outdir}; cd {output.busco_outdir}; {params.busco_path}/run_BUSCO.py -m {params.mode} -sp {params.species}"
-            " -i {input.fasta} -c {threads} -l {params.busco_dataset_path} -o {params.output_prefix} 1>../../../{log.std} 2>&1;"
+            " -i {input} -c {threads} -l {params.busco_dataset_path} -o {params.output_prefix} 1>../../../{log.std} 2>&1;"
             " mv run_{params.output_prefix}/* ./; rm -r run_{params.output_prefix} tmp/"
 
 elif config['busco_version'] == 5:
     if config['gene_prediction_tool'] == "metaeuk":
         rule busco5_metaeuk:
             input:
-                fasta=genome_dir_path / "{species}.fasta"
+                genome_dir_path / "{species}.fasta"
             output:
                 busco_outdir=directory(busco_dir_path / "{species}"),
                 single_copy_busco_sequences=directory(busco_dir_path / "{species}/busco_sequences/single_copy_busco_sequences"),
@@ -60,7 +60,7 @@ elif config['busco_version'] == 5:
                 config["busco_threads"]
             shell:
                 "mkdir -p {output.busco_outdir}; cd {output.busco_outdir}; "
-                "busco -m {params.mode} -i {input.fasta} -c {threads} "
+                "busco -m {params.mode} -i {input} -c {threads} "
                 "-l {params.busco_dataset_path} -o {params.output_prefix} 1>../../../{log.std} 2>&1; "
                 "mv {params.output_prefix}/* ./; rm -r {params.output_prefix}/; "
                 "rm -r busco_downloads/; mv run*/* ./; rm -r run*; "
@@ -71,9 +71,9 @@ elif config['busco_version'] == 5:
 
         rule get_CDs_sequences_from_metaeuk_output:
             input:
-                single_copy_busco_sequences=directory(busco_dir_path / "{species}/busco_sequences/single_copy_busco_sequences"),
-                metaeuk_rerun_results=directory(busco_dir_path / "{species}/metaeuk_output/rerun_results"),
-                metaeuk_initial_results=directory(busco_dir_path / "{species}/metaeuk_output/initial_results")
+                single_copy_busco_sequences=busco_dir_path / "{species}/busco_sequences/single_copy_busco_sequences",
+                metaeuk_rerun_results=busco_dir_path / "{species}/metaeuk_output/rerun_results",
+                metaeuk_initial_results=busco_dir_path / "{species}/metaeuk_output/initial_results"
             output:
                 single_copy_CDs_sequences=directory(busco_dir_path / "{species}/single_copy_busco_sequences")
             log:
@@ -99,7 +99,7 @@ elif config['busco_version'] == 5:
     elif config['gene_prediction_tool'] == "augustus":
         rule busco5_augustus:
             input:
-                fasta=genome_dir_path / "{species}.fasta"
+                genome_dir_path / "{species}.fasta"
             output:
                 busco_outdir=directory(busco_dir_path / "{species}"),
                 single_copy_busco_sequences=directory(busco_dir_path / "{species}/single_copy_busco_sequences"),
@@ -127,7 +127,7 @@ elif config['busco_version'] == 5:
             shell:
                 "mkdir -p {output.busco_outdir}; cd {output.busco_outdir}; "
                 "busco --augustus --augustus_species {params.species} -m {params.mode} "
-                "-i {input.fasta} -c {threads} -l {params.busco_dataset_path} -o {params.output_prefix} 1>../../../{log.std} 2>&1; "
+                "-i {input} -c {threads} -l {params.busco_dataset_path} -o {params.output_prefix} 1>../../../{log.std} 2>&1; "
                 "mv {params.output_prefix}/* ./; rm -r {params.output_prefix}/; "
                 "rm -r busco_downloads/; mv run*/* ./; rm -r run*; "
                 "mv full_table.tsv full_table_{params.output_prefix}.tsv; "
