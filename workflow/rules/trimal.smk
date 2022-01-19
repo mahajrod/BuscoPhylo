@@ -17,12 +17,9 @@ rule trimal_dna:
         time=config["trimal_time"],
         mem=config["trimal_mem_mb"]
     shell:
-        "mkdir -p {output}; "
-        "for FILE in `ls {input.fna_list}/*`; do "
-        "{params.trimal_path}/trimal -in ${{FILE%.*}}.fna -out {output}/$(basename ${{FILE%.*}}.fna) {params.options} "
-        "1> {log.std} 2> {log.std}; "
-        "{params.trimal_path}/trimal -in {output}/$(basename ${{FILE%.*}}.fna) -out {output}/$(basename ${{FILE%.*}}.fna) -nogaps "
-        "1> {log.std} 2> {log.std}; "
+        "mkdir -p {output}; for FILE in `ls {input.fna_list}/*.fna`; do "
+        "{params.trimal_path}/trimal -in $FILE -out {output}/$(basename $FILE) {params.options} > {log.std} 2>&1; "
+        "{params.trimal_path}/trimal -in {output}/$(basename $FILE) -out {output}/$(basename $FILE) -nogaps > {log.std} 2>&1; "
         "done"
 
 
@@ -45,10 +42,7 @@ rule trimal_protein:
         time=config["trimal_time"],
         mem=config["trimal_mem_mb"]
     shell:
-        "mkdir -p {output}; "
-        "for FILE in `ls {input.faa_list}/*`; do "
-        "{params.trimal_path}/trimal -in ${{FILE%.*}}.faa -out {output}/$(basename ${{FILE%.*}}.faa) {params.options} "
-        "1> {log.std} 2>&1; "
-        "{params.trimal_path}/trimal -in {output}/$(basename ${{FILE%.*}}.faa) -out {output}/$(basename ${{FILE%.*}}.faa) -nogaps "
-        "1> {log.std} 2>&1; "
+        "mkdir -p {output}; for FILE in `ls {input.faa_list}/*`; do "
+        "{params.trimal_path}/trimal -in $FILE -out {output}/$(basename $FILE) {params.options} > {log.std} 2>&1; "
+        "{params.trimal_path}/trimal -in {output}/$(basename $FILE) -out {output}/$(basename $FILE) -nogaps > {log.std} 2>&1; "
         "done"
