@@ -1,8 +1,6 @@
 #!/usr/bin/env python3
-
 from collections import defaultdict
 from Bio import SeqIO
-from sys import stdin
 import argparse
 
 

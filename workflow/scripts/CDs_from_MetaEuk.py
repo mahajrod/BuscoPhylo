@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-
 from pathlib import Path
 import argparse
+
 
 def get_id(header):
     id = header[1:].split("|")[0]

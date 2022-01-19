@@ -25,7 +25,6 @@ def main():
                 out_fna.write(outline_fna)
 
 
-
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="script for merging files with sequences of different species")
     group_required = parser.add_argument_group('Required options')
