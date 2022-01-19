@@ -1,8 +1,8 @@
 rule mafft_dna:
     input:
-        fna_list=merged_sequences_dir_path / "{N}/"
+        merged_sequences_dir_path / "{N}"
     output:
-        temp(directory(mafft_dir_path / "fna_tmp" / "{N}/"))
+        temp(directory(mafft_dir_path / "fna_tmp" / "{N}"))
     params:
         mafft_path=config["mafft_path"],
         options=config["mafft_dna_params"]
@@ -22,16 +22,16 @@ rule mafft_dna:
         config["mafft_threads"]
     shell:
         "mkdir -p {output}; "
-        "for FILE in `ls {input.fna_list}/*`; do "
-        "mafft --thread {threads} {params.options} ${{FILE%.*}}.fna > {output}/$(basename ${{FILE%.*}}.fna) 2> {log.std}; "
+        "for FILE in `ls {input}/*.fna`; do "
+        "mafft --thread {threads} {params.options} $FILE > {output}/$(basename $FILE) 2> {log.std}; "
         "done; "
 
 
 rule mafft_protein:
     input:
-        faa_list=merged_sequences_dir_path / "{N}/"
+        merged_sequences_dir_path / "{N}"
     output:
-        temp(directory(mafft_dir_path / "faa_tmp" / "{N}/"))
+        temp(directory(mafft_dir_path / "faa_tmp" / "{N}"))
     params:
         mafft_path=config["mafft_path"],
         options=config["mafft_protein_params"]
@@ -51,8 +51,7 @@ rule mafft_protein:
         config["mafft_threads"]
     shell:
         "mkdir -p {output}; "
-        "for FILE in `ls {input.faa_list}/*`; do "
-        "mafft --thread {threads} {params.options} ${{FILE%.*}}.faa > {output}/$(basename ${{FILE%.*}}.faa) 2> {log.std}; "
+        "for FILE in `ls {input}/*.faa`; do "
+        "mafft --thread {threads} {params.options} $FILE > {output}/$(basename $FILE) 2> {log.std}; "
         "done; "
-
 

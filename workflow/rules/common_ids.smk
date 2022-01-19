@@ -3,9 +3,9 @@ localrules: common_ids, species_ids, merged_sequences
 
 rule species_ids: # get files with IDs for each species
     input:
-        busco_outdir=directory(busco_dir_path / "{species}/single_copy_busco_sequences")
+        directory(busco_dir_path / "{species}/single_copy_busco_sequences")
     output:
-        ids=common_ids_dir_path / "{species}.ids"
+        temp(common_ids_dir_path / "{species}.ids")
     log:
         std=log_dir_path / "species_ids.{species}.log",
         cluster_log=cluster_log_dir_path / "species_ids.{species}.cluster.log",
@@ -17,12 +17,12 @@ rule species_ids: # get files with IDs for each species
         time=config["common_ids_time"],
         mem=config["common_ids_mem_mb"]
     shell:
-        "ls {input.busco_outdir} | grep -P '.fna$' | sed 's/.fna//' > {output.ids} 2> {log.std}" #/{params.single_copy_files}
+        "ls {input} | grep -P '.fna$' | sed 's/.fna//' > {output} 2> {log.std}"
 
 
 checkpoint common_ids: # get common IDs for all species and split them into files
     input:
-        ids=expand(common_ids_dir_path / "{species}.ids", species=config["species_list"])
+        expand(common_ids_dir_path / "{species}.ids", species=config["species_list"])
     output:
         directory(single_copy_busco_sequences_dir_path)
     params:
@@ -40,15 +40,15 @@ checkpoint common_ids: # get common IDs for all species and split them into file
         time=config["common_ids_time"],
         mem=config["common_ids_mem_mb"]
     shell:
-        "mkdir -p {output}; cat {input.ids} | sort | uniq -c | awk '{{if($1=={params.nfiles}){{print $2}}}}' | "
+        "mkdir -p {output}; cat {input} | sort | uniq -c | awk '{{if($1=={params.nfiles}){{print $2}}}}' | "
         "split -l {params.split_size} --numeric-suffixes - {output}/{params.prefix} 1> {log.std} 2>&1"
 
 
 checkpoint merged_sequences: # get merged sequences by common IDs
     input:
-        common_ids=single_copy_busco_sequences_dir_path / "common.ids{N}"
+        single_copy_busco_sequences_dir_path / "{N}"
     output:
-        directory(merged_sequences_dir_path / "{N}/")
+        directory(merged_sequences_dir_path / "{N}")
     params:
         single_copy_files=expand(busco_dir_path / "{species}" / "single_copy_busco_sequences", species=config["species_list"])
     log:
@@ -63,6 +63,6 @@ checkpoint merged_sequences: # get merged sequences by common IDs
         mem=config["common_ids_threads"]
     shell:
         "workflow/scripts/merged_sequences.py "
-        "--input {input.common_ids} "
+        "--common_ids {input} "
         "--single_copy_files {params.single_copy_files} "
         "--outdir {output} 1> {log.std} 2>&1"
