@@ -1,6 +1,6 @@
 rule trimal_dna:
     input:
-        mafft_dir_path / "fna_tmp" / "{N}"
+        alignment_dir_path / "fna_tmp" / "{N}"
     output:
         temp(directory(trimal_dir_path / "fna_tmp" /"{N}"))
     params:
@@ -25,7 +25,7 @@ rule trimal_dna:
 
 rule trimal_protein:
     input:
-        mafft_dir_path / "faa_tmp" / "{N}"
+        alignment_dir_path / "faa_tmp" / "{N}"
     output:
         temp(directory(trimal_dir_path / "faa_tmp" /"{N}"))
     params:
