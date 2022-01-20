@@ -27,6 +27,7 @@ checkpoint common_ids: # get common IDs for all species and split them into file
         directory(common_ids_dir_path)
     params:
         nfiles=len(config["species_list"]),
+        prefix="group_",
         split_size=config["split_size"]
     log:
         std=log_dir_path / "common_ids.log",
@@ -40,7 +41,7 @@ checkpoint common_ids: # get common IDs for all species and split them into file
         mem=config["common_ids_mem_mb"]
     shell:
         "mkdir -p {output}; cat {input} | sort | uniq -c | awk '{{if($1=={params.nfiles}){{print $2}}}}' | "
-        "split -l {params.split_size} --numeric-suffixes - {output}/ 1> {log.std} 2>&1"
+        "split -l {params.split_size} --numeric-suffixes - {output}/{params.prefix} 1> {log.std} 2>&1"
 
 
 checkpoint merged_sequences: # get merged sequences by common IDs

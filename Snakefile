@@ -94,7 +94,7 @@ rule files_transfer:
         mafft_fna_dirs=lambda w: expand_template_from_common_ids(w, alignment_dir_path / "fna_tmp" / "group_{N}"),
         mafft_faa_dirs=lambda w: expand_template_from_common_ids(w, alignment_dir_path / "faa_tmp" / "group_{N}"),
         trimal_fna_dirs=lambda w: expand_template_from_common_ids(w, trimal_dir_path / "fna_tmp" / "group_{N}"),
-        trimal_faa_dirs=lambda w: expand_template_from_common_ids(w, trimal_dir_path / "faa_tmp" / "group_{N}"),
+        trimal_faa_dirs=lambda w: expand_template_from_common_ids(w, trimal_dir_path / "faa_tmp" / "group_{N}")
     output:
         mafft_fna_dir=directory(alignment_dir_path / "fna"),
         mafft_faa_dir=directory(alignment_dir_path / "faa"),
