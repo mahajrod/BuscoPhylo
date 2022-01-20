@@ -1,9 +1,9 @@
 if config["alignment_tool"] == "mafft":
     rule mafft_dna:
         input:
-            merged_sequences_dir_path / "{N}"
+            merged_sequences_dir_path / "group_{N}"
         output:
-            temp(directory(alignment_dir_path / "fna_tmp" / "{N}"))
+            temp(directory(alignment_dir_path / "fna_tmp" / "group_{N}"))
         params:
             options=config["mafft_dna_params"]
         log:
@@ -29,9 +29,9 @@ if config["alignment_tool"] == "mafft":
 
 rule mafft_protein:
     input:
-        merged_sequences_dir_path / "{N}"
+        merged_sequences_dir_path / "group_{N}"
     output:
-        temp(directory(alignment_dir_path / "faa_tmp" / "{N}"))
+        temp(directory(alignment_dir_path / "faa_tmp" / "group_{N}"))
     params:
         options=config["mafft_protein_params"]
     log:

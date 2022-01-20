@@ -45,9 +45,9 @@ checkpoint common_ids: # get common IDs for all species and split them into file
 
 checkpoint merged_sequences: # get merged sequences by common IDs
     input:
-        common_ids_dir_path / "{N}"
+        common_ids_dir_path / "group_{N}"
     output:
-        directory(merged_sequences_dir_path / "{N}")
+        directory(merged_sequences_dir_path / "group_{N}")
     params:
         single_copy_files=expand(busco_dir_path / "{species}" / "single_copy_busco_sequences", species=config["species_list"])
     log:

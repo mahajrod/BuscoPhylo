@@ -34,7 +34,7 @@ if "species_list" not in config:
 #---- necessary functions ----
 def expand_template_from_common_ids(wildcards, template):
     checkpoint_output = checkpoints.common_ids.get(**wildcards).output[0]
-    N = glob_wildcards(os.path.join(checkpoint_output, "{N}")).N
+    N = glob_wildcards(os.path.join(checkpoint_output, "group_{N}")).N
     return expand(str(template), N=N)
 
 #############################################
@@ -48,7 +48,7 @@ output_files = [
     expand(busco_dir_path / "{species}/short_summary_{species}.txt",species=config["species_list"]),
 
     # common ids and merged sequences:
-    lambda w: expand_template_from_common_ids(w,merged_sequences_dir_path / "{N}"),
+    lambda w: expand_template_from_common_ids(w,merged_sequences_dir_path / "group_{N}"),
 
     # mafft:
     alignment_dir_path / "fna",
@@ -91,10 +91,10 @@ rule all:
 
 rule files_transfer:
     input:
-        mafft_fna_dirs=lambda w: expand_template_from_common_ids(w, alignment_dir_path / "fna_tmp" / "{N}"),
-        mafft_faa_dirs=lambda w: expand_template_from_common_ids(w, alignment_dir_path / "faa_tmp" / "{N}"),
-        trimal_fna_dirs=lambda w: expand_template_from_common_ids(w, trimal_dir_path / "fna_tmp" / "{N}"),
-        trimal_faa_dirs=lambda w: expand_template_from_common_ids(w, trimal_dir_path / "faa_tmp" / "{N}"),
+        mafft_fna_dirs=lambda w: expand_template_from_common_ids(w, alignment_dir_path / "fna_tmp" / "group_{N}"),
+        mafft_faa_dirs=lambda w: expand_template_from_common_ids(w, alignment_dir_path / "faa_tmp" / "group_{N}"),
+        trimal_fna_dirs=lambda w: expand_template_from_common_ids(w, trimal_dir_path / "fna_tmp" / "group_{N}"),
+        trimal_faa_dirs=lambda w: expand_template_from_common_ids(w, trimal_dir_path / "faa_tmp" / "group_{N}"),
     output:
         mafft_fna_dir=directory(alignment_dir_path / "fna"),
         mafft_faa_dir=directory(alignment_dir_path / "faa"),

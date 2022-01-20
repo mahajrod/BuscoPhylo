@@ -1,8 +1,8 @@
 rule trimal_dna:
     input:
-        alignment_dir_path / "fna_tmp" / "{N}"
+        alignment_dir_path / "fna_tmp" / "group_{N}"
     output:
-        temp(directory(trimal_dir_path / "fna_tmp" /"{N}"))
+        temp(directory(trimal_dir_path / "fna_tmp" /"group_{N}"))
     params:
         trimal_path=config["trimal_path"],
         options=config["trimal_dna_params"]
@@ -25,9 +25,9 @@ rule trimal_dna:
 
 rule trimal_protein:
     input:
-        alignment_dir_path / "faa_tmp" / "{N}"
+        alignment_dir_path / "faa_tmp" / "group_{N}"
     output:
-        temp(directory(trimal_dir_path / "faa_tmp" /"{N}"))
+        temp(directory(trimal_dir_path / "faa_tmp" /"group_{N}"))
     params:
         trimal_path=config["trimal_path"],
         options=config["trimal_protein_params"]

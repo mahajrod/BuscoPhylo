@@ -1,9 +1,9 @@
 if config["alignment_tool"] == "prank":
     rule prank_dna:
         input:
-            merged_sequences_dir_path / "{N}"
+            merged_sequences_dir_path / "group_{N}"
         output:
-            temp(directory(alignment_dir_path / "fna_tmp" / "{N}"))
+            temp(directory(alignment_dir_path / "fna_tmp" / "group_{N}"))
         params:
             options=config["prank_dna_params"]
         log:
