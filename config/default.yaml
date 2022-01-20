@@ -5,7 +5,7 @@ mrbayes_block: "workflow/envs/mrbayes.block"
 #---- Global variable ---- # to disable, change the config value to an empty string "" or "-", "not", "false"
 busco_version: 3 # 3 or 5
 gene_prediction_tool: "metaeuk" # 'metaeuk' or 'augustus'. The parameter will only be used if busco_version is 5.
-alignment_tool: "mafft" # 'mafft' or 'prank'.
+alignment_tool: "mafft" # 'mafft' or 'prank'. 'prank' tool is only used for DNA sequences! Protein sequences are processed with 'mafft' in both cases.
 iqtree_dna_method: "yes" # activated if 'yes', '+' or 'true'
 iqtree_protein_method: "yes"
 mrbayes_dna_method: "yes"
