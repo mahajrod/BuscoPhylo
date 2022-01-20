@@ -53,7 +53,7 @@ if config["alignment_tool"] == "prank":
             "mkdir -p {output}; "
             "for FILE in `ls {input}/*.fna`; do "
             "prank -d=$FILE -o={output}/$(basename $FILE) -translate -F > {log.std} 2>&1; "
-            "mv {output}/$(basename $FILE).best.pep.fas $(basename $FILE); "
+            "mv {output}/$(basename $FILE).best.pep.fas {output}/$(basename $FILE); "
             "done; "
 
         # "mkdir -p {output}; cd {output}; "
