@@ -5,7 +5,7 @@ rule species_ids: # get files with IDs for each species
     input:
         busco_dir_path / "{species}/single_copy_busco_sequences"
     output:
-        temp(species_ids_dir_path / "{species}.ids")
+        species_ids_dir_path / "{species}.ids"
     log:
         std=log_dir_path / "species_ids.{species}.log",
         cluster_log=cluster_log_dir_path / "species_ids.{species}.cluster.log",
