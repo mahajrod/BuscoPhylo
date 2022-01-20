@@ -51,7 +51,7 @@ if config["alignment_tool"] == "prank":
             config["prank_threads"]
         shell:
             "mkdir -p {output}; cd {output}; "
-            "for FILE in `ls ../../../../../{input}/*.fna`; do "
+            "for FILE in `ls ../../../../{input}/*.fna`; do "
             "prank -d=$FILE -o={output}/$(basename $FILE) -translate -F > {log.std} 2>&1; "
             "mv {output}/$(basename $FILE).best.pep.fas {output}/$(basename $FILE); "
             "rm {output}/$(basename $FILE).best.nuc.fas; "
