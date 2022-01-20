@@ -3,7 +3,7 @@ conda_config: "workflow/envs/conda.yaml"
 mrbayes_block: "workflow/envs/mrbayes.block"
 
 #---- Global variable ---- # to disable, change the config value to an empty string "" or "-", "not", "false"
-busco_version: 5 # 3 or 5
+busco_version: 5 # 3 or 5. If busco_version 3 is used, specify busco_path.
 gene_prediction_tool: "metaeuk" # 'metaeuk' or 'augustus'. The parameter will only be used if busco_version is 5.
 alignment_tool: "prank" # 'mafft' or 'prank'. 'prank' tool is only used for DNA sequences! Protein sequences are processed with 'mafft' in both cases.
 iqtree_dna_method: "yes" # activated if 'yes', '+' or 'true'
@@ -20,13 +20,13 @@ output_dir: "results"
 log_dir: "logs"
 cluster_log_dir: "cluster_logs"
 busco_dir: "busco"
+species_ids_dir: "ids/species_ids"
+common_ids_dir: "ids/common_ids"
+merged_sequences_dir: "ids/merged_sequences"
 alignment_dir: "alignments/raw"
 trimal_dir: "alignments/trimal"
 iqtree_dir: "phylogeny/iqtree"
 mrbayes_dir: "phylogeny/mrbayes"
-species_ids_dir: "ids/species_ids"
-common_ids_dir: "ids/common_ids"
-merged_sequences_dir: "ids/merged_sequences"
 concat_alignments_dir: "concat_alignments"
 benchmark_dir: "benchmarks"
 
