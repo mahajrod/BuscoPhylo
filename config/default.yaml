@@ -20,7 +20,7 @@ output_dir: "results"
 log_dir: "logs"
 cluster_log_dir: "cluster_logs"
 busco_dir: "busco"
-alignment_dir: "alignments" # directory 'mafft' or 'prank' will be created automatically
+alignment_dir: "alignments/raw"
 trimal_dir: "alignments/trimal"
 iqtree_dir: "phylogeny/iqtree"
 mrbayes_dir: "phylogeny/mrbayes"
@@ -36,7 +36,7 @@ species_ids_threads: 1
 common_ids_threads: 1
 merged_sequences_threads: 1
 mafft_threads: 4
-prank_threads: 4
+prank_threads: 1
 trimal_threads: 4
 iqtree_threads: 20
 mrbayes_threads: 20
