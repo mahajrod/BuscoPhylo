@@ -1,6 +1,3 @@
-# localrules: iqtree_dna, iqtree_protein
-
-
 rule iqtree_dna:
     input:
         concat_alignments_dir_path / fasta_dna_filename
@@ -16,8 +13,6 @@ rule iqtree_dna:
         cluster_err=cluster_log_dir_path / "iqtree_dna.cluster.err"
     benchmark:
         benchmark_dir_path / "iqtree_dna.benchmark.txt"
-    # conda:
-    #     "../../%s" % config["conda_config"]
     resources:
         cpus=config["iqtree_threads"],
         time=config["iqtree_time"],
@@ -43,8 +38,6 @@ rule iqtree_protein:
         cluster_err=cluster_log_dir_path / "iqtree_protein.cluster.err"
     benchmark:
         benchmark_dir_path / "iqtree_protein.benchmark.txt"
-    # conda:
-    #     "../../%s" % config["conda_config"]
     resources:
         cpus=config["iqtree_threads"],
         time=config["iqtree_time"],

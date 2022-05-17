@@ -1,9 +1,6 @@
-localrules: concat_fasta_dna, concat_fasta_protein, concat_nexus_dna, concat_nexus_protein
-
-
 rule concat_fasta_dna:
     input:
-        directory(trimal_dir_path / "fna")
+        trimal_dir_path / "fna"
     output:
         concat_alignments_dir_path / fasta_dna_filename
     log:
@@ -12,13 +9,19 @@ rule concat_fasta_dna:
         cluster_err=cluster_log_dir_path / "concat_fasta_dna.cluster.err"
     benchmark:
         benchmark_dir_path / "concat_fasta_dna.benchmark.txt"
+    conda:
+        "../../%s" % config["conda_config"]
+    resources:
+        cpus=config["mafft_threads"],
+        time=config["mafft_time"],
+        mem=config["mafft_mem_mb"]
     shell:
-        "cat {input}/*.fna | workflow/scripts/concat_fasta.py -o {output} 1> {log.std} 2>&1"
+        "workflow/scripts/concat_fasta.py -o {output} -i {input}/*.fna 1> {log.std} 2>&1"
 
 
 rule concat_fasta_protein:
     input:
-        directory(trimal_dir_path / "faa")
+        trimal_dir_path / "faa"
     output:
         concat_alignments_dir_path / fasta_protein_filename
     log:
@@ -27,8 +30,14 @@ rule concat_fasta_protein:
         cluster_err=cluster_log_dir_path / "concat_fasta_protein.cluster.err"
     benchmark:
         benchmark_dir_path / "concat_fasta_protein.benchmark.txt"
+    conda:
+        "../../%s" % config["conda_config"]
+    resources:
+        cpus=config["mafft_threads"],
+        time=config["mafft_time"],
+        mem=config["mafft_mem_mb"]
     shell:
-        "cat {input}/*.faa | workflow/scripts/concat_fasta.py -o {output} 1> {log.std} 2>&1"
+        "workflow/scripts/concat_fasta.py -o {output} -i {input}/*.faa 1> {log.std} 2>&1"
 
 
 rule concat_nexus_dna:
@@ -45,6 +54,12 @@ rule concat_nexus_dna:
         cluster_err=cluster_log_dir_path / "concat_nexus_dna.cluster.err"
     benchmark:
         benchmark_dir_path / "concat_nexus_dna.benchmark.txt"
+    conda:
+        "../../%s" % config["conda_config"]
+    resources:
+        cpus=config["mafft_threads"],
+        time=config["mafft_time"],
+        mem=config["mafft_mem_mb"]
     shell:
         "workflow/scripts/fasta_to_nexus.py -i {input} -t {params.type} -b {params.block} -o {output} 1> {log.std} 2>&1"
 
@@ -63,5 +78,11 @@ rule concat_nexus_protein:
         cluster_err=cluster_log_dir_path / "concat_nexus_protein.cluster.err"
     benchmark:
         benchmark_dir_path / "concat_nexus_protein.benchmark.txt"
+    conda:
+        "../../%s" % config["conda_config"]
+    resources:
+        cpus=config["mafft_threads"],
+        time=config["mafft_time"],
+        mem=config["mafft_mem_mb"]
     shell:
         "workflow/scripts/fasta_to_nexus.py -i {input} -t {params.type} -b {params.block} -o {output} 1> {log.std} 2>&1"

@@ -1,5 +1,4 @@
 from pathlib import Path
-import glob
 import os
 
 #---- setup config ----
@@ -13,10 +12,10 @@ benchmark_dir_path = Path(config["benchmark_dir"])
 output_dir_path = Path(config["output_dir"])
 
 busco_dir_path = output_dir_path / config["busco_dir"]
+species_ids_dir_path = output_dir_path / config["species_ids_dir"]
 common_ids_dir_path = output_dir_path / config["common_ids_dir"]
-single_copy_busco_sequences_dir_path = output_dir_path / config["single_copy_busco_sequences_dir"]
 merged_sequences_dir_path = output_dir_path / config["merged_sequences_dir"]
-mafft_dir_path = output_dir_path / config["mafft_dir"]
+alignment_dir_path = output_dir_path / config["alignment_dir"]
 trimal_dir_path = output_dir_path / config["trimal_dir"]
 concat_alignments_dir_path = output_dir_path / config["concat_alignments_dir"]
 iqtree_dir_path = output_dir_path / config["iqtree_dir"]
@@ -30,14 +29,13 @@ nexus_dna_filename = f"{fasta_dna_filename}.nex"
 nexus_protein_filename = f"{fasta_protein_filename}.nex"
 
 if "species_list" not in config:
-    config["species_list"] = [f.name[:-6] for f in genome_dir_path.iterdir() if f.is_file()]
+    config["species_list"] = [f.name[:-6] for f in genome_dir_path.iterdir() if f.is_file() and f.suffix == ".fasta"]
 
 #---- necessary functions ----
 def expand_template_from_common_ids(wildcards, template):
     checkpoint_output = checkpoints.common_ids.get(**wildcards).output[0]
-    N = glob_wildcards(os.path.join(checkpoint_output, "common.ids{N}")).N
+    N = glob_wildcards(os.path.join(checkpoint_output, "group_{N}")).N
     return expand(str(template), N=N)
-
 
 #############################################
 #---- the "all" rule ----
@@ -50,16 +48,15 @@ output_files = [
     expand(busco_dir_path / "{species}/short_summary_{species}.txt",species=config["species_list"]),
 
     # common ids and merged sequences:
-    directory(single_copy_busco_sequences_dir_path),
-    lambda w: expand_template_from_common_ids(w,merged_sequences_dir_path / "{N}"),
+    lambda w: expand_template_from_common_ids(w,merged_sequences_dir_path / "group_{N}"),
 
     # mafft:
-    directory(mafft_dir_path / "fna"),
-    directory(mafft_dir_path / "faa"),
+    alignment_dir_path / "fna",
+    alignment_dir_path / "faa",
 
     # trimal:
-    directory(trimal_dir_path / "fna"),
-    directory(trimal_dir_path / "faa"),
+    trimal_dir_path / "fna",
+    trimal_dir_path / "faa",
 
     # concat alignments:
     concat_alignments_dir_path / fasta_dna_filename,
@@ -69,19 +66,19 @@ output_files = [
 ]
 
 phylogenetic_methods_dict = {
-    "iqtree_dna" : directory(iqtree_dir_path / "fna"),
-    "iqtree_protein": directory(iqtree_dir_path / "faa"),
-    "mrbayes_dna" : directory(mrbayes_dir_path / "fna"),
-    "mrbayes_protein" : directory(mrbayes_dir_path / "faa")
+    "iqtree_dna" : iqtree_dir_path / "fna",
+    "iqtree_protein": iqtree_dir_path / "faa",
+    "mrbayes_dna" : mrbayes_dir_path / "fna",
+    "mrbayes_protein" : mrbayes_dir_path / "faa"
 }
 
-if config["iqtree_dna_method"] not in ["", "-", "no", "not", "false"]:
+if config["iqtree_dna_method"] in ["yes", "+", "true"]:
     output_files.append(phylogenetic_methods_dict["iqtree_dna"])
-if config["iqtree_protein_method"] not in ["", "-", "no", "not", "false"]:
+if config["iqtree_protein_method"] in ["yes", "+", "true"]:
     output_files.append(phylogenetic_methods_dict["iqtree_protein"])
-if config["mrbayes_dna_method"] not in ["", "-", "no", "not", "false"]:
+if config["mrbayes_dna_method"] in ["yes", "+", "true"]:
     output_files.append(phylogenetic_methods_dict["mrbayes_dna"])
-if config["mrbayes_protein_method"] not in ["", "-", "no", "not", "false"]:
+if config["mrbayes_protein_method"] in ["yes", "+", "true"]:
     output_files.append(phylogenetic_methods_dict["mrbayes_protein"])
 
 
@@ -94,13 +91,13 @@ rule all:
 
 rule files_transfer:
     input:
-        mafft_fna_dirs=lambda w: expand_template_from_common_ids(w, mafft_dir_path / "fna_tmp" / "{N}"),
-        mafft_faa_dirs=lambda w: expand_template_from_common_ids(w, mafft_dir_path / "faa_tmp" / "{N}"),
-        trimal_fna_dirs=lambda w: expand_template_from_common_ids(w, trimal_dir_path / "fna_tmp" / "{N}"),
-        trimal_faa_dirs=lambda w: expand_template_from_common_ids(w, trimal_dir_path / "faa_tmp" / "{N}"),
+        mafft_fna_dirs=lambda w: expand_template_from_common_ids(w, alignment_dir_path / "fna_tmp" / "group_{N}"),
+        mafft_faa_dirs=lambda w: expand_template_from_common_ids(w, alignment_dir_path / "faa_tmp" / "group_{N}"),
+        trimal_fna_dirs=lambda w: expand_template_from_common_ids(w, trimal_dir_path / "fna_tmp" / "group_{N}"),
+        trimal_faa_dirs=lambda w: expand_template_from_common_ids(w, trimal_dir_path / "faa_tmp" / "group_{N}")
     output:
-        mafft_fna_dir=directory(mafft_dir_path / "fna"),
-        mafft_faa_dir=directory(mafft_dir_path / "faa"),
+        mafft_fna_dir=directory(alignment_dir_path / "fna"),
+        mafft_faa_dir=directory(alignment_dir_path / "faa"),
         trimal_fna_dir=directory(trimal_dir_path / "fna"),
         trimal_faa_dir=directory(trimal_dir_path / "faa"),
     shell:
@@ -111,10 +108,11 @@ rule files_transfer:
 
 
 #---- load rules ----
-include: "rules/busco.smk"
-include: "rules/common_ids.smk"
-include: "rules/mafft.smk"
-include: "rules/trimal.smk"
-include: "rules/concat_alignments.smk"
-include: "rules/iqtree.smk"
-include: "rules/mrbayes.smk"
+include: "workflow/rules/busco.smk"
+include: "workflow/rules/common_ids.smk"
+include: "workflow/rules/mafft.smk"
+include: "workflow/rules/prank.smk"
+include: "workflow/rules/trimal.smk"
+include: "workflow/rules/concat_alignments.smk"
+include: "workflow/rules/iqtree.smk"
+include: "workflow/rules/mrbayes.smk"

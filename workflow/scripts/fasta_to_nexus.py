@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-
 from Bio import AlignIO
 from sys import stdin
 import argparse

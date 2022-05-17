@@ -1,6 +1,3 @@
-localrules: mrbayes_dna, mrbayes_protein
-
-
 rule mrbayes_dna:
     input:
         concat_alignments_dir_path / nexus_dna_filename
@@ -15,8 +12,6 @@ rule mrbayes_dna:
         cluster_err=cluster_log_dir_path / "mrbayes_dna.cluster.err"
     benchmark:
         benchmark_dir_path / "mrbayes_dna.benchmark.txt"
-    # conda:
-    #     "../../%s" % config["conda_config"]
     resources:
         cpus=config["mrbayes_threads"],
         time=config["mrbayes_time"],
@@ -41,8 +36,6 @@ rule mrbayes_protein:
         cluster_err=cluster_log_dir_path / "mrbayes_protein.cluster.err"
     benchmark:
         benchmark_dir_path / "mrbayes_protein.benchmark.txt"
-    # conda:
-    #     "../../%s" % config["conda_config"]
     resources:
         cpus=config["mrbayes_threads"],
         time=config["mrbayes_time"],
